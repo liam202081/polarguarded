@@ -691,9 +691,120 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#how">How It Works</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#" class="nav-cta">Get Protected</a></li>
+    <li><a href="#" id="navAuthBtn" class="nav-cta" onclick="openAuth('login'); return false;">Log In</a></li>
+    <li id="navUserMenu" style="display:none;">
+      <span id="navUserEmail" style="color:var(--text-muted);font-size:0.82rem;"></span>
+      <a href="#" onclick="signOut(); return false;" style="color:var(--text-muted);font-size:0.82rem;margin-left:12px;">Sign Out</a>
+    </li>
   </ul>
 </nav>
+
+<!-- AUTH MODAL -->
+<div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#0e1520;border:1px solid #1a2a40;padding:40px 32px;max-width:420px;width:100%;border-radius:6px;position:relative;">
+    <button onclick="closeAuth()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#6b8aaa;font-size:1.2rem;cursor:pointer;">✕</button>
+    <div id="authTabs" style="display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid #1a2a40;">
+      <button onclick="switchAuthTab('login')" id="tabLogin" style="background:none;border:none;color:#5bc8f5;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;padding:0 0 12px;margin-right:24px;cursor:pointer;border-bottom:2px solid #5bc8f5;">Log In</button>
+      <button onclick="switchAuthTab('signup')" id="tabSignup" style="background:none;border:none;color:#6b8aaa;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;padding:0 0 12px;cursor:pointer;border-bottom:2px solid transparent;">Sign Up</button>
+    </div>
+    <div id="authMessage" style="display:none;padding:10px 14px;border-radius:4px;font-size:0.85rem;margin-bottom:16px;"></div>
+    <input id="authEmail" type="email" placeholder="Email address" style="width:100%;background:#090d13;border:1px solid #1a2a40;color:#e8f0f8;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:13px 16px;border-radius:4px;outline:none;margin-bottom:12px;box-sizing:border-box;" />
+    <input id="authPassword" type="password" placeholder="Password" style="width:100%;background:#090d13;border:1px solid #1a2a40;color:#e8f0f8;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:13px 16px;border-radius:4px;outline:none;margin-bottom:20px;box-sizing:border-box;" />
+    <button onclick="submitAuth()" style="width:100%;background:#5bc8f5;color:#090d13;border:none;padding:14px;border-radius:4px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;" id="authSubmitBtn">Log In</button>
+    <p style="text-align:center;margin-top:16px;font-size:0.8rem;color:#6b8aaa;">Free accounts get 10 scans/day. <a href="#pricing" onclick="closeAuth()" style="color:#5bc8f5;">Go Pro</a> for unlimited.</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SUPABASE_URL = 'https://zpgltytvrodgmzdkzhbp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_RBSdC0Yh1OaEfX_wV5IozQ_aNI2yZ2s';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+
+// Check auth state on load
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  currentUser = session?.user || null;
+  updateNavAuth();
+});
+
+function updateNavAuth() {
+  const btn = document.getElementById('navAuthBtn');
+  const userMenu = document.getElementById('navUserMenu');
+  const emailSpan = document.getElementById('navUserEmail');
+  if (currentUser) {
+    btn.style.display = 'none';
+    userMenu.style.display = 'flex';
+    userMenu.style.alignItems = 'center';
+    emailSpan.textContent = currentUser.email.split('@')[0];
+  } else {
+    btn.style.display = 'inline-block';
+    userMenu.style.display = 'none';
+  }
+}
+
+function openAuth(tab) {
+  document.getElementById('authOverlay').style.display = 'flex';
+  switchAuthTab(tab || 'login');
+}
+
+function closeAuth() {
+  document.getElementById('authOverlay').style.display = 'none';
+  document.getElementById('authMessage').style.display = 'none';
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('tabLogin').style.color = tab === 'login' ? '#5bc8f5' : '#6b8aaa';
+  document.getElementById('tabLogin').style.borderBottom = tab === 'login' ? '2px solid #5bc8f5' : '2px solid transparent';
+  document.getElementById('tabSignup').style.color = tab === 'signup' ? '#5bc8f5' : '#6b8aaa';
+  document.getElementById('tabSignup').style.borderBottom = tab === 'signup' ? '2px solid #5bc8f5' : '2px solid transparent';
+  document.getElementById('authSubmitBtn').textContent = tab === 'login' ? 'Log In' : 'Create Account';
+  document.getElementById('authSubmitBtn').dataset.tab = tab;
+  document.getElementById('authMessage').style.display = 'none';
+}
+
+function showAuthMsg(msg, isError) {
+  const el = document.getElementById('authMessage');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.background = isError ? 'rgba(255,79,79,0.1)' : 'rgba(63,214,138,0.1)';
+  el.style.color = isError ? '#ff4f4f' : '#3fd68a';
+  el.style.border = isError ? '1px solid rgba(255,79,79,0.3)' : '1px solid rgba(63,214,138,0.3)';
+}
+
+async function submitAuth() {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const tab = document.getElementById('authSubmitBtn').dataset.tab || 'login';
+  const btn = document.getElementById('authSubmitBtn');
+  if (!email || !password) { showAuthMsg('Please enter email and password.', true); return; }
+  btn.disabled = true;
+  btn.textContent = 'Please wait...';
+  if (tab === 'signup') {
+    const { error } = await supabaseClient.auth.signUp({ email, password });
+    if (error) { showAuthMsg(error.message, true); }
+    else { showAuthMsg('Account created! Check your email to confirm.', false); }
+  } else {
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) { showAuthMsg('Invalid email or password.', true); }
+    else { closeAuth(); }
+  }
+  btn.disabled = false;
+  btn.textContent = tab === 'login' ? 'Log In' : 'Create Account';
+}
+
+async function signOut() {
+  await supabaseClient.auth.signOut();
+  currentUser = null;
+  updateNavAuth();
+}
+
+// Close modal on overlay click
+document.getElementById('authOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAuth();
+});
+</script>
 
 <!-- HERO -->
 <section class="hero">
