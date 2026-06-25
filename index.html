@@ -1049,7 +1049,7 @@ async function scanFile() {
 
     status.textContent = 'SCANNING FILE AGAINST 70+ ENGINES...';
 
-    const res = await fetch('/.netlify/functions/scan', {
+    const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ file: base64, filename: file.name })
@@ -1066,7 +1066,7 @@ async function scanFile() {
       while (attempts < 15) {
         await new Promise(r => setTimeout(r, 4000));
         status.textContent = `ANALYZING... ${attempts * 4 + 4}s`;
-        const pollRes = await fetch('/.netlify/functions/scan', {
+        const pollRes = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ analysisId })
@@ -1142,7 +1142,7 @@ async function scanURL() {
     const urlId = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 
     // Call our Netlify Function backend
-    const res = await fetch('/.netlify/functions/scan', {
+    const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })
@@ -1161,7 +1161,7 @@ async function scanURL() {
       while (attempts < 12) {
         await new Promise(r => setTimeout(r, 3000));
         status.textContent = `SCANNING... ${attempts * 3 + 3}s`;
-        const pollRes = await fetch('/.netlify/functions/scan', {
+        const pollRes = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ analysisId })
