@@ -10,9 +10,10 @@ exports.handler = async function(event) {
   }
 
   const VT_KEY = '35d2db95ca66be371b3d67072de56fa9c1de18bfb6168df3bb7353805a50c19d';
-  const { url, analysisId } = JSON.parse(event.body || '{}');
+  const { url, analysisId, file, filename } = JSON.parse(event.body || '{}');
 
   try {
+    // Poll analysis result
     if (analysisId) {
       const res = await fetch(`https://www.virustotal.com/api/v3/analyses/${analysisId}`, {
         headers: { 'x-apikey': VT_KEY }
@@ -21,6 +22,23 @@ exports.handler = async function(event) {
       return { statusCode: 200, headers, body: JSON.stringify(data) };
     }
 
+    // File scan
+    if (file && filename) {
+      const buffer = Buffer.from(file, 'base64');
+      const formData = new FormData();
+      const blob = new Blob([buffer]);
+      formData.append('file', blob, filename);
+      const res = await fetch('https://www.virustotal.com/api/v3/files', {
+        method: 'POST',
+        headers: { 'x-apikey': VT_KEY },
+        body: formData
+      });
+      const data = await res.json();
+      const fileId = data?.data?.attributes?.sha256 || '';
+      return { statusCode: 200, headers, body: JSON.stringify({ type: 'file_submitted', data, fileId }) };
+    }
+
+    // URL scan
     if (url) {
       const urlId = Buffer.from(url).toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
       const lookupRes = await fetch(`https://www.virustotal.com/api/v3/urls/${urlId}`, {
@@ -41,7 +59,7 @@ exports.handler = async function(event) {
       return { statusCode: 200, headers, body: JSON.stringify({ type: 'submitted', data: submitData }) };
     }
 
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'No url provided' }) };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'No input provided' }) };
   } catch(err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
