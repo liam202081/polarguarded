@@ -755,25 +755,64 @@
   </div>
 </div>
 
-<!-- URL SCANNER TOOL -->
+<!-- SCANNER TOOL -->
 <div id="scanner">
   <div class="section" style="padding-bottom: 0;">
-    <div class="section-label">Free Tool</div>
-    <h2 class="section-title">Scan any URL instantly.</h2>
-    <p class="section-sub">Paste a suspicious link below and PolarGuarded will check it against 90+ threat databases in real time.</p>
+    <div class="section-label">Free Tools</div>
+    <h2 class="section-title">Scan URLs & files instantly.</h2>
+    <p class="section-sub">Check suspicious links and files against 70+ threat engines in real time. No account needed.</p>
+
+    <!-- Tabs -->
+    <div class="scanner-tabs">
+      <button class="scanner-tab active" onclick="switchTab('url')">URL Scanner</button>
+      <button class="scanner-tab" onclick="switchTab('file')">File Scanner</button>
+    </div>
+
     <div class="scanner-box">
-      <div class="scanner-input-row">
-        <input type="text" id="urlInput" class="scanner-input" placeholder="https://suspicious-link.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        <button class="scanner-btn" onclick="scanURL()">Scan</button>
+      <!-- URL Tab -->
+      <div id="tab-url">
+        <div class="scanner-input-row">
+          <input type="text" id="urlInput" class="scanner-input" placeholder="https://suspicious-link.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          <button class="scanner-btn" onclick="scanURL()">Scan</button>
+        </div>
+        <div id="scannerStatus" class="scanner-status" style="display:none;"></div>
+        <div id="scannerResult" class="scanner-result" style="display:none;"></div>
       </div>
-      <div id="scannerStatus" class="scanner-status" style="display:none;"></div>
-      <div id="scannerResult" class="scanner-result" style="display:none;"></div>
+
+      <!-- File Tab -->
+      <div id="tab-file" style="display:none;">
+        <div class="file-drop-zone" id="fileDropZone" onclick="document.getElementById('fileInput').click()">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ice);margin-bottom:12px;">
+            <path d="M20 4 L20 26M12 18 L20 26 L28 18"/>
+            <path d="M6 30 L6 34 L34 34 L34 30"/>
+          </svg>
+          <div class="file-drop-text">Drop a file here or tap to browse</div>
+          <div class="file-drop-limit">Max 32MB — EXE, PDF, ZIP, DOC, and more</div>
+          <input type="file" id="fileInput" style="display:none;" onchange="handleFileSelect(this)" />
+        </div>
+        <div id="fileSelected" class="file-selected" style="display:none;">
+          <span id="fileName" class="file-name"></span>
+          <span id="fileSize" class="file-size-label"></span>
+          <button class="scanner-btn" onclick="scanFile()" id="fileScanBtn">Scan File</button>
+        </div>
+        <div id="fileStatus" class="scanner-status" style="display:none;"></div>
+        <div id="fileResult" class="scanner-result" style="display:none;"></div>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-  .scanner-box { background: var(--surface); border: 1px solid var(--border); padding: 32px; margin-bottom: 80px; }
+  /* Tabs */
+  .scanner-tabs { display: flex; gap: 0; margin-bottom: 0; }
+  .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 28px; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
+  .scanner-tab:first-child { border-radius: 4px 0 0 0; }
+  .scanner-tab:last-child { border-radius: 0 4px 0 0; }
+  .scanner-tab.active { background: var(--surface2); color: var(--ice); border-color: var(--ice-dim); }
+  .scanner-tab:hover:not(.active) { color: var(--text); }
+
+  /* Scanner box */
+  .scanner-box { background: var(--surface2); border: 1px solid var(--border); padding: 32px; margin-bottom: 80px; border-top: 1px solid var(--ice-dim); }
   .scanner-input-row { display: flex; gap: 12px; flex-wrap: wrap; }
   .scanner-input { flex: 1; min-width: 200px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.85rem; padding: 14px 18px; border-radius: 4px; outline: none; transition: border-color 0.2s; }
   .scanner-input:focus { border-color: var(--ice-dim); }
@@ -781,8 +820,19 @@
   .scanner-btn { background: var(--ice); color: var(--bg); border: none; padding: 14px 32px; font-family: var(--sans); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; border-radius: 4px; cursor: pointer; transition: opacity 0.2s; }
   .scanner-btn:hover { opacity: 0.85; }
   .scanner-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* File drop */
+  .file-drop-zone { border: 1px dashed var(--border); padding: 48px 24px; text-align: center; cursor: pointer; border-radius: 4px; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; align-items: center; }
+  .file-drop-zone:hover { border-color: var(--ice-dim); background: rgba(91,200,245,0.04); }
+  .file-drop-text { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .file-drop-limit { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.08em; }
+  .file-selected { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; }
+  .file-name { font-family: var(--mono); font-size: 0.8rem; color: var(--text); flex: 1; word-break: break-all; }
+  .file-size-label { font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
+
+  /* Status & results */
   .scanner-status { margin-top: 20px; font-family: var(--mono); font-size: 0.78rem; color: var(--ice); letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px; }
-  .scanner-status::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ice); animation: blink 1s ease-in-out infinite; }
+  .scanner-status::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ice); animation: blink 1s ease-in-out infinite; flex-shrink: 0; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
   .scanner-result { margin-top: 24px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
   .result-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1rem; }
@@ -804,7 +854,132 @@
 </style>
 
 <script>
+// Tab switching
+function switchTab(tab) {
+  document.getElementById('tab-url').style.display = tab === 'url' ? 'block' : 'none';
+  document.getElementById('tab-file').style.display = tab === 'file' ? 'block' : 'none';
+  document.querySelectorAll('.scanner-tab').forEach((t, i) => {
+    t.classList.toggle('active', (tab === 'url' && i === 0) || (tab === 'file' && i === 1));
+  });
+}
+
+// File selection
+function handleFileSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 32 * 1024 * 1024) {
+    alert('File is too large. Maximum size is 32MB.');
+    input.value = '';
+    return;
+  }
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = (file.size / (1024*1024)).toFixed(2) + ' MB';
+  document.getElementById('fileDropZone').style.display = 'none';
+  document.getElementById('fileSelected').style.display = 'flex';
+  document.getElementById('fileResult').style.display = 'none';
+}
+
+// File scan
+async function scanFile() {
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  if (!file) return;
+  const status = document.getElementById('fileStatus');
+  const result = document.getElementById('fileResult');
+  const btn = document.getElementById('fileScanBtn');
+  btn.disabled = true;
+  result.style.display = 'none';
+  status.style.display = 'flex';
+  status.textContent = 'UPLOADING FILE TO THREAT DATABASES...';
+  try {
+    // Convert file to base64
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    status.textContent = 'SCANNING FILE AGAINST 70+ ENGINES...';
+
+    const res = await fetch('/.netlify/functions/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file: base64, filename: file.name })
+    });
+    const data = await res.json();
+
+    let stats = null, analysisResults = {}, fileId = '';
+
+    if (data.type === 'file_submitted') {
+      const analysisId = data.data?.data?.id;
+      fileId = data.fileId || '';
+      if (!analysisId) throw new Error('Upload failed');
+      let attempts = 0;
+      while (attempts < 15) {
+        await new Promise(r => setTimeout(r, 4000));
+        status.textContent = `ANALYZING... ${attempts * 4 + 4}s`;
+        const pollRes = await fetch('/.netlify/functions/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ analysisId })
+        });
+        const pollData = await pollRes.json();
+        if (pollData?.data?.attributes?.status === 'completed') {
+          stats = pollData.data.attributes.stats;
+          analysisResults = pollData.data.attributes.results || {};
+          break;
+        }
+        attempts++;
+      }
+    }
+
+    if (!stats) throw new Error('No results returned');
+
+    const malicious = stats.malicious || 0;
+    const suspicious = stats.suspicious || 0;
+    const clean = stats.harmless || 0;
+    const undetected = stats.undetected || 0;
+    const total = malicious + suspicious + clean + undetected;
+
+    const threats = Object.entries(analysisResults)
+      .filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious')
+      .map(([engine, v]) => `${engine}: ${v.result}`)
+      .slice(0, 5);
+
+    const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
+    const headerText = malicious > 0
+      ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this file`
+      : suspicious > 0
+      ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this file`
+      : '✓ Clean — No threats detected';
+
+    result.innerHTML = `
+      <div class="result-header ${headerClass}">${headerText}</div>
+      <div class="result-body">
+        <div class="result-url">${file.name} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(2)} MB</div>
+        <div class="result-stat-row">
+          <div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div>
+          <div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div>
+          <div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div>
+          <div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div>
+        </div>
+        ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
+        ${fileId ? `<a class="result-link" href="https://www.virustotal.com/gui/file/${fileId}" target="_blank" rel="noopener">→ VIEW FULL REPORT ON VIRUSTOTAL</a>` : ''}
+      </div>`;
+
+    status.style.display = 'none';
+    result.style.display = 'block';
+  } catch(err) {
+    status.textContent = 'SCAN FAILED — please try again';
+    console.error(err);
+  }
+  btn.disabled = false;
+}
+
+// URL scan
 async function scanURL() {
+
   const input = document.getElementById('urlInput').value.trim();
   const status = document.getElementById('scannerStatus');
   const result = document.getElementById('scannerResult');
