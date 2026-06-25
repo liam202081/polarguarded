@@ -656,6 +656,11 @@
   /* ── RESPONSIVE ──────────────────────────────────────── */
   @media (max-width: 768px) {
     .nav-links { display: none; }
+    .mobile-menu-btn { display: flex !important; }
+    .mobile-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(9,13,19,0.98); border-bottom: 1px solid var(--border); padding: 20px; z-index: 99; flex-direction: column; gap: 16px; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .mobile-nav a:last-child { border-bottom: none; color: var(--ice); font-weight: 700; }
     .stats-inner { grid-template-columns: repeat(2, 1fr); }
     .stat { border-right: none; border-bottom: 1px solid var(--border); }
     .stat:nth-child(odd) { border-right: 1px solid var(--border); }
@@ -690,14 +695,38 @@
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#how">How It Works</a></li>
-    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
     <li><a href="#" id="navAuthBtn" class="nav-cta" onclick="openAuth('login'); return false;">Log In</a></li>
     <li id="navUserMenu" style="display:none;">
       <span id="navUserEmail" style="color:var(--text-muted);font-size:0.82rem;"></span>
       <a href="#" onclick="signOut(); return false;" style="color:var(--text-muted);font-size:0.82rem;margin-left:12px;">Sign Out</a>
     </li>
   </ul>
+
+  <!-- Mobile menu button -->
+  <button class="mobile-menu-btn" onclick="toggleMobileNav()" style="display:none;background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 12px;border-radius:4px;cursor:pointer;font-size:1.1rem;">☰</button>
 </nav>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#services" onclick="closeMobileNav()">Services</a>
+  <a href="#how" onclick="closeMobileNav()">How It Works</a>
+  <a href="pricing.html" onclick="closeMobileNav()">Pricing</a>
+  <a href="#" id="mobileAuthBtn" onclick="openAuth('login'); closeMobileNav(); return false;">Log In</a>
+  <div id="mobileUserMenu" style="display:none;">
+    <span id="mobileUserEmail" style="color:var(--text-muted);font-size:0.9rem;display:block;padding:8px 0;border-bottom:1px solid var(--border);"></span>
+    <a href="#" onclick="signOut(); closeMobileNav(); return false;">Sign Out</a>
+  </div>
+</div>
+
+<script>
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+</script>
 
 <!-- AUTH MODAL -->
 <div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;">
@@ -730,6 +759,9 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 });
 
 function updateNavAuth() {
+  const mobileBtn = document.getElementById('mobileAuthBtn');
+  const mobileUserMenu = document.getElementById('mobileUserMenu');
+  const mobileEmailSpan = document.getElementById('mobileUserEmail');
   const btn = document.getElementById('navAuthBtn');
   const userMenu = document.getElementById('navUserMenu');
   const emailSpan = document.getElementById('navUserEmail');
@@ -738,8 +770,12 @@ function updateNavAuth() {
     userMenu.style.display = 'flex';
     userMenu.style.alignItems = 'center';
     emailSpan.textContent = currentUser.email.split('@')[0];
+    if(mobileBtn) mobileBtn.style.display = 'none';
+    if(mobileUserMenu) { mobileUserMenu.style.display = 'block'; mobileEmailSpan.textContent = currentUser.email.split('@')[0]; }
   } else {
     btn.style.display = 'inline-block';
+    if(mobileBtn) mobileBtn.style.display = 'block';
+    if(mobileUserMenu) mobileUserMenu.style.display = 'none';
     userMenu.style.display = 'none';
   }
 }
@@ -816,7 +852,7 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
     PolarGuarded scans for malware, flags scams before they reach you, and shields your connection with a built-in VPN. No bloatware. No nonsense.
   </p>
   <div class="hero-actions">
-    <a href="#pricing" class="btn-primary">Start Free Scan</a>
+    <a href="#scanner" class="btn-primary">Start Free Scan</a>
     <a href="#services" class="btn-ghost">See What We Detect</a>
   </div>
 
