@@ -1001,6 +1001,56 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
 </style>
 
 <script>
+// ── SCAN LIMITS ──────────────────────────────────────
+const FREE_LIMIT = 10;
+
+function getScanCount() {
+  const today = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('pg_scans') || '{"date":"","count":0}');
+  if (stored.date !== today) return 0;
+  return stored.count;
+}
+
+function incrementScanCount() {
+  const today = new Date().toDateString();
+  const count = getScanCount() + 1;
+  localStorage.setItem('pg_scans', JSON.stringify({ date: today, count }));
+}
+
+function isProUser() {
+  return currentUser && currentUser.user_metadata?.is_pro === true;
+}
+
+function checkScanLimit(statusEl, resultEl) {
+  if (isProUser()) return true; // Pro = unlimited
+  const count = getScanCount();
+  if (count >= FREE_LIMIT) {
+    statusEl.style.display = 'none';
+    resultEl.innerHTML = `
+      <div class="result-header threat">⚠ Daily scan limit reached</div>
+      <div class="result-body">
+        <p style="color:var(--text-muted);margin-bottom:16px;">Free accounts get ${FREE_LIMIT} scans per day. Upgrade to Pro for unlimited scans.</p>
+        <a href="pricing.html" class="plan-btn primary-btn" style="display:inline-block;text-decoration:none;">Upgrade to Pro — $9/mo</a>
+      </div>`;
+    resultEl.style.display = 'block';
+    return false;
+  }
+  return true;
+}
+
+function showScanCounter() {
+  if (isProUser()) return;
+  const count = getScanCount();
+  const remaining = FREE_LIMIT - count;
+  const existing = document.getElementById('scanCounter');
+  if (existing) existing.remove();
+  const counter = document.createElement('div');
+  counter.id = 'scanCounter';
+  counter.style.cssText = 'font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);letter-spacing:0.08em;margin-top:12px;';
+  counter.textContent = `${remaining} free scan${remaining !== 1 ? 's' : ''} remaining today`;
+  document.querySelector('.scanner-box').appendChild(counter);
+}
+
 // Tab switching
 function switchTab(tab) {
   document.getElementById('tab-url').style.display = tab === 'url' ? 'block' : 'none';
@@ -1034,6 +1084,7 @@ async function scanFile() {
   const status = document.getElementById('fileStatus');
   const result = document.getElementById('fileResult');
   const btn = document.getElementById('fileScanBtn');
+  if (!checkScanLimit(status, result)) { btn.disabled = false; return; }
   btn.disabled = true;
   result.style.display = 'none';
   status.style.display = 'flex';
@@ -1126,12 +1177,12 @@ async function scanFile() {
 
 // URL scan
 async function scanURL() {
-
   const input = document.getElementById('urlInput').value.trim();
   const status = document.getElementById('scannerStatus');
   const result = document.getElementById('scannerResult');
   const btn = document.querySelector('.scanner-btn');
   if (!input) return;
+  if (!checkScanLimit(status, result)) return;
   let url = input;
   if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
   btn.disabled = true;
@@ -1212,6 +1263,8 @@ async function scanURL() {
 
     status.style.display = 'none';
     result.style.display = 'block';
+    incrementScanCount();
+    showScanCounter();
   } catch(err) {
     status.textContent = 'SCAN FAILED — please try again';
     console.error(err);
@@ -1219,6 +1272,8 @@ async function scanURL() {
   btn.disabled = false;
 }
 document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanURL(); });
+// Show scan counter on load
+window.addEventListener('load', () => setTimeout(showScanCounter, 500));
 </script>
 
 <!-- SERVICES -->
