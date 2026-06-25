@@ -756,6 +756,8 @@ let currentUser = null;
 supabaseClient.auth.onAuthStateChange((event, session) => {
   currentUser = session?.user || null;
   updateNavAuth();
+  if (currentUser) checkProStatus(currentUser.email);
+  else { userIsPro = false; showScanCounter(); }
 });
 
 function updateNavAuth() {
@@ -1003,6 +1005,7 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
 <script>
 // ── SCAN LIMITS ──────────────────────────────────────
 const FREE_LIMIT = 10;
+let userIsPro = false;
 
 function getScanCount() {
   const today = new Date().toDateString();
@@ -1017,12 +1020,29 @@ function incrementScanCount() {
   localStorage.setItem('pg_scans', JSON.stringify({ date: today, count }));
 }
 
+async function checkProStatus(email) {
+  if (!email) { userIsPro = false; return; }
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=is_pro`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
+    });
+    const data = await res.json();
+    userIsPro = data?.[0]?.is_pro === true;
+    showScanCounter();
+  } catch(e) {
+    userIsPro = false;
+  }
+}
+
 function isProUser() {
-  return currentUser && currentUser.user_metadata?.is_pro === true;
+  return userIsPro;
 }
 
 function checkScanLimit(statusEl, resultEl) {
-  if (isProUser()) return true; // Pro = unlimited
+  if (isProUser()) return true;
   const count = getScanCount();
   if (count >= FREE_LIMIT) {
     statusEl.style.display = 'none';
@@ -1039,16 +1059,23 @@ function checkScanLimit(statusEl, resultEl) {
 }
 
 function showScanCounter() {
-  if (isProUser()) return;
-  const count = getScanCount();
-  const remaining = FREE_LIMIT - count;
   const existing = document.getElementById('scanCounter');
   if (existing) existing.remove();
+  if (isProUser()) {
+    const counter = document.createElement('div');
+    counter.id = 'scanCounter';
+    counter.style.cssText = 'font-family:var(--mono);font-size:0.7rem;color:var(--safe);letter-spacing:0.08em;margin-top:12px;';
+    counter.textContent = '✓ Pro — unlimited scans';
+    document.querySelector('.scanner-box')?.appendChild(counter);
+    return;
+  }
+  const count = getScanCount();
+  const remaining = FREE_LIMIT - count;
   const counter = document.createElement('div');
   counter.id = 'scanCounter';
   counter.style.cssText = 'font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);letter-spacing:0.08em;margin-top:12px;';
   counter.textContent = `${remaining} free scan${remaining !== 1 ? 's' : ''} remaining today`;
-  document.querySelector('.scanner-box').appendChild(counter);
+  document.querySelector('.scanner-box')?.appendChild(counter);
 }
 
 // Tab switching
