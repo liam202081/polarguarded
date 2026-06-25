@@ -804,8 +804,6 @@
 </style>
 
 <script>
-const VT_KEY = '35d2db95ca66be371b3d67072de56fa9c1de18bfb6168df3bb7353805a50c19d';
-
 async function scanURL() {
   const input = document.getElementById('urlInput').value.trim();
   const status = document.getElementById('scannerStatus');
@@ -819,58 +817,37 @@ async function scanURL() {
   status.style.display = 'flex';
   status.textContent = 'SUBMITTING URL TO THREAT DATABASES...';
   try {
-    // Encode URL to base64url for VT lookup ID
     const urlId = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 
-    // Use corsproxy.io to bypass CORS — try GET lookup of cached results first
-    const proxy = 'https://corsproxy.io/?url=';
-    const lookupUrl = `https://www.virustotal.com/api/v3/urls/${urlId}`;
-
-    status.textContent = 'CHECKING THREAT DATABASES...';
+    // Call our Netlify Function backend
+    const res = await fetch('/.netlify/functions/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    const data = await res.json();
 
     let stats = null, analysisResults = {};
 
-    try {
-      const lookupRes = await fetch(proxy + encodeURIComponent(lookupUrl), {
-        headers: { 'x-apikey': VT_KEY }
-      });
-      if (lookupRes.ok) {
-        const data = await lookupRes.json();
-        if (data?.data?.attributes?.last_analysis_stats) {
-          stats = data.data.attributes.last_analysis_stats;
-          analysisResults = data.data.attributes.last_analysis_results || {};
-        }
-      }
-    } catch(e) {}
-
-    // If no cached result, submit for fresh scan
-    if (!stats) {
-      status.textContent = 'SUBMITTING FOR FRESH SCAN...';
-      const submitUrl = 'https://www.virustotal.com/api/v3/urls';
-      const submitRes = await fetch(proxy + encodeURIComponent(submitUrl), {
-        method: 'POST',
-        headers: {
-          'x-apikey': VT_KEY,
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'url=' + encodeURIComponent(url)
-      });
-      const submitData = await submitRes.json();
-      const analysisId = submitData?.data?.id;
+    if (data.type === 'cached') {
+      stats = data.data?.data?.attributes?.last_analysis_stats;
+      analysisResults = data.data?.data?.attributes?.last_analysis_results || {};
+    } else if (data.type === 'submitted') {
+      const analysisId = data.data?.data?.id;
       if (!analysisId) throw new Error('Submission failed');
-
       let attempts = 0;
       while (attempts < 12) {
         await new Promise(r => setTimeout(r, 3000));
         status.textContent = `SCANNING... ${attempts * 3 + 3}s`;
-        const checkUrl = `https://www.virustotal.com/api/v3/analyses/${analysisId}`;
-        const checkRes = await fetch(proxy + encodeURIComponent(checkUrl), {
-          headers: { 'x-apikey': VT_KEY }
+        const pollRes = await fetch('/.netlify/functions/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ analysisId })
         });
-        const checkData = await checkRes.json();
-        if (checkData?.data?.attributes?.status === 'completed') {
-          stats = checkData.data.attributes.stats;
-          analysisResults = checkData.data.attributes.results || {};
+        const pollData = await pollRes.json();
+        if (pollData?.data?.attributes?.status === 'completed') {
+          stats = pollData.data.attributes.stats;
+          analysisResults = pollData.data.attributes.results || {};
           break;
         }
         attempts++;
