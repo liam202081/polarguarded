@@ -40,7 +40,6 @@
     overflow-x: hidden;
   }
 
-  /* ── GRID NOISE BACKGROUND ───────────────────────────── */
   body::before {
     content: '';
     position: fixed;
@@ -53,7 +52,6 @@
     z-index: 0;
   }
 
-  /* ── NAV ─────────────────────────────────────────────── */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -75,11 +73,7 @@
     text-decoration: none;
   }
 
-  .nav-logo-mark {
-    width: 32px; height: 32px;
-    position: relative;
-  }
-
+  .nav-logo-mark { width: 32px; height: 32px; position: relative; }
   .nav-logo-mark svg { width: 100%; height: 100%; }
 
   .nav-logo-text {
@@ -121,7 +115,6 @@
 
   .nav-cta:hover { opacity: 0.85; color: var(--bg) !important; }
 
-  /* ── HERO ────────────────────────────────────────────── */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -135,7 +128,6 @@
     overflow: hidden;
   }
 
-  /* Aurora glow behind hero */
   .hero::after {
     content: '';
     position: absolute;
@@ -184,10 +176,7 @@
     max-width: 820px;
   }
 
-  .hero-title em {
-    font-style: normal;
-    color: var(--ice);
-  }
+  .hero-title em { font-style: normal; color: var(--ice); }
 
   .hero-sub {
     font-size: clamp(1rem, 2vw, 1.2rem);
@@ -235,7 +224,6 @@
 
   .btn-ghost:hover { border-color: var(--ice-dim); color: var(--ice); }
 
-  /* ── LIVE THREAT TICKER (signature element) ──────────── */
   .threat-ticker {
     position: absolute;
     bottom: 0;
@@ -269,17 +257,11 @@
     letter-spacing: 0.05em;
   }
 
-  .ticker-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
+  .ticker-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
   .ticker-dot.red { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
   .ticker-dot.green { background: var(--safe); box-shadow: 0 0 6px var(--safe); }
   .ticker-dot.ice { background: var(--ice); box-shadow: 0 0 6px var(--ice); }
 
-  /* ── SERVICES ────────────────────────────────────────── */
   .section {
     position: relative;
     z-index: 1;
@@ -340,25 +322,9 @@
 
   .service-card:hover::before { background: var(--ice); }
 
-  .service-icon {
-    width: 44px; height: 44px;
-    margin-bottom: 24px;
-    color: var(--ice);
-  }
-
-  .service-name {
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    letter-spacing: 0.01em;
-  }
-
-  .service-desc {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
+  .service-icon { width: 44px; height: 44px; margin-bottom: 24px; color: var(--ice); }
+  .service-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.01em; }
+  .service-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
 
   .service-tag {
     font-family: var(--mono);
@@ -373,7 +339,6 @@
   .tag-live { background: rgba(63,214,138,0.12); color: var(--safe); }
   .tag-soon { background: rgba(91,200,245,0.1); color: var(--ice); }
 
-  /* ── HOW IT WORKS ────────────────────────────────────── */
   .how-wrapper {
     background: var(--surface);
     border-top: 1px solid var(--border);
@@ -394,27 +359,10 @@
 
   .how-step:last-child { border-right: none; }
 
-  .step-num {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    color: var(--text-dim);
-    margin-bottom: 20px;
-  }
+  .step-num { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-dim); margin-bottom: 20px; }
+  .step-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+  .step-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
 
-  .step-title {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .step-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-
-  /* ── PRICING ─────────────────────────────────────────── */
   .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -450,50 +398,13 @@
     font-weight: 700;
   }
 
-  .plan-name {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
+  .plan-name { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; }
+  .plan-price { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+  .plan-price sup { font-size: 1.2rem; vertical-align: super; font-weight: 500; color: var(--text-muted); }
+  .plan-price span { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); letter-spacing: 0; }
+  .plan-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
 
-  .plan-price {
-    font-size: 2.8rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .plan-price sup {
-    font-size: 1.2rem;
-    vertical-align: super;
-    font-weight: 500;
-    color: var(--text-muted);
-  }
-
-  .plan-price span {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: var(--text-muted);
-    letter-spacing: 0;
-  }
-
-  .plan-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 32px;
-    padding-bottom: 32px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .plan-features {
-    list-style: none;
-    margin-bottom: 36px;
-    flex: 1;
-  }
+  .plan-features { list-style: none; margin-bottom: 36px; flex: 1; }
 
   .plan-features li {
     font-size: 0.88rem;
@@ -505,14 +416,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.04);
   }
 
-  .plan-features li::before {
-    content: '—';
-    color: var(--ice);
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    flex-shrink: 0;
-  }
-
+  .plan-features li::before { content: '—'; color: var(--ice); font-family: var(--mono); font-size: 0.75rem; flex-shrink: 0; }
   .plan-features li.muted { color: var(--text-dim); }
   .plan-features li.muted::before { color: var(--text-dim); }
 
@@ -532,20 +436,10 @@
 
   .plan-btn:hover { border-color: var(--ice-dim); color: var(--ice); }
 
-  .plan-btn.primary-btn {
-    background: var(--ice);
-    color: var(--bg);
-    border-color: var(--ice);
-  }
-
+  .plan-btn.primary-btn { background: var(--ice); color: var(--bg); border-color: var(--ice); }
   .plan-btn.primary-btn:hover { opacity: 0.88; color: var(--bg); }
 
-  /* ── STATS BAR ───────────────────────────────────────── */
-  .stats-bar {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
+  .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
 
   .stats-inner {
     max-width: 1200px;
@@ -556,31 +450,11 @@
     gap: 0;
   }
 
-  .stat {
-    padding: 48px 36px;
-    border-right: 1px solid var(--border);
-    text-align: center;
-  }
-
+  .stat { padding: 48px 36px; border-right: 1px solid var(--border); text-align: center; }
   .stat:last-child { border-right: none; }
+  .stat-num { font-size: 2.4rem; font-weight: 700; color: var(--ice); letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px; font-family: var(--mono); }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; }
 
-  .stat-num {
-    font-size: 2.4rem;
-    font-weight: 700;
-    color: var(--ice);
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 8px;
-    font-family: var(--mono);
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-  }
-
-  /* ── FOOTER ──────────────────────────────────────────── */
   footer {
     position: relative;
     z-index: 1;
@@ -590,70 +464,18 @@
     margin: 0 auto;
   }
 
-  .footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 48px;
-    margin-bottom: 48px;
-    flex-wrap: wrap;
-  }
-
-  .footer-brand p {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    max-width: 280px;
-    margin-top: 12px;
-    line-height: 1.7;
-  }
-
-  .footer-cols {
-    display: flex;
-    gap: 64px;
-    flex-wrap: wrap;
-  }
-
-  .footer-col h4 {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; margin-bottom: 48px; flex-wrap: wrap; }
+  .footer-brand p { font-size: 0.85rem; color: var(--text-muted); max-width: 280px; margin-top: 12px; line-height: 1.7; }
+  .footer-cols { display: flex; gap: 64px; flex-wrap: wrap; }
+  .footer-col h4 { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 16px; }
   .footer-col ul { list-style: none; }
-
   .footer-col li { margin-bottom: 10px; }
-
-  .footer-col a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: color 0.2s;
-  }
-
+  .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
   .footer-col a:hover { color: var(--ice); }
-
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .footer-bottom p {
-    font-size: 0.78rem;
-    color: var(--text-dim);
-    font-family: var(--mono);
-  }
-
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 16px; }
+  .footer-bottom p { font-size: 0.78rem; color: var(--text-dim); font-family: var(--mono); }
   .footer-bottom span { color: var(--ice); }
 
-  /* ── RESPONSIVE ──────────────────────────────────────── */
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .mobile-menu-btn { display: flex !important; }
@@ -673,6 +495,49 @@
     .ticker-track { animation: none; }
     .hero::after { animation: none; }
   }
+
+  /* Scanner */
+  .scanner-tabs { display: flex; gap: 0; margin-bottom: 0; }
+  .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 28px; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
+  .scanner-tab:first-child { border-radius: 4px 0 0 0; }
+  .scanner-tab:last-child { border-radius: 0 4px 0 0; }
+  .scanner-tab.active { background: var(--surface2); color: var(--ice); border-color: var(--ice-dim); }
+  .scanner-tab:hover:not(.active) { color: var(--text); }
+  .scanner-box { background: var(--surface2); border: 1px solid var(--border); padding: 32px; margin-bottom: 80px; border-top: 1px solid var(--ice-dim); }
+  .scanner-input-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .scanner-input { flex: 1; min-width: 200px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.85rem; padding: 14px 18px; border-radius: 4px; outline: none; transition: border-color 0.2s; }
+  .scanner-input:focus { border-color: var(--ice-dim); }
+  .scanner-input::placeholder { color: var(--text-dim); }
+  .scanner-btn { background: var(--ice); color: var(--bg); border: none; padding: 14px 32px; font-family: var(--sans); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; border-radius: 4px; cursor: pointer; transition: opacity 0.2s; }
+  .scanner-btn:hover { opacity: 0.85; }
+  .scanner-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .file-drop-zone { border: 1px dashed var(--border); padding: 48px 24px; text-align: center; cursor: pointer; border-radius: 4px; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; align-items: center; }
+  .file-drop-zone:hover { border-color: var(--ice-dim); background: rgba(91,200,245,0.04); }
+  .file-drop-text { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .file-drop-limit { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.08em; }
+  .file-selected { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; }
+  .file-name { font-family: var(--mono); font-size: 0.8rem; color: var(--text); flex: 1; word-break: break-all; }
+  .file-size-label { font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
+  .scanner-status { margin-top: 20px; font-family: var(--mono); font-size: 0.78rem; color: var(--ice); letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px; }
+  .scanner-status::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ice); animation: blink 1s ease-in-out infinite; flex-shrink: 0; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+  .scanner-result { margin-top: 24px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .result-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1rem; }
+  .result-header.clean { background: rgba(63,214,138,0.1); border-bottom: 1px solid rgba(63,214,138,0.2); color: var(--safe); }
+  .result-header.threat { background: rgba(255,79,79,0.1); border-bottom: 1px solid rgba(255,79,79,0.2); color: var(--danger); }
+  .result-body { padding: 20px; background: var(--bg); }
+  .result-stat-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+  .result-stat { text-align: center; }
+  .result-stat-num { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .result-stat-num.red { color: var(--danger); }
+  .result-stat-num.green { color: var(--safe); }
+  .result-stat-num.muted { color: var(--text-muted); }
+  .result-stat-label { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+  .result-url { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); word-break: break-all; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; margin-bottom: 16px; }
+  .result-engines { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+  .engine-threat { color: var(--danger); font-family: var(--mono); font-size: 0.72rem; display: block; padding: 3px 0; }
+  .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; }
+  .result-link:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -702,8 +567,6 @@
       <a href="#" onclick="signOut(); return false;" style="color:var(--text-muted);font-size:0.82rem;margin-left:12px;">Sign Out</a>
     </li>
   </ul>
-
-  <!-- Mobile menu button -->
   <button class="mobile-menu-btn" onclick="toggleMobileNav()" style="display:none;background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 12px;border-radius:4px;cursor:pointer;font-size:1.1rem;">☰</button>
 </nav>
 
@@ -720,16 +583,12 @@
 </div>
 
 <script>
-function toggleMobileNav() {
-  document.getElementById('mobileNav').classList.toggle('open');
-}
-function closeMobileNav() {
-  document.getElementById('mobileNav').classList.remove('open');
-}
+function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
 </script>
 
 <!-- AUTH MODAL -->
-<div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;">
+<div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px;">
   <div style="background:#0e1520;border:1px solid #1a2a40;padding:40px 32px;max-width:420px;width:100%;border-radius:6px;position:relative;">
     <button onclick="closeAuth()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#6b8aaa;font-size:1.2rem;cursor:pointer;">✕</button>
     <div id="authTabs" style="display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid #1a2a40;">
@@ -752,7 +611,6 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
 
-// Check auth state on load
 supabaseClient.auth.onAuthStateChange((event, session) => {
   currentUser = session?.user || null;
   updateNavAuth();
@@ -838,7 +696,6 @@ async function signOut() {
   updateNavAuth();
 }
 
-// Close modal on overlay click
 document.getElementById('authOverlay').addEventListener('click', function(e) {
   if (e.target === this) closeAuth();
 });
@@ -857,8 +714,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
     <a href="#scanner" class="btn-primary">Start Free Scan</a>
     <a href="#services" class="btn-ghost">See What We Detect</a>
   </div>
-
-  <!-- Threat Ticker -->
   <div class="threat-ticker">
     <div class="ticker-track">
       <span class="ticker-item"><span class="ticker-dot red"></span>PHISHING DOMAIN BLOCKED — paypal-secure-login.xyz</span>
@@ -869,7 +724,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
       <span class="ticker-item"><span class="ticker-dot green"></span>VULNERABILITY SCAN COMPLETE — 0 critical issues</span>
       <span class="ticker-item"><span class="ticker-dot red"></span>EXPLOIT ATTEMPT BLOCKED — CVE-2024-4577</span>
       <span class="ticker-item"><span class="ticker-dot ice"></span>THREAT DATABASE UPDATED — 1,204 new signatures</span>
-      <!-- duplicate for seamless loop -->
       <span class="ticker-item"><span class="ticker-dot red"></span>PHISHING DOMAIN BLOCKED — paypal-secure-login.xyz</span>
       <span class="ticker-item"><span class="ticker-dot green"></span>MALWARE SCAN CLEAN — user device verified</span>
       <span class="ticker-item"><span class="ticker-dot red"></span>RANSOMWARE SIGNATURE DETECTED — trojan.win32.agent</span>
@@ -885,22 +739,10 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
 <!-- STATS -->
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat">
-      <div class="stat-num">99.7%</div>
-      <div class="stat-label">Malware detection rate</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">2.4M+</div>
-      <div class="stat-label">Known threat signatures</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">&lt;3s</div>
-      <div class="stat-label">Average URL scan time</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">256-bit</div>
-      <div class="stat-label">VPN encryption standard</div>
-    </div>
+    <div class="stat"><div class="stat-num">99.7%</div><div class="stat-label">Malware detection rate</div></div>
+    <div class="stat"><div class="stat-num">2.4M+</div><div class="stat-label">Known threat signatures</div></div>
+    <div class="stat"><div class="stat-num">&lt;3s</div><div class="stat-label">Average URL scan time</div></div>
+    <div class="stat"><div class="stat-num">256-bit</div><div class="stat-label">VPN encryption standard</div></div>
   </div>
 </div>
 
@@ -908,13 +750,13 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
 <div id="scanner">
   <div class="section" style="padding-bottom: 0;">
     <div class="section-label">Free Tools</div>
-    <h2 class="section-title">Scan URLs & files instantly.</h2>
-    <p class="section-sub">Check suspicious links and files against 70+ threat engines in real time. No account needed.</p>
+    <h2 class="section-title">Scan URLs, files & phone numbers.</h2>
+    <p class="section-sub">Check suspicious links, files, and phone numbers against real threat intelligence in real time.</p>
 
-    <!-- Tabs -->
     <div class="scanner-tabs">
       <button class="scanner-tab active" onclick="switchTab('url')">URL Scanner</button>
       <button class="scanner-tab" onclick="switchTab('file')">File Scanner</button>
+      <button class="scanner-tab" onclick="switchTab('phone')">Phone Scanner</button>
     </div>
 
     <div class="scanner-box">
@@ -947,63 +789,22 @@ document.getElementById('authOverlay').addEventListener('click', function(e) {
         <div id="fileStatus" class="scanner-status" style="display:none;"></div>
         <div id="fileResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- Phone Tab -->
+      <div id="tab-phone" style="display:none;">
+        <div class="scanner-input-row">
+          <input type="tel" id="phoneInput" class="scanner-input" placeholder="+1 613 555 0123" autocomplete="off" />
+          <button class="scanner-btn" onclick="scanPhone()">Scan</button>
+        </div>
+        <p style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-top:10px;letter-spacing:0.05em;">Enter number in international format, e.g. +16135550123</p>
+        <div id="phoneStatus" class="scanner-status" style="display:none;"></div>
+        <div id="phoneResult" class="scanner-result" style="display:none;"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<style>
-  /* Tabs */
-  .scanner-tabs { display: flex; gap: 0; margin-bottom: 0; }
-  .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 28px; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
-  .scanner-tab:first-child { border-radius: 4px 0 0 0; }
-  .scanner-tab:last-child { border-radius: 0 4px 0 0; }
-  .scanner-tab.active { background: var(--surface2); color: var(--ice); border-color: var(--ice-dim); }
-  .scanner-tab:hover:not(.active) { color: var(--text); }
-
-  /* Scanner box */
-  .scanner-box { background: var(--surface2); border: 1px solid var(--border); padding: 32px; margin-bottom: 80px; border-top: 1px solid var(--ice-dim); }
-  .scanner-input-row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .scanner-input { flex: 1; min-width: 200px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.85rem; padding: 14px 18px; border-radius: 4px; outline: none; transition: border-color 0.2s; }
-  .scanner-input:focus { border-color: var(--ice-dim); }
-  .scanner-input::placeholder { color: var(--text-dim); }
-  .scanner-btn { background: var(--ice); color: var(--bg); border: none; padding: 14px 32px; font-family: var(--sans); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; border-radius: 4px; cursor: pointer; transition: opacity 0.2s; }
-  .scanner-btn:hover { opacity: 0.85; }
-  .scanner-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  /* File drop */
-  .file-drop-zone { border: 1px dashed var(--border); padding: 48px 24px; text-align: center; cursor: pointer; border-radius: 4px; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; align-items: center; }
-  .file-drop-zone:hover { border-color: var(--ice-dim); background: rgba(91,200,245,0.04); }
-  .file-drop-text { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-  .file-drop-limit { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.08em; }
-  .file-selected { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; }
-  .file-name { font-family: var(--mono); font-size: 0.8rem; color: var(--text); flex: 1; word-break: break-all; }
-  .file-size-label { font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
-
-  /* Status & results */
-  .scanner-status { margin-top: 20px; font-family: var(--mono); font-size: 0.78rem; color: var(--ice); letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px; }
-  .scanner-status::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ice); animation: blink 1s ease-in-out infinite; flex-shrink: 0; }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-  .scanner-result { margin-top: 24px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-  .result-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1rem; }
-  .result-header.clean { background: rgba(63,214,138,0.1); border-bottom: 1px solid rgba(63,214,138,0.2); color: var(--safe); }
-  .result-header.threat { background: rgba(255,79,79,0.1); border-bottom: 1px solid rgba(255,79,79,0.2); color: var(--danger); }
-  .result-body { padding: 20px; background: var(--bg); }
-  .result-stat-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
-  .result-stat { text-align: center; }
-  .result-stat-num { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; line-height: 1; }
-  .result-stat-num.red { color: var(--danger); }
-  .result-stat-num.green { color: var(--safe); }
-  .result-stat-num.muted { color: var(--text-muted); }
-  .result-stat-label { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
-  .result-url { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); word-break: break-all; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; margin-bottom: 16px; }
-  .result-engines { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
-  .engine-threat { color: var(--danger); font-family: var(--mono); font-size: 0.72rem; display: block; padding: 3px 0; }
-  .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; }
-  .result-link:hover { text-decoration: underline; }
-</style>
-
 <script>
-// ── SCAN LIMITS ──────────────────────────────────────
 const FREE_LIMIT = 10;
 let userIsPro = false;
 
@@ -1024,22 +825,15 @@ async function checkProStatus(email) {
   if (!email) { userIsPro = false; return; }
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=is_pro`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`
-      }
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
     });
     const data = await res.json();
     userIsPro = data?.[0]?.is_pro === true;
     showScanCounter();
-  } catch(e) {
-    userIsPro = false;
-  }
+  } catch(e) { userIsPro = false; }
 }
 
-function isProUser() {
-  return userIsPro;
-}
+function isProUser() { return userIsPro; }
 
 function checkScanLimit(statusEl, resultEl) {
   if (isProUser()) return true;
@@ -1078,24 +872,23 @@ function showScanCounter() {
   document.querySelector('.scanner-box')?.appendChild(counter);
 }
 
-// Tab switching
 function switchTab(tab) {
   document.getElementById('tab-url').style.display = tab === 'url' ? 'block' : 'none';
   document.getElementById('tab-file').style.display = tab === 'file' ? 'block' : 'none';
+  document.getElementById('tab-phone').style.display = tab === 'phone' ? 'block' : 'none';
   document.querySelectorAll('.scanner-tab').forEach((t, i) => {
-    t.classList.toggle('active', (tab === 'url' && i === 0) || (tab === 'file' && i === 1));
+    t.classList.toggle('active',
+      (tab === 'url' && i === 0) ||
+      (tab === 'file' && i === 1) ||
+      (tab === 'phone' && i === 2)
+    );
   });
 }
 
-// File selection
 function handleFileSelect(input) {
   const file = input.files[0];
   if (!file) return;
-  if (file.size > 32 * 1024 * 1024) {
-    alert('File is too large. Maximum size is 32MB.');
-    input.value = '';
-    return;
-  }
+  if (file.size > 32 * 1024 * 1024) { alert('File is too large. Maximum size is 32MB.'); input.value = ''; return; }
   document.getElementById('fileName').textContent = file.name;
   document.getElementById('fileSize').textContent = (file.size / (1024*1024)).toFixed(2) + ' MB';
   document.getElementById('fileDropZone').style.display = 'none';
@@ -1103,7 +896,6 @@ function handleFileSelect(input) {
   document.getElementById('fileResult').style.display = 'none';
 }
 
-// File scan
 async function scanFile() {
   const fileInput = document.getElementById('fileInput');
   const file = fileInput.files[0];
@@ -1117,25 +909,20 @@ async function scanFile() {
   status.style.display = 'flex';
   status.textContent = 'UPLOADING FILE TO THREAT DATABASES...';
   try {
-    // Convert file to base64
     const base64 = await new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result.split(',')[1]);
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
-
     status.textContent = 'SCANNING FILE AGAINST 70+ ENGINES...';
-
     const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ file: base64, filename: file.name })
     });
     const data = await res.json();
-
     let stats = null, analysisResults = {}, fileId = '';
-
     if (data.type === 'file_submitted') {
       const analysisId = data.data?.data?.id;
       fileId = data.fileId || '';
@@ -1158,27 +945,22 @@ async function scanFile() {
         attempts++;
       }
     }
-
     if (!stats) throw new Error('No results returned');
-
     const malicious = stats.malicious || 0;
     const suspicious = stats.suspicious || 0;
     const clean = stats.harmless || 0;
     const undetected = stats.undetected || 0;
     const total = malicious + suspicious + clean + undetected;
-
     const threats = Object.entries(analysisResults)
       .filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious')
       .map(([engine, v]) => `${engine}: ${v.result}`)
       .slice(0, 5);
-
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0
       ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this file`
       : suspicious > 0
       ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this file`
       : '✓ Clean — No threats detected';
-
     result.innerHTML = `
       <div class="result-header ${headerClass}">${headerText}</div>
       <div class="result-body">
@@ -1192,7 +974,6 @@ async function scanFile() {
         ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
         ${fileId ? `<a class="result-link" href="https://www.virustotal.com/gui/file/${fileId}" target="_blank" rel="noopener">→ VIEW FULL REPORT ON VIRUSTOTAL</a>` : ''}
       </div>`;
-
     status.style.display = 'none';
     result.style.display = 'block';
   } catch(err) {
@@ -1202,12 +983,11 @@ async function scanFile() {
   btn.disabled = false;
 }
 
-// URL scan
 async function scanURL() {
   const input = document.getElementById('urlInput').value.trim();
   const status = document.getElementById('scannerStatus');
   const result = document.getElementById('scannerResult');
-  const btn = document.querySelector('.scanner-btn');
+  const btn = document.querySelector('#tab-url .scanner-btn');
   if (!input) return;
   if (!checkScanLimit(status, result)) return;
   let url = input;
@@ -1218,17 +998,13 @@ async function scanURL() {
   status.textContent = 'SUBMITTING URL TO THREAT DATABASES...';
   try {
     const urlId = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-
-    // Call our Netlify Function backend
     const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })
     });
     const data = await res.json();
-
     let stats = null, analysisResults = {};
-
     if (data.type === 'cached') {
       stats = data.data?.data?.attributes?.last_analysis_stats;
       analysisResults = data.data?.data?.attributes?.last_analysis_results || {};
@@ -1253,27 +1029,22 @@ async function scanURL() {
         attempts++;
       }
     }
-
     if (!stats) throw new Error('No results returned');
-
     const malicious = stats.malicious || 0;
     const suspicious = stats.suspicious || 0;
     const clean = stats.harmless || 0;
     const undetected = stats.undetected || 0;
     const total = malicious + suspicious + clean + undetected;
-
     const threats = Object.entries(analysisResults)
       .filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious')
       .map(([engine, v]) => `${engine}: ${v.result}`)
       .slice(0, 5);
-
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0
       ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this URL`
       : suspicious > 0
       ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this URL`
       : '✓ Clean — No threats detected';
-
     result.innerHTML = `
       <div class="result-header ${headerClass}">${headerText}</div>
       <div class="result-body">
@@ -1287,7 +1058,6 @@ async function scanURL() {
         ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
         <a class="result-link" href="https://www.virustotal.com/gui/url/${urlId}" target="_blank" rel="noopener">→ VIEW FULL REPORT ON VIRUSTOTAL</a>
       </div>`;
-
     status.style.display = 'none';
     result.style.display = 'block';
     incrementScanCount();
@@ -1298,8 +1068,94 @@ async function scanURL() {
   }
   btn.disabled = false;
 }
+
+async function scanPhone() {
+  const input = document.getElementById('phoneInput').value.trim();
+  const status = document.getElementById('phoneStatus');
+  const result = document.getElementById('phoneResult');
+  const btn = document.querySelector('#tab-phone .scanner-btn');
+  if (!input) return;
+  if (!checkScanLimit(status, result)) return;
+  btn.disabled = true;
+  result.style.display = 'none';
+  status.style.display = 'flex';
+  status.textContent = 'LOOKING UP PHONE NUMBER...';
+  try {
+    const phone = encodeURIComponent(input);
+    const res = await fetch(`https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=${phone}`);
+    const data = await res.json();
+    if (!data.valid) {
+      result.innerHTML = `
+        <div class="result-header threat">⚠ Invalid Phone Number</div>
+        <div class="result-body">
+          <p style="color:var(--text-muted)">This number could not be validated. Check the format and try again (e.g. +16135550123).</p>
+        </div>`;
+      status.style.display = 'none';
+      result.style.display = 'block';
+      btn.disabled = false;
+      return;
+    }
+    const fraud = data.fraud_score || 0;
+    const isRisky = fraud >= 75 || data.spammer || data.active_vpn || data.recent_abuse;
+    const isSuspicious = fraud >= 40 && fraud < 75;
+    const headerClass = isRisky ? 'threat' : isSuspicious ? 'threat' : 'clean';
+    const headerText = isRisky
+      ? `⚠ High Risk — Fraud Score ${fraud}/100`
+      : isSuspicious
+      ? `⚠ Suspicious — Fraud Score ${fraud}/100`
+      : `✓ Low Risk — Fraud Score ${fraud}/100`;
+    const lineType = data.line_type || 'Unknown';
+    const carrier = data.carrier || 'Unknown';
+    const country = data.country || 'Unknown';
+    const region = data.region || '';
+    const isVoip = data.VOIP ? '⚠ Yes — common in scam calls' : 'No';
+    const isSpammer = data.spammer ? '⚠ Reported spammer' : 'Not reported';
+    const recentAbuse = data.recent_abuse ? '⚠ Yes' : 'No';
+    result.innerHTML = `
+      <div class="result-header ${headerClass}">${headerText}</div>
+      <div class="result-body">
+        <div class="result-url">${input}</div>
+        <div class="result-stat-row">
+          <div class="result-stat">
+            <div class="result-stat-num ${isRisky ? 'red' : isSuspicious ? 'red' : 'green'}">${fraud}</div>
+            <div class="result-stat-label">Fraud Score</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num muted">${lineType}</div>
+            <div class="result-stat-label">Line Type</div>
+          </div>
+        </div>
+        <div style="display:grid;gap:8px;margin-top:8px;">
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span>Carrier</span><span style="color:var(--text);font-family:var(--mono)">${carrier}</span>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span>Location</span><span style="color:var(--text);font-family:var(--mono)">${region ? region + ', ' : ''}${country}</span>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span>VoIP Number</span><span style="color:${data.VOIP ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${isVoip}</span>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+            <span>Spam Reports</span><span style="color:${data.spammer ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${isSpammer}</span>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;">
+            <span>Recent Abuse</span><span style="color:${data.recent_abuse ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${recentAbuse}</span>
+          </div>
+        </div>
+      </div>`;
+    status.style.display = 'none';
+    result.style.display = 'block';
+    incrementScanCount();
+    showScanCounter();
+  } catch(err) {
+    status.textContent = 'SCAN FAILED — please try again';
+    console.error(err);
+  }
+  btn.disabled = false;
+}
+
 document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanURL(); });
-// Show scan counter on load
+document.getElementById('phoneInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanPhone(); });
 window.addEventListener('load', () => setTimeout(showScanCounter, 500));
 </script>
 
@@ -1309,7 +1165,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Built to catch threats<br>before they catch you.</h2>
     <p class="section-sub">Every tool in PolarGuarded runs on proven open-source engines — audited, transparent, and always up to date.</p>
-
     <div class="services-grid">
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -1354,6 +1209,16 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <p class="service-desc">WireGuard-based VPN with Canadian and international exit nodes. Encrypt every byte leaving your device with zero-log policy.</p>
         <span class="service-tag tag-soon">Coming Soon</span>
       </div>
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M16 8 C16 8 10 12 10 20 C10 28 16 36 22 36 C28 36 34 28 34 20 C34 12 28 8 28 8"/>
+          <rect x="17" y="18" width="10" height="14" rx="2"/>
+          <circle cx="22" cy="16" r="3"/>
+        </svg>
+        <div class="service-name">Phone Scam Detector</div>
+        <p class="service-desc">Enter any phone number and instantly check its fraud score, carrier, line type, and whether it has been flagged as a scammer or spam caller.</p>
+        <span class="service-tag tag-live">Live</span>
+      </div>
     </div>
   </div>
 </div>
@@ -1396,7 +1261,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     <h2 class="section-title">Straightforward protection.<br>No hidden fees.</h2>
     <p class="section-sub">All prices in CAD. Cancel any time.</p>
     <div class="pricing-grid">
-
       <div class="pricing-card">
         <div class="plan-name">Free</div>
         <div class="plan-price">$0</div>
@@ -1404,6 +1268,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <ul class="plan-features">
           <li>URL & phishing scanner</li>
           <li>File malware scan (up to 32MB)</li>
+          <li>Phone scam checker</li>
           <li>10 scans per day</li>
           <li class="muted">No device audit</li>
           <li class="muted">No VPN access</li>
@@ -1411,13 +1276,12 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         </ul>
         <a href="#" class="plan-btn">Start Scanning</a>
       </div>
-
       <div class="pricing-card featured">
         <div class="plan-name">Pro</div>
         <div class="plan-price"><sup>$</sup>9<span>/mo</span></div>
         <p class="plan-desc">Full protection for individuals and families.</p>
         <ul class="plan-features">
-          <li>Unlimited URL & file scans</li>
+          <li>Unlimited URL, file & phone scans</li>
           <li>Full device vulnerability audit</li>
           <li>Scheduled weekly scans</li>
           <li>Scan history & reports</li>
@@ -1426,7 +1290,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         </ul>
         <a href="https://buy.stripe.com/9B63co3PG9cCbB20PD8Zq00" class="plan-btn primary-btn" target="_blank" rel="noopener">Get Pro</a>
       </div>
-
       <div class="pricing-card">
         <div class="plan-name">Business</div>
         <div class="plan-price"><sup>$</sup>39<span>/mo</span></div>
@@ -1441,7 +1304,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         </ul>
         <a href="https://buy.stripe.com/cNi9AM71S88ybB29m98Zq01" class="plan-btn" target="_blank" rel="noopener">Get Business</a>
       </div>
-
     </div>
   </div>
 </div>
@@ -1459,6 +1321,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <ul>
           <li><a href="#">URL Scanner</a></li>
           <li><a href="#">File Scanner</a></li>
+          <li><a href="#">Phone Scanner</a></li>
           <li><a href="#">Device Audit</a></li>
           <li><a href="#">VPN (Soon)</a></li>
         </ul>
@@ -1484,7 +1347,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
   </div>
   <div class="footer-bottom">
     <p>© 2025 PolarGuarded. Built in <span>Canada 🇨🇦</span></p>
-    <p>Powered by ClamAV · VirusTotal · WireGuard · PhishTank</p>
+    <p>Powered by ClamAV · VirusTotal · WireGuard · PhishTank · IPQS</p>
   </div>
 </footer>
 
