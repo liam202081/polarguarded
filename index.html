@@ -188,23 +188,48 @@
   .result-url { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); word-break: break-all; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; margin-bottom: 16px; }
   .result-engines { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
   .engine-threat { color: var(--danger); font-family: var(--mono); font-size: 0.72rem; display: block; padding: 3px 0; }
-  .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; }
+  .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; cursor: pointer; background: none; border: none; padding: 0; }
   .result-link:hover { text-decoration: underline; }
 
-  .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+  /* Full Report Popup */
+  .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .popup-overlay.open { display: flex; }
-  .popup-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; }
-  .popup-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .popup-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; }
+  .popup-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--surface); z-index: 2; }
   .popup-title { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: 0.02em; }
   .popup-close { background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 4px; }
   .popup-close:hover { color: var(--text); }
-  .popup-body { padding: 28px; font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; }
+  .popup-body { padding: 24px; font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; }
   .popup-body h3 { color: var(--text); font-size: 0.95rem; margin: 20px 0 8px; }
   .popup-body h3:first-child { margin-top: 0; }
   .popup-body a { color: var(--ice); text-decoration: none; }
   .popup-body a:hover { text-decoration: underline; }
   .popup-body code { font-family: var(--mono); font-size: 0.78rem; background: var(--bg); padding: 2px 6px; border-radius: 3px; color: var(--ice); }
   .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--safe); box-shadow: 0 0 6px var(--safe); margin-right: 8px; }
+
+  /* Engine results grid */
+  .engine-grid { display: grid; gap: 4px; margin-top: 16px; }
+  .engine-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 3px; font-family: var(--mono); font-size: 0.72rem; }
+  .engine-row.malicious { background: rgba(255,79,79,0.08); border: 1px solid rgba(255,79,79,0.15); }
+  .engine-row.suspicious { background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.15); }
+  .engine-row.clean { background: rgba(63,214,138,0.05); border: 1px solid rgba(63,214,138,0.1); }
+  .engine-row.undetected { background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+  .engine-name { color: var(--text); }
+  .engine-verdict { font-weight: 700; }
+  .engine-verdict.red { color: var(--danger); }
+  .engine-verdict.yellow { color: #f5a623; }
+  .engine-verdict.green { color: var(--safe); }
+  .engine-verdict.muted { color: var(--text-dim); }
+
+  .report-summary { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; }
+  .report-stat { text-align: center; flex: 1; min-width: 60px; }
+  .report-stat-num { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; line-height: 1; }
+  .report-stat-label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  .engine-filter-tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .engine-filter-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 14px; border-radius: 3px; font-family: var(--mono); font-size: 0.7rem; cursor: pointer; transition: all 0.15s; letter-spacing: 0.05em; }
+  .engine-filter-btn:hover { border-color: var(--ice-dim); color: var(--ice); }
+  .engine-filter-btn.active { background: var(--ice); color: var(--bg); border-color: var(--ice); }
 
   .mobile-menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 1.1rem; }
   .mobile-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(9,13,19,0.98); border-bottom: 1px solid var(--border); padding: 20px; z-index: 99; flex-direction: column; gap: 4px; max-height: calc(100vh - 64px); overflow-y: auto; }
@@ -338,6 +363,17 @@ function goToScanner(tab) {
   </div>
 </div>
 
+<!-- FULL REPORT POPUP -->
+<div id="reportOverlay" class="popup-overlay" onclick="if(event.target===this)closeReport()">
+  <div class="popup-box">
+    <div class="popup-header">
+      <span class="popup-title" id="reportTitle">Full Scan Report</span>
+      <button class="popup-close" onclick="closeReport()">✕</button>
+    </div>
+    <div class="popup-body" id="reportBody"></div>
+  </div>
+</div>
+
 <!-- FOOTER POPUPS -->
 <div id="popupOverlay" class="popup-overlay" onclick="if(event.target===this)closePopup()">
   <div class="popup-box">
@@ -350,6 +386,92 @@ function goToScanner(tab) {
 </div>
 
 <script>
+// ── FULL REPORT POPUP ────────────────────────────────────────
+let fullReportData = null;
+
+function showFullReport(label, results, stats, targetUrl) {
+  fullReportData = { label, results, stats, targetUrl };
+  renderReport('all');
+  document.getElementById('reportOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReport() {
+  document.getElementById('reportOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderReport(filter) {
+  if (!fullReportData) return;
+  const { label, results, stats, targetUrl } = fullReportData;
+
+  const malicious = stats.malicious || 0;
+  const suspicious = stats.suspicious || 0;
+  const clean = stats.harmless || 0;
+  const undetected = stats.undetected || 0;
+  const total = malicious + suspicious + clean + undetected;
+
+  const headerClass = malicious > 0 ? 'threat' : suspicious > 0 ? 'threat' : 'clean';
+  const headerText = malicious > 0
+    ? `⚠ Threat Detected`
+    : suspicious > 0 ? `⚠ Suspicious` : `✓ Clean`;
+
+  document.getElementById('reportTitle').innerHTML = `
+    <span style="color:${malicious > 0 || suspicious > 0 ? 'var(--danger)' : 'var(--safe)'};">${headerText}</span>
+    <span style="color:var(--text-muted);font-size:0.75rem;font-weight:400;margin-left:8px;">— ${label}</span>`;
+
+  // Filter buttons
+  let filterHtml = `
+    <div class="engine-filter-tabs">
+      <button class="engine-filter-btn ${filter==='all'?'active':''}" onclick="renderReport('all')">All (${total})</button>
+      ${malicious > 0 ? `<button class="engine-filter-btn ${filter==='malicious'?'active':''}" onclick="renderReport('malicious')" style="${filter==='malicious'?'background:var(--danger);border-color:var(--danger);':'color:#ff4f4f;border-color:rgba(255,79,79,0.3);'}">Malicious (${malicious})</button>` : ''}
+      ${suspicious > 0 ? `<button class="engine-filter-btn ${filter==='suspicious'?'active':''}" onclick="renderReport('suspicious')">Suspicious (${suspicious})</button>` : ''}
+      <button class="engine-filter-btn ${filter==='clean'?'active':''}" onclick="renderReport('clean')" style="${filter==='clean'?'background:var(--safe);border-color:var(--safe);color:var(--bg);':'color:var(--safe);border-color:rgba(63,214,138,0.3);'}">Clean (${clean})</button>
+      <button class="engine-filter-btn ${filter==='undetected'?'active':''}" onclick="renderReport('undetected')">Undetected (${undetected})</button>
+    </div>`;
+
+  // Summary
+  let summaryHtml = `
+    <div class="report-summary">
+      <div class="report-stat"><div class="report-stat-num" style="color:${malicious>0?'var(--danger)':'var(--safe)'}">${malicious}</div><div class="report-stat-label">Malicious</div></div>
+      <div class="report-stat"><div class="report-stat-num" style="color:${suspicious>0?'#f5a623':'var(--text-muted)'}">${suspicious}</div><div class="report-stat-label">Suspicious</div></div>
+      <div class="report-stat"><div class="report-stat-num" style="color:var(--safe)">${clean}</div><div class="report-stat-label">Clean</div></div>
+      <div class="report-stat"><div class="report-stat-num" style="color:var(--text-muted)">${undetected}</div><div class="report-stat-label">Undetected</div></div>
+      <div class="report-stat"><div class="report-stat-num" style="color:var(--ice)">${total}</div><div class="report-stat-label">Engines</div></div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.72rem;color:var(--text-muted);word-break:break-all;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">${targetUrl}</div>`;
+
+  // Engine rows
+  let enginesHtml = '<div class="engine-grid">';
+  const entries = Object.entries(results);
+
+  for (const [engine, data] of entries) {
+    const cat = data.category;
+    if (filter === 'malicious' && cat !== 'malicious') continue;
+    if (filter === 'suspicious' && cat !== 'suspicious') continue;
+    if (filter === 'clean' && cat !== 'harmless') continue;
+    if (filter === 'undetected' && cat !== 'undetected') continue;
+
+    let rowClass = 'undetected';
+    let verdictClass = 'muted';
+    let verdict = 'Undetected';
+
+    if (cat === 'malicious') { rowClass = 'malicious'; verdictClass = 'red'; verdict = data.result || 'Malicious'; }
+    else if (cat === 'suspicious') { rowClass = 'suspicious'; verdictClass = 'yellow'; verdict = data.result || 'Suspicious'; }
+    else if (cat === 'harmless') { rowClass = 'clean'; verdictClass = 'green'; verdict = 'Clean'; }
+
+    enginesHtml += `
+      <div class="engine-row ${rowClass}">
+        <span class="engine-name">${engine}</span>
+        <span class="engine-verdict ${verdictClass}">${verdict}</span>
+      </div>`;
+  }
+
+  enginesHtml += '</div>';
+
+  document.getElementById('reportBody').innerHTML = filterHtml + summaryHtml + enginesHtml;
+}
+
 const popupContent = {
   about: { title: 'About PolarGuarded', body: `<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, checking an email, or scanning your PC or Mac — PolarGuarded gives you the same threat intelligence used by security professionals.</p><h3>Our Stack</h3><p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p><h3>Built in Canada 🇨🇦</h3><p>PolarGuarded is proudly built and operated in Canada. Your data stays in Canada and is never sold to third parties. Ever.</p>` },
   contact: { title: 'Contact Us', body: `<p>We'd love to hear from you — whether it's a question, a bug report, or a partnership inquiry.</p><h3>Email</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p><h3>Response Time</h3><p>We typically respond within 24–48 hours on business days.</p><h3>Bug Reports</h3><p>Found a bug or security issue? Please email us directly with details and we'll prioritize it immediately.</p><h3>Business Inquiries</h3><p>Interested in a custom plan or API partnership? Reach out and we'll set up a call.</p>` },
@@ -591,23 +713,11 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 24px;">
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:left;">
               <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase;">Windows Instructions</div>
-              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">
-                1. Download the .ps1 file<br>
-                2. Right-click the file<br>
-                3. Select <strong style="color:var(--text);">Run with PowerShell</strong><br>
-                4. Allow if prompted<br>
-                5. Report opens on desktop
-              </div>
+              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">1. Download the .ps1 file<br>2. Right-click the file<br>3. Select <strong style="color:var(--text);">Run with PowerShell</strong><br>4. Allow if prompted<br>5. Report opens on desktop</div>
             </div>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:left;">
               <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase;">Mac Instructions</div>
-              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">
-                1. Download the .sh file<br>
-                2. Open <strong style="color:var(--text);">Terminal</strong><br>
-                3. Type: <code style="color:var(--ice);font-size:0.75rem;">bash ~/Downloads/PolarGuarded-Scan.sh</code><br>
-                4. Press Enter<br>
-                5. Report opens on desktop
-              </div>
+              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">1. Download the .sh file<br>2. Open <strong style="color:var(--text);">Terminal</strong><br>3. Type: <code style="color:var(--ice);font-size:0.75rem;">bash ~/Downloads/PolarGuarded-Scan.sh</code><br>4. Press Enter<br>5. Report opens on desktop</div>
             </div>
           </div>
 
@@ -749,11 +859,27 @@ async function scanFile() {
       }
     }
     if (!stats) throw new Error('No results returned');
-    const malicious = stats.malicious || 0; const suspicious = stats.suspicious || 0; const clean = stats.harmless || 0; const undetected = stats.undetected || 0; const total = malicious + suspicious + clean + undetected;
+    const malicious = stats.malicious || 0;
+    const suspicious = stats.suspicious || 0;
+    const clean = stats.harmless || 0;
+    const undetected = stats.undetected || 0;
+    const total = malicious + suspicious + clean + undetected;
     const threats = Object.entries(analysisResults).filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious').map(([engine, v]) => `${engine}: ${v.result}`).slice(0, 5);
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this file` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this file` : '✓ Clean — No threats detected';
-    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${file.name} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(2)} MB</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div></div>${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}${fileId ? `<a class="result-link" href="https://www.virustotal.com/gui/file/${fileId}" target="_blank" rel="noopener">→ VIEW FULL REPORT ON VIRUSTOTAL</a>` : ''}</div>`;
+    result.innerHTML = `
+      <div class="result-header ${headerClass}">${headerText}</div>
+      <div class="result-body">
+        <div class="result-url">${file.name} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(2)} MB</div>
+        <div class="result-stat-row">
+          <div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div>
+          <div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div>
+          <div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div>
+          <div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div>
+        </div>
+        ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
+        <button class="result-link" onclick="showFullReport('${file.name}', ${JSON.stringify(analysisResults).replace(/'/g,"&#39;")}, ${JSON.stringify(stats)}, '${file.name}')">→ VIEW FULL REPORT ON POLARGUARDED</button>
+      </div>`;
     status.style.display = 'none'; result.style.display = 'block';
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
@@ -771,7 +897,6 @@ async function scanURL() {
   btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
   status.textContent = 'SUBMITTING URL TO THREAT DATABASES...';
   try {
-    const urlId = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
     const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
     const data = await res.json();
     let stats = null, analysisResults = {};
@@ -790,11 +915,31 @@ async function scanURL() {
       }
     }
     if (!stats) throw new Error('No results returned');
-    const malicious = stats.malicious || 0; const suspicious = stats.suspicious || 0; const clean = stats.harmless || 0; const undetected = stats.undetected || 0; const total = malicious + suspicious + clean + undetected;
+    const malicious = stats.malicious || 0;
+    const suspicious = stats.suspicious || 0;
+    const clean = stats.harmless || 0;
+    const undetected = stats.undetected || 0;
+    const total = malicious + suspicious + clean + undetected;
     const threats = Object.entries(analysisResults).filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious').map(([engine, v]) => `${engine}: ${v.result}`).slice(0, 5);
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this URL` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this URL` : '✓ Clean — No threats detected';
-    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${url}</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div></div>${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}<a class="result-link" href="https://www.virustotal.com/gui/url/${urlId}" target="_blank" rel="noopener">→ VIEW FULL REPORT ON VIRUSTOTAL</a></div>`;
+
+    // Store results for popup
+    window._lastScanResults = { analysisResults, stats, url };
+
+    result.innerHTML = `
+      <div class="result-header ${headerClass}">${headerText}</div>
+      <div class="result-body">
+        <div class="result-url">${url}</div>
+        <div class="result-stat-row">
+          <div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div>
+          <div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div>
+          <div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div>
+          <div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div>
+        </div>
+        ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
+        <button class="result-link" onclick="showFullReport(window._lastScanResults.url, window._lastScanResults.analysisResults, window._lastScanResults.stats, window._lastScanResults.url)">→ VIEW FULL REPORT ON POLARGUARDED</button>
+      </div>`;
     status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
