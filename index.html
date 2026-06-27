@@ -258,7 +258,6 @@
     </div>
     <span class="nav-logo-text">Polar<span>Guarded</span></span>
   </a>
-
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#how">How It Works</a></li>
@@ -269,7 +268,7 @@
         <a onclick="goToScanner('file')">File Scanner</a>
         <a onclick="goToScanner('phone')">Phone Scanner</a>
         <a onclick="goToScanner('email')">Email Scanner</a>
-        <a onclick="goToScanner('download')">PC Scanner</a>
+        <a onclick="goToScanner('download')">PC & Mac Scanner</a>
       </div>
     </li>
     <li><a href="pricing.html">Pricing</a></li>
@@ -294,7 +293,7 @@
     <a onclick="goToScanner('file');closeMobileNav()">File Scanner</a>
     <a onclick="goToScanner('phone');closeMobileNav()">Phone Scanner</a>
     <a onclick="goToScanner('email');closeMobileNav()">Email Scanner</a>
-    <a onclick="goToScanner('download');closeMobileNav()">PC Scanner</a>
+    <a onclick="goToScanner('download');closeMobileNav()">PC & Mac Scanner</a>
   </div>
   <a href="pricing.html" onclick="closeMobileNav()">Pricing</a>
   <a href="#" id="mobileAuthBtn" class="mobile-nav-auth" onclick="openAuth('login'); closeMobileNav(); return false;">Log In</a>
@@ -352,13 +351,13 @@ function goToScanner(tab) {
 
 <script>
 const popupContent = {
-  about: { title: 'About PolarGuarded', body: `<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, checking an email address, or scanning your PC — PolarGuarded gives you the same threat intelligence used by security professionals.</p><h3>Our Stack</h3><p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p><h3>Built in Canada 🇨🇦</h3><p>PolarGuarded is proudly built and operated in Canada. Your data stays in Canada and is never sold to third parties. Ever.</p>` },
+  about: { title: 'About PolarGuarded', body: `<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, checking an email, or scanning your PC or Mac — PolarGuarded gives you the same threat intelligence used by security professionals.</p><h3>Our Stack</h3><p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p><h3>Built in Canada 🇨🇦</h3><p>PolarGuarded is proudly built and operated in Canada. Your data stays in Canada and is never sold to third parties. Ever.</p>` },
   contact: { title: 'Contact Us', body: `<p>We'd love to hear from you — whether it's a question, a bug report, or a partnership inquiry.</p><h3>Email</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p><h3>Response Time</h3><p>We typically respond within 24–48 hours on business days.</p><h3>Bug Reports</h3><p>Found a bug or security issue? Please email us directly with details and we'll prioritize it immediately.</p><h3>Business Inquiries</h3><p>Interested in a custom plan or API partnership? Reach out and we'll set up a call.</p>` },
-  privacy: { title: 'Privacy Policy', body: `<h3>Data We Collect</h3><p>We collect your email address when you create an account, and we store your scan history if you are a Pro or Business subscriber.</p><h3>Data We Don't Collect</h3><p>We do not collect your name, phone number, payment card details (handled by Stripe), or any personally identifiable information beyond your email.</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p><h3>Scan Data</h3><p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. The PC Scanner runs entirely locally — no data is sent to our servers.</p><h3>Cookies</h3><p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p><h3>Contact</h3><p>For privacy concerns, email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
-  terms: { title: 'Terms of Use', body: `<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms. If you do not agree, please discontinue use of the service.</p><h3>Permitted Use</h3><p>PolarGuarded is intended for lawful cybersecurity purposes only. You may not use our tools to scan systems or content you do not own or have explicit permission to scan.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 online scans per day. The PC Scanner download is unlimited for all users.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis. We do not guarantee that all threats will be detected.</p><h3>Limitation of Liability</h3><p>PolarGuarded is not liable for any damages arising from use or inability to use the service.</p><h3>Changes</h3><p>We may update these terms at any time. Continued use constitutes acceptance.</p><h3>Contact</h3><p>Questions? Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
+  privacy: { title: 'Privacy Policy', body: `<h3>Data We Collect</h3><p>We collect your email address when you create an account, and we store your scan history if you are a Pro or Business subscriber.</p><h3>Data We Don't Collect</h3><p>We do not collect your name, phone number, payment card details (handled by Stripe), or any personally identifiable information beyond your email.</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p><h3>Scan Data</h3><p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. The PC and Mac Scanners run entirely locally — no data is sent to our servers.</p><h3>Cookies</h3><p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p><h3>Contact</h3><p>For privacy concerns, email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
+  terms: { title: 'Terms of Use', body: `<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms. If you do not agree, please discontinue use of the service.</p><h3>Permitted Use</h3><p>PolarGuarded is intended for lawful cybersecurity purposes only. You may not use our tools to scan systems or content you do not own or have explicit permission to scan.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 online scans per day. The PC and Mac Scanner downloads are unlimited for all users.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis. We do not guarantee that all threats will be detected.</p><h3>Limitation of Liability</h3><p>PolarGuarded is not liable for any damages arising from use or inability to use the service.</p><h3>Changes</h3><p>We may update these terms at any time. Continued use constitutes acceptance.</p><h3>Contact</h3><p>Questions? Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
   api: { title: 'API Documentation', body: `<h3>Overview</h3><p>The PolarGuarded API is available to Business plan subscribers.</p><h3>URL Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "url": "https://example.com" }</code></p><h3>File Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p><h3>Phone Scan</h3><p>GET: <code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p><h3>Email Scan</h3><p>GET: <code>https://polarguarded-email.liamstevenmatyas.workers.dev?email=test@example.com</code></p><h3>Rate Limits</h3><p>Business plan: 1,000 API calls per day.</p><h3>Get Access</h3><p>Subscribe to the Business plan or email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p>` },
-  status: { title: 'System Status', body: `<h3>All Systems Operational</h3><p><span class="status-dot"></span>URL Scanner — Operational</p><p><span class="status-dot"></span>File Scanner — Operational</p><p><span class="status-dot"></span>Phone Scanner — Operational</p><p><span class="status-dot"></span>Email Scanner — Operational</p><p><span class="status-dot"></span>PC Scanner Download — Operational</p><p><span class="status-dot"></span>Authentication — Operational</p><p><span class="status-dot"></span>Payment Processing — Operational</p><h3>Upcoming</h3><p>VPN service is currently in development and will be available soon for Pro and Business subscribers.</p><h3>Incidents</h3><p>No incidents reported in the last 30 days.</p>` },
-  blog: { title: 'Blog', body: `<p>Our blog is coming soon! We'll be publishing guides, threat reports, and cybersecurity tips for Canadians.</p><h3>Topics We'll Cover</h3><p>— How to spot phishing emails</p><p>— The rise of phone scams in Canada</p><p>— Why VPNs matter for remote workers</p><p>— How to keep your Windows PC secure</p><h3>Stay Updated</h3><p>Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a> to be notified when we publish our first post.</p>` }
+  status: { title: 'System Status', body: `<h3>All Systems Operational</h3><p><span class="status-dot"></span>URL Scanner — Operational</p><p><span class="status-dot"></span>File Scanner — Operational</p><p><span class="status-dot"></span>Phone Scanner — Operational</p><p><span class="status-dot"></span>Email Scanner — Operational</p><p><span class="status-dot"></span>PC & Mac Scanner Download — Operational</p><p><span class="status-dot"></span>Authentication — Operational</p><p><span class="status-dot"></span>Payment Processing — Operational</p><h3>Upcoming</h3><p>VPN service is currently in development and will be available soon for Pro and Business subscribers.</p><h3>Incidents</h3><p>No incidents reported in the last 30 days.</p>` },
+  blog: { title: 'Blog', body: `<p>Our blog is coming soon! We'll be publishing guides, threat reports, and cybersecurity tips for Canadians.</p><h3>Topics We'll Cover</h3><p>— How to spot phishing emails</p><p>— The rise of phone scams in Canada</p><p>— Why VPNs matter for remote workers</p><p>— How to keep your Windows PC and Mac secure</p><h3>Stay Updated</h3><p>Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a> to be notified when we publish our first post.</p>` }
 };
 
 function openPopup(key) {
@@ -500,14 +499,14 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
 <div id="scanner">
   <div class="section" style="padding-bottom: 0;">
     <div class="section-label">Free Tools</div>
-    <h2 class="section-title">Scan URLs, files, phones, emails & your PC.</h2>
+    <h2 class="section-title">Scan URLs, files, phones, emails & your device.</h2>
     <p class="section-sub">Real threat intelligence across all your attack surfaces — online and on your device.</p>
     <div class="scanner-tabs">
       <button class="scanner-tab active" onclick="switchTab('url')">URL Scanner</button>
       <button class="scanner-tab" onclick="switchTab('file')">File Scanner</button>
       <button class="scanner-tab" onclick="switchTab('phone')">Phone Scanner</button>
       <button class="scanner-tab" onclick="switchTab('email')">Email Scanner</button>
-      <button class="scanner-tab" onclick="switchTab('download')">PC Scanner</button>
+      <button class="scanner-tab" onclick="switchTab('download')">PC & Mac Scanner</button>
     </div>
     <div class="scanner-box">
 
@@ -563,7 +562,7 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="emailResult" class="scanner-result" style="display:none;"></div>
       </div>
 
-      <!-- PC Scanner Download Tab -->
+      <!-- PC & Mac Scanner Tab -->
       <div id="tab-download" style="display:none;">
         <div style="text-align:center;padding:40px 20px;">
           <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="#5bc8f5" stroke-width="1.5" style="margin-bottom:20px;">
@@ -571,31 +570,58 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
             <path d="M18 42 L38 42M28 42 L28 48M20 48 L36 48"/>
             <path d="M28 18 L28 30M22 26 L28 32 L34 26"/>
           </svg>
-          <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:12px;">PolarGuarded PC Scanner</h3>
-          <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">
-            Download our free Windows security scanner. It performs 12 deep security checks on your PC and generates a full branded HTML report saved directly to your desktop. Free for everyone — no account needed.
-          </p>
-          <a href="PolarGuarded-Scan.ps1" download style="display:inline-block;background:var(--ice);color:var(--bg);padding:14px 36px;border-radius:4px;font-weight:700;font-size:0.95rem;letter-spacing:0.04em;text-decoration:none;margin-bottom:28px;">↓ Download Free PC Scanner</a>
-          <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px 24px;max-width:480px;margin:0 auto 24px;text-align:left;">
-            <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:14px;text-transform:uppercase;">How To Run</div>
-            <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">
-              1. Download the file above<br>
-              2. Right-click the <strong style="color:var(--text);">.ps1</strong> file<br>
-              3. Select <strong style="color:var(--text);">Run with PowerShell</strong><br>
-              4. Allow it to run if Windows prompts you<br>
-              5. Your full report opens automatically on your desktop
+          <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:12px;">PolarGuarded Device Scanner</h3>
+          <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">Download our free security scanner for Windows or Mac. It performs 12 deep security checks on your device and generates a full branded HTML report saved directly to your desktop. Free for everyone — no account needed.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 28px;">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:24px 20px;text-align:center;">
+              <div style="font-size:2rem;margin-bottom:8px;">🪟</div>
+              <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">Windows</div>
+              <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">Windows 10 & 11</div>
+              <a href="PolarGuarded-Scan.ps1" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">↓ Download (.ps1)</a>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:24px 20px;text-align:center;">
+              <div style="font-size:2rem;margin-bottom:8px;">🍎</div>
+              <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">macOS</div>
+              <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">macOS 12 and later</div>
+              <a href="PolarGuarded-Scan.sh" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">↓ Download (.sh)</a>
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;max-width:560px;margin:0 auto;">
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>Windows 10 & 11</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>12 security checks</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>No data sent to servers</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>Free for everyone</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>HTML report on desktop</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>No account needed</div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 24px;">
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:left;">
+              <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase;">Windows Instructions</div>
+              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">
+                1. Download the .ps1 file<br>
+                2. Right-click the file<br>
+                3. Select <strong style="color:var(--text);">Run with PowerShell</strong><br>
+                4. Allow if prompted<br>
+                5. Report opens on desktop
+              </div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:left;">
+              <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase;">Mac Instructions</div>
+              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">
+                1. Download the .sh file<br>
+                2. Open <strong style="color:var(--text);">Terminal</strong><br>
+                3. Type: <code style="color:var(--ice);font-size:0.75rem;">bash ~/Downloads/PolarGuarded-Scan.sh</code><br>
+                4. Press Enter<br>
+                5. Report opens on desktop
+              </div>
+            </div>
           </div>
-          <div style="margin-top:28px;padding:20px;background:rgba(91,200,245,0.05);border:1px solid var(--ice-dim);border-radius:4px;max-width:480px;margin:28px auto 0;">
-            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Windows Defender · Firewall · Pending Updates · Open Ports · BitLocker Encryption · Guest Account · UAC · Password Policy · Startup Programs · Suspicious Processes · Shared Folders · Remote Desktop</div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-width:520px;margin:0 auto 24px;">
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>Windows & Mac</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>12 security checks</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>No data sent to servers</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>Free for everyone</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>HTML report on desktop</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>No account needed</div>
+          </div>
+
+          <div style="padding:20px;background:rgba(91,200,245,0.05);border:1px solid var(--ice-dim);border-radius:4px;max-width:500px;margin:0 auto;">
+            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Firewall · Disk Encryption · System Updates · Antivirus/Gatekeeper · Remote Access · Guest Account · UAC/Auto Login · Open Ports · Suspicious Processes · Shared Services · Password Policy · System Integrity</div>
           </div>
         </div>
       </div>
@@ -867,8 +893,8 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
       </div>
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="8" width="36" height="26" rx="3"/><path d="M14 34 L30 34M22 34 L22 38M16 38 L28 38"/><path d="M22 14 L22 24M18 21 L22 25 L26 21"/></svg>
-        <div class="service-name">PC Security Scanner</div>
-        <p class="service-desc">Download our free Windows scanner. Checks 12 critical security settings on your PC and generates a full report on your desktop. Free for everyone.</p>
+        <div class="service-name">PC & Mac Security Scanner</div>
+        <p class="service-desc">Download our free Windows and macOS scanner. Checks 12 critical security settings and generates a full report on your desktop. Free for everyone.</p>
         <span class="service-tag tag-live">Free Download</span>
       </div>
       <div class="service-card">
@@ -888,7 +914,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     <h2 class="section-title">Scan in seconds.</h2>
     <p class="section-sub">No installs required for basic scans. Create a free account to unlock scheduled scans and history.</p>
     <div class="how-steps">
-      <div class="how-step"><div class="step-num">STEP 01</div><div class="step-title">Drop a file or URL</div><p class="step-desc">Paste a suspicious link, upload a file, or download the PC scanner to run a full device check.</p></div>
+      <div class="how-step"><div class="step-num">STEP 01</div><div class="step-title">Choose your tool</div><p class="step-desc">Paste a suspicious link, upload a file, check a phone number or email, or download the PC & Mac scanner for a full device check.</p></div>
       <div class="how-step"><div class="step-num">STEP 02</div><div class="step-title">We run the engines</div><p class="step-desc">ClamAV, VirusTotal, PhishTank, and Google Safe Browsing all check simultaneously against their databases.</p></div>
       <div class="how-step"><div class="step-num">STEP 03</div><div class="step-title">Get a clear result</div><p class="step-desc">Clean or threat — no jargon. If something's found, we tell you exactly what it is and what to do next.</p></div>
       <div class="how-step"><div class="step-num">STEP 04</div><div class="step-title">Stay protected</div><p class="step-desc">Pro users get unlimited online scans and VPN access to stay covered around the clock.</p></div>
@@ -912,7 +938,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
           <li>File malware scan (up to 32MB)</li>
           <li>Phone scam checker</li>
           <li>Email risk checker</li>
-          <li>PC Scanner download</li>
+          <li>PC & Mac scanner download</li>
           <li>10 online scans per day</li>
           <li class="muted">No VPN access</li>
           <li class="muted">No scan history</li>
@@ -925,7 +951,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <p class="plan-desc">Full protection for individuals and families.</p>
         <ul class="plan-features">
           <li>Unlimited URL, file, phone & email scans</li>
-          <li>PC Scanner download</li>
+          <li>PC & Mac scanner download</li>
           <li>Scan history & reports</li>
           <li>PolarGuarded VPN included</li>
           <li>Priority support</li>
@@ -966,7 +992,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
           <li><a onclick="goToScanner('file')">File Scanner</a></li>
           <li><a onclick="goToScanner('phone')">Phone Scanner</a></li>
           <li><a onclick="goToScanner('email')">Email Scanner</a></li>
-          <li><a onclick="goToScanner('download')">PC Scanner</a></li>
+          <li><a onclick="goToScanner('download')">PC & Mac Scanner</a></li>
           <li><a onclick="return false;">VPN (Soon)</a></li>
         </ul>
       </div>
