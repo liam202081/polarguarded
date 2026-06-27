@@ -40,7 +40,6 @@
     z-index: 0;
   }
 
-  /* NAV */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 64px; background: rgba(9,13,19,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .nav-logo-mark { width: 32px; height: 32px; position: relative; }
@@ -53,19 +52,16 @@
   .nav-cta { background: var(--ice); color: var(--bg) !important; padding: 8px 20px; border-radius: 4px; font-weight: 600 !important; transition: opacity 0.2s !important; }
   .nav-cta:hover { opacity: 0.85; color: var(--bg) !important; }
 
-  /* Desktop Tools Dropdown */
   .nav-dropdown { position: relative; }
-  .nav-dropdown-btn { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; cursor: pointer; background: none; border: none; font-family: var(--sans); display: flex; align-items: center; gap: 5px; padding: 0; }
+  .nav-dropdown-btn { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; cursor: pointer; background: none; border: none; font-family: var(--sans); display: flex; align-items: center; gap: 5px; padding: 0; }
   .nav-dropdown-btn:hover { color: var(--ice); }
   .nav-dropdown-btn::after { content: '▾'; font-size: 0.7rem; }
-  .nav-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; min-width: 180px; padding: 8px 0; margin-top: 12px; z-index: 200; }
-  .nav-dropdown-menu::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 10px; height: 10px; background: var(--surface); border-left: 1px solid var(--border); border-top: 1px solid var(--border); transform: translateX(-50%) rotate(45deg); }
+  .nav-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; min-width: 190px; padding: 8px 0; margin-top: 12px; z-index: 200; }
   .nav-dropdown.open .nav-dropdown-menu { display: block; }
   .nav-dropdown-menu a { display: block; padding: 10px 20px; color: var(--text-muted); font-size: 0.83rem; text-decoration: none; transition: background 0.15s, color 0.15s; cursor: pointer; }
   .nav-dropdown-menu a:hover { background: var(--surface2); color: var(--ice); }
   .nav-dropdown-menu a::before { content: '→ '; color: var(--ice-dim); font-family: var(--mono); font-size: 0.7rem; }
 
-  /* Hero */
   .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 5% 80px; z-index: 1; overflow: hidden; }
   .hero::after { content: ''; position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; background: radial-gradient(ellipse, rgba(91,200,245,0.10) 0%, transparent 70%); pointer-events: none; animation: pulse 6s ease-in-out infinite; }
   @keyframes pulse { 0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); } 50% { opacity: 1; transform: translateX(-50%) scale(1.08); } }
@@ -153,9 +149,8 @@
   .footer-bottom p { font-size: 0.78rem; color: var(--text-dim); font-family: var(--mono); }
   .footer-bottom span { color: var(--ice); }
 
-  /* Scanner */
   .scanner-tabs { display: flex; gap: 0; margin-bottom: 0; flex-wrap: wrap; }
-  .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 22px; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
+  .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 18px; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
   .scanner-tab:first-child { border-radius: 4px 0 0 0; }
   .scanner-tab:last-child { border-radius: 0 4px 0 0; }
   .scanner-tab.active { background: var(--surface2); color: var(--ice); border-color: var(--ice-dim); }
@@ -196,7 +191,6 @@
   .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; }
   .result-link:hover { text-decoration: underline; }
 
-  /* Popup */
   .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .popup-overlay.open { display: flex; }
   .popup-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; }
@@ -212,21 +206,18 @@
   .popup-body code { font-family: var(--mono); font-size: 0.78rem; background: var(--bg); padding: 2px 6px; border-radius: 3px; color: var(--ice); }
   .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--safe); box-shadow: 0 0 6px var(--safe); margin-right: 8px; }
 
-  /* Mobile */
   .mobile-menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 1.1rem; }
-  .mobile-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(9,13,19,0.98); border-bottom: 1px solid var(--border); padding: 20px; z-index: 99; flex-direction: column; gap: 4px; }
+  .mobile-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(9,13,19,0.98); border-bottom: 1px solid var(--border); padding: 20px; z-index: 99; flex-direction: column; gap: 4px; max-height: calc(100vh - 64px); overflow-y: auto; }
   .mobile-nav.open { display: flex; }
-  .mobile-nav a, .mobile-nav-label { color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--border); display: block; cursor: pointer; }
+  .mobile-nav a { color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--border); display: block; cursor: pointer; }
   .mobile-nav a:hover { color: var(--ice); }
-
-  /* Mobile Tools Accordion */
   .mobile-tools-toggle { color: var(--text-muted); font-size: 1rem; font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
   .mobile-tools-toggle:hover { color: var(--ice); }
   .mobile-tools-toggle .arrow { font-size: 0.7rem; transition: transform 0.2s; }
   .mobile-tools-toggle.open .arrow { transform: rotate(180deg); }
   .mobile-tools-sub { display: none; flex-direction: column; background: var(--surface); border-radius: 4px; margin: 4px 0 8px; overflow: hidden; }
   .mobile-tools-sub.open { display: flex; }
-  .mobile-tools-sub a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; padding: 10px 16px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .mobile-tools-sub a { color: var(--text-muted); font-size: 0.9rem; padding: 10px 16px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 8px; }
   .mobile-tools-sub a:last-child { border-bottom: none; }
   .mobile-tools-sub a:hover { color: var(--ice); background: var(--surface2); }
   .mobile-tools-sub a::before { content: '→'; color: var(--ice-dim); font-family: var(--mono); font-size: 0.7rem; }
@@ -241,7 +232,7 @@
     .how-step { border-right: none; border-bottom: 1px solid var(--border); }
     .how-step:last-child { border-bottom: none; }
     .footer-top { flex-direction: column; }
-    .scanner-tab { padding: 10px 14px; font-size: 0.78rem; }
+    .scanner-tab { padding: 10px 12px; font-size: 0.75rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -278,6 +269,7 @@
         <a onclick="goToScanner('file')">File Scanner</a>
         <a onclick="goToScanner('phone')">Phone Scanner</a>
         <a onclick="goToScanner('email')">Email Scanner</a>
+        <a onclick="goToScanner('download')">PC Scanner</a>
       </div>
     </li>
     <li><a href="pricing.html">Pricing</a></li>
@@ -287,7 +279,6 @@
       <a href="#" onclick="signOut(); return false;" style="color:var(--text-muted);font-size:0.82rem;margin-left:12px;">Sign Out</a>
     </li>
   </ul>
-
   <button class="mobile-menu-btn" onclick="toggleMobileNav()">☰</button>
 </nav>
 
@@ -295,7 +286,6 @@
 <div class="mobile-nav" id="mobileNav">
   <a href="#services" onclick="closeMobileNav()">Services</a>
   <a href="#how" onclick="closeMobileNav()">How It Works</a>
-
   <div class="mobile-tools-toggle" id="mobileToolsToggle" onclick="toggleMobileTools()">
     Tools <span class="arrow">▾</span>
   </div>
@@ -304,8 +294,8 @@
     <a onclick="goToScanner('file');closeMobileNav()">File Scanner</a>
     <a onclick="goToScanner('phone');closeMobileNav()">Phone Scanner</a>
     <a onclick="goToScanner('email');closeMobileNav()">Email Scanner</a>
+    <a onclick="goToScanner('download');closeMobileNav()">PC Scanner</a>
   </div>
-
   <a href="pricing.html" onclick="closeMobileNav()">Pricing</a>
   <a href="#" id="mobileAuthBtn" class="mobile-nav-auth" onclick="openAuth('login'); closeMobileNav(); return false;">Log In</a>
   <div id="mobileUserMenu" style="display:none;">
@@ -317,26 +307,15 @@
 <script>
 function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
 function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
-
 function toggleMobileTools() {
-  const toggle = document.getElementById('mobileToolsToggle');
-  const sub = document.getElementById('mobileToolsSub');
-  toggle.classList.toggle('open');
-  sub.classList.toggle('open');
+  document.getElementById('mobileToolsToggle').classList.toggle('open');
+  document.getElementById('mobileToolsSub').classList.toggle('open');
 }
-
-function toggleToolsDropdown() {
-  document.getElementById('navToolsDropdown').classList.toggle('open');
-}
-
-// Close dropdown when clicking outside
+function toggleToolsDropdown() { document.getElementById('navToolsDropdown').classList.toggle('open'); }
 document.addEventListener('click', function(e) {
   const dropdown = document.getElementById('navToolsDropdown');
-  if (dropdown && !dropdown.contains(e.target)) {
-    dropdown.classList.remove('open');
-  }
+  if (dropdown && !dropdown.contains(e.target)) dropdown.classList.remove('open');
 });
-
 function goToScanner(tab) {
   switchTab(tab);
   document.getElementById('scanner').scrollIntoView({ behavior: 'smooth' });
@@ -373,34 +352,13 @@ function goToScanner(tab) {
 
 <script>
 const popupContent = {
-  about: {
-    title: 'About PolarGuarded',
-    body: `<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, or checking an email address, PolarGuarded gives you the same threat intelligence used by security professionals.</p><h3>Our Stack</h3><p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p><h3>Built in Canada 🇨🇦</h3><p>PolarGuarded is proudly built and operated in Canada. Your data stays in Canada and is never sold to third parties. Ever.</p>`
-  },
-  contact: {
-    title: 'Contact Us',
-    body: `<p>We'd love to hear from you — whether it's a question, a bug report, or a partnership inquiry.</p><h3>Email</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p><h3>Response Time</h3><p>We typically respond within 24–48 hours on business days.</p><h3>Bug Reports</h3><p>Found a bug or security issue? Please email us directly with details and we'll prioritize it immediately.</p><h3>Business Inquiries</h3><p>Interested in a custom plan or API partnership? Reach out and we'll set up a call.</p>`
-  },
-  privacy: {
-    title: 'Privacy Policy',
-    body: `<h3>Data We Collect</h3><p>We collect your email address when you create an account, and we store your scan history if you are a Pro or Business subscriber.</p><h3>Data We Don't Collect</h3><p>We do not collect your name, phone number, payment card details (handled by Stripe), or any personally identifiable information beyond your email.</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p><h3>Scan Data</h3><p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. Please review their respective privacy policies for details on how they handle submitted data.</p><h3>Cookies</h3><p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p><h3>Contact</h3><p>For privacy concerns, email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>`
-  },
-  terms: {
-    title: 'Terms of Use',
-    body: `<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms. If you do not agree, please discontinue use of the service.</p><h3>Permitted Use</h3><p>PolarGuarded is intended for lawful cybersecurity purposes only. You may not use our tools to scan systems or content you do not own or have explicit permission to scan.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 scans per day. Abuse of the free tier may result in account suspension.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis. We do not guarantee that all threats will be detected. Do not rely solely on PolarGuarded for critical security decisions.</p><h3>Limitation of Liability</h3><p>PolarGuarded is not liable for any damages arising from use or inability to use the service, including any undetected threats.</p><h3>Changes</h3><p>We may update these terms at any time. Continued use of the service constitutes acceptance of the updated terms.</p><h3>Contact</h3><p>Questions? Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>`
-  },
-  api: {
-    title: 'API Documentation',
-    body: `<h3>Overview</h3><p>The PolarGuarded API is available to Business plan subscribers. It allows you to integrate our threat scanning capabilities directly into your own applications.</p><h3>URL Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "url": "https://example.com" }</code></p><h3>File Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p><h3>Phone Scan</h3><p>GET: <code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p><h3>Email Scan</h3><p>GET: <code>https://polarguarded-email.liamstevenmatyas.workers.dev?email=test@example.com</code></p><h3>Rate Limits</h3><p>Business plan: 1,000 API calls per day. Contact us for higher limits.</p><h3>Get Access</h3><p>Subscribe to the Business plan or email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a> for API access.</p>`
-  },
-  status: {
-    title: 'System Status',
-    body: `<h3>All Systems Operational</h3><p><span class="status-dot"></span>URL Scanner — Operational</p><p><span class="status-dot"></span>File Scanner — Operational</p><p><span class="status-dot"></span>Phone Scanner — Operational</p><p><span class="status-dot"></span>Email Scanner — Operational</p><p><span class="status-dot"></span>Authentication — Operational</p><p><span class="status-dot"></span>Payment Processing — Operational</p><h3>Upcoming</h3><p>VPN service is currently in development and will be available soon for Pro and Business subscribers.</p><h3>Incidents</h3><p>No incidents reported in the last 30 days.</p><h3>Questions?</h3><p>Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p>`
-  },
-  blog: {
-    title: 'Blog',
-    body: `<p>Our blog is coming soon! We'll be publishing guides, threat reports, and cybersecurity tips for Canadians.</p><h3>Topics We'll Cover</h3><p>— How to spot phishing emails</p><p>— The rise of phone scams in Canada</p><p>— Why VPNs matter for remote workers</p><p>— How to keep your devices secure</p><h3>Stay Updated</h3><p>Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a> to be notified when we publish our first post.</p>`
-  }
+  about: { title: 'About PolarGuarded', body: `<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, checking an email address, or scanning your PC — PolarGuarded gives you the same threat intelligence used by security professionals.</p><h3>Our Stack</h3><p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p><h3>Built in Canada 🇨🇦</h3><p>PolarGuarded is proudly built and operated in Canada. Your data stays in Canada and is never sold to third parties. Ever.</p>` },
+  contact: { title: 'Contact Us', body: `<p>We'd love to hear from you — whether it's a question, a bug report, or a partnership inquiry.</p><h3>Email</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p><h3>Response Time</h3><p>We typically respond within 24–48 hours on business days.</p><h3>Bug Reports</h3><p>Found a bug or security issue? Please email us directly with details and we'll prioritize it immediately.</p><h3>Business Inquiries</h3><p>Interested in a custom plan or API partnership? Reach out and we'll set up a call.</p>` },
+  privacy: { title: 'Privacy Policy', body: `<h3>Data We Collect</h3><p>We collect your email address when you create an account, and we store your scan history if you are a Pro or Business subscriber.</p><h3>Data We Don't Collect</h3><p>We do not collect your name, phone number, payment card details (handled by Stripe), or any personally identifiable information beyond your email.</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p><h3>Scan Data</h3><p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. The PC Scanner runs entirely locally — no data is sent to our servers.</p><h3>Cookies</h3><p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p><h3>Contact</h3><p>For privacy concerns, email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
+  terms: { title: 'Terms of Use', body: `<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms. If you do not agree, please discontinue use of the service.</p><h3>Permitted Use</h3><p>PolarGuarded is intended for lawful cybersecurity purposes only. You may not use our tools to scan systems or content you do not own or have explicit permission to scan.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 online scans per day. The PC Scanner download is unlimited for all users.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis. We do not guarantee that all threats will be detected.</p><h3>Limitation of Liability</h3><p>PolarGuarded is not liable for any damages arising from use or inability to use the service.</p><h3>Changes</h3><p>We may update these terms at any time. Continued use constitutes acceptance.</p><h3>Contact</h3><p>Questions? Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
+  api: { title: 'API Documentation', body: `<h3>Overview</h3><p>The PolarGuarded API is available to Business plan subscribers.</p><h3>URL Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "url": "https://example.com" }</code></p><h3>File Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p><h3>Phone Scan</h3><p>GET: <code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p><h3>Email Scan</h3><p>GET: <code>https://polarguarded-email.liamstevenmatyas.workers.dev?email=test@example.com</code></p><h3>Rate Limits</h3><p>Business plan: 1,000 API calls per day.</p><h3>Get Access</h3><p>Subscribe to the Business plan or email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p>` },
+  status: { title: 'System Status', body: `<h3>All Systems Operational</h3><p><span class="status-dot"></span>URL Scanner — Operational</p><p><span class="status-dot"></span>File Scanner — Operational</p><p><span class="status-dot"></span>Phone Scanner — Operational</p><p><span class="status-dot"></span>Email Scanner — Operational</p><p><span class="status-dot"></span>PC Scanner Download — Operational</p><p><span class="status-dot"></span>Authentication — Operational</p><p><span class="status-dot"></span>Payment Processing — Operational</p><h3>Upcoming</h3><p>VPN service is currently in development and will be available soon for Pro and Business subscribers.</p><h3>Incidents</h3><p>No incidents reported in the last 30 days.</p>` },
+  blog: { title: 'Blog', body: `<p>Our blog is coming soon! We'll be publishing guides, threat reports, and cybersecurity tips for Canadians.</p><h3>Topics We'll Cover</h3><p>— How to spot phishing emails</p><p>— The rise of phone scams in Canada</p><p>— Why VPNs matter for remote workers</p><p>— How to keep your Windows PC secure</p><h3>Stay Updated</h3><p>Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a> to be notified when we publish our first post.</p>` }
 };
 
 function openPopup(key) {
@@ -411,7 +369,6 @@ function openPopup(key) {
   document.getElementById('popupOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
 function closePopup() {
   document.getElementById('popupOverlay').classList.remove('open');
   document.body.style.overflow = '';
@@ -482,16 +439,13 @@ async function submitAuth() {
   const tab = document.getElementById('authSubmitBtn').dataset.tab || 'login';
   const btn = document.getElementById('authSubmitBtn');
   if (!email || !password) { showAuthMsg('Please enter email and password.', true); return; }
-  btn.disabled = true;
-  btn.textContent = 'Please wait...';
+  btn.disabled = true; btn.textContent = 'Please wait...';
   if (tab === 'signup') {
     const { error } = await supabaseClient.auth.signUp({ email, password });
-    if (error) { showAuthMsg(error.message, true); }
-    else { showAuthMsg('Account created! Check your email to confirm.', false); }
+    if (error) { showAuthMsg(error.message, true); } else { showAuthMsg('Account created! Check your email to confirm.', false); }
   } else {
     const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) { showAuthMsg('Invalid email or password.', true); }
-    else { closeAuth(); }
+    if (error) { showAuthMsg('Invalid email or password.', true); } else { closeAuth(); }
   }
   btn.disabled = false;
   btn.textContent = tab === 'login' ? 'Log In' : 'Create Account';
@@ -546,15 +500,18 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
 <div id="scanner">
   <div class="section" style="padding-bottom: 0;">
     <div class="section-label">Free Tools</div>
-    <h2 class="section-title">Scan URLs, files, phones & emails.</h2>
-    <p class="section-sub">Check suspicious links, files, phone numbers, and email addresses against real threat intelligence in real time.</p>
+    <h2 class="section-title">Scan URLs, files, phones, emails & your PC.</h2>
+    <p class="section-sub">Real threat intelligence across all your attack surfaces — online and on your device.</p>
     <div class="scanner-tabs">
       <button class="scanner-tab active" onclick="switchTab('url')">URL Scanner</button>
       <button class="scanner-tab" onclick="switchTab('file')">File Scanner</button>
       <button class="scanner-tab" onclick="switchTab('phone')">Phone Scanner</button>
       <button class="scanner-tab" onclick="switchTab('email')">Email Scanner</button>
+      <button class="scanner-tab" onclick="switchTab('download')">PC Scanner</button>
     </div>
     <div class="scanner-box">
+
+      <!-- URL Tab -->
       <div id="tab-url">
         <div class="scanner-input-row">
           <input type="text" id="urlInput" class="scanner-input" placeholder="https://suspicious-link.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -563,6 +520,8 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="scannerStatus" class="scanner-status" style="display:none;"></div>
         <div id="scannerResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- File Tab -->
       <div id="tab-file" style="display:none;">
         <div class="file-drop-zone" id="fileDropZone" onclick="document.getElementById('fileInput').click()">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ice);margin-bottom:12px;">
@@ -581,6 +540,8 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="fileStatus" class="scanner-status" style="display:none;"></div>
         <div id="fileResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- Phone Tab -->
       <div id="tab-phone" style="display:none;">
         <div class="scanner-input-row">
           <input type="tel" id="phoneInput" class="scanner-input" placeholder="+1 613 555 0123" autocomplete="off" />
@@ -590,6 +551,8 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="phoneStatus" class="scanner-status" style="display:none;"></div>
         <div id="phoneResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- Email Tab -->
       <div id="tab-email" style="display:none;">
         <div class="scanner-input-row">
           <input type="email" id="emailInput" class="scanner-input" placeholder="suspicious@example.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -599,6 +562,44 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="emailStatus" class="scanner-status" style="display:none;"></div>
         <div id="emailResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- PC Scanner Download Tab -->
+      <div id="tab-download" style="display:none;">
+        <div style="text-align:center;padding:40px 20px;">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="#5bc8f5" stroke-width="1.5" style="margin-bottom:20px;">
+            <rect x="4" y="8" width="48" height="34" rx="3"/>
+            <path d="M18 42 L38 42M28 42 L28 48M20 48 L36 48"/>
+            <path d="M28 18 L28 30M22 26 L28 32 L34 26"/>
+          </svg>
+          <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:12px;">PolarGuarded PC Scanner</h3>
+          <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">
+            Download our free Windows security scanner. It performs 12 deep security checks on your PC and generates a full branded HTML report saved directly to your desktop. Free for everyone — no account needed.
+          </p>
+          <a href="PolarGuarded-Scan.ps1" download style="display:inline-block;background:var(--ice);color:var(--bg);padding:14px 36px;border-radius:4px;font-weight:700;font-size:0.95rem;letter-spacing:0.04em;text-decoration:none;margin-bottom:28px;">↓ Download Free PC Scanner</a>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px 24px;max-width:480px;margin:0 auto 24px;text-align:left;">
+            <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:14px;text-transform:uppercase;">How To Run</div>
+            <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">
+              1. Download the file above<br>
+              2. Right-click the <strong style="color:var(--text);">.ps1</strong> file<br>
+              3. Select <strong style="color:var(--text);">Run with PowerShell</strong><br>
+              4. Allow it to run if Windows prompts you<br>
+              5. Your full report opens automatically on your desktop
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;max-width:560px;margin:0 auto;">
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>Windows 10 & 11</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>12 security checks</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>No data sent to servers</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>Free for everyone</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>HTML report on desktop</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px;font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);font-size:1rem;">✓</span>No account needed</div>
+          </div>
+          <div style="margin-top:28px;padding:20px;background:rgba(91,200,245,0.05);border:1px solid var(--ice-dim);border-radius:4px;max-width:480px;margin:28px auto 0;">
+            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Windows Defender · Firewall · Pending Updates · Open Ports · BitLocker Encryption · Guest Account · UAC · Password Policy · Startup Programs · Suspicious Processes · Shared Folders · Remote Desktop</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -667,11 +668,11 @@ function showScanCounter() {
 }
 
 function switchTab(tab) {
-  ['url','file','phone','email'].forEach(t => {
+  ['url','file','phone','email','download'].forEach(t => {
     document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
   });
   document.querySelectorAll('.scanner-tab').forEach((t, i) => {
-    t.classList.toggle('active', ['url','file','phone','email'][i] === tab);
+    t.classList.toggle('active', ['url','file','phone','email','download'][i] === tab);
   });
 }
 
@@ -843,19 +844,19 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="22" cy="22" r="18"/><path d="M22 10 L22 22 L30 28"/><circle cx="22" cy="22" r="4" fill="currentColor" opacity="0.2"/></svg>
         <div class="service-name">Malware Scanner</div>
-        <p class="service-desc">Powered by ClamAV and VirusTotal — upload a file or enter a path and get an instant threat report against 2.4M+ known malware signatures.</p>
+        <p class="service-desc">Powered by ClamAV and VirusTotal — upload a file and get an instant threat report against 2.4M+ known malware signatures.</p>
         <span class="service-tag tag-live">Live</span>
       </div>
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="14" width="28" height="18" rx="2"/><path d="M14 14 L14 10 L30 10 L30 14"/><line x1="15" y1="21" x2="29" y2="21"/><line x1="15" y1="26" x2="22" y2="26"/></svg>
         <div class="service-name">Phishing & Scam Detector</div>
-        <p class="service-desc">Paste any URL or email link. PolarGuarded checks it against PhishTank, Google Safe Browsing, and our own Canadian scam database in real time.</p>
+        <p class="service-desc">Paste any URL or email link. PolarGuarded checks it against PhishTank, Google Safe Browsing, and our Canadian scam database in real time.</p>
         <span class="service-tag tag-live">Live</span>
       </div>
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8 C16 8 10 12 10 20 C10 28 16 36 22 36 C28 36 34 28 34 20 C34 12 28 8 28 8"/><rect x="17" y="18" width="10" height="14" rx="2"/><circle cx="22" cy="16" r="3"/></svg>
         <div class="service-name">Phone Scam Detector</div>
-        <p class="service-desc">Enter any phone number and instantly check its fraud score, carrier, line type, and whether it has been flagged as a scammer or spam caller.</p>
+        <p class="service-desc">Enter any phone number and instantly check its fraud score, carrier, line type, and whether it has been flagged as a scammer.</p>
         <span class="service-tag tag-live">Live</span>
       </div>
       <div class="service-card">
@@ -863,6 +864,12 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <div class="service-name">Email Risk Scanner</div>
         <p class="service-desc">Check any email address for fraud risk, disposable accounts, spam traps, data breach history, and domain reputation in seconds.</p>
         <span class="service-tag tag-live">Live</span>
+      </div>
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="8" width="36" height="26" rx="3"/><path d="M14 34 L30 34M22 34 L22 38M16 38 L28 38"/><path d="M22 14 L22 24M18 21 L22 25 L26 21"/></svg>
+        <div class="service-name">PC Security Scanner</div>
+        <p class="service-desc">Download our free Windows scanner. Checks 12 critical security settings on your PC and generates a full report on your desktop. Free for everyone.</p>
+        <span class="service-tag tag-live">Free Download</span>
       </div>
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 6 L36 13 L36 24 C36 31 29 37 22 39 C15 37 8 31 8 24 L8 13 Z"/><path d="M17 22 L20 25 L27 18" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -881,10 +888,10 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     <h2 class="section-title">Scan in seconds.</h2>
     <p class="section-sub">No installs required for basic scans. Create a free account to unlock scheduled scans and history.</p>
     <div class="how-steps">
-      <div class="how-step"><div class="step-num">STEP 01</div><div class="step-title">Drop a file or URL</div><p class="step-desc">Paste a suspicious link, upload a file, or point PolarGuarded at your device for a full system scan.</p></div>
+      <div class="how-step"><div class="step-num">STEP 01</div><div class="step-title">Drop a file or URL</div><p class="step-desc">Paste a suspicious link, upload a file, or download the PC scanner to run a full device check.</p></div>
       <div class="how-step"><div class="step-num">STEP 02</div><div class="step-title">We run the engines</div><p class="step-desc">ClamAV, VirusTotal, PhishTank, and Google Safe Browsing all check simultaneously against their databases.</p></div>
       <div class="how-step"><div class="step-num">STEP 03</div><div class="step-title">Get a clear result</div><p class="step-desc">Clean or threat — no jargon. If something's found, we tell you exactly what it is and what to do next.</p></div>
-      <div class="how-step"><div class="step-num">STEP 04</div><div class="step-title">Stay protected</div><p class="step-desc">Pro users get real-time monitoring, scheduled scans, and VPN access to stay covered around the clock.</p></div>
+      <div class="how-step"><div class="step-num">STEP 04</div><div class="step-title">Stay protected</div><p class="step-desc">Pro users get unlimited online scans and VPN access to stay covered around the clock.</p></div>
     </div>
   </div>
 </div>
@@ -905,8 +912,8 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
           <li>File malware scan (up to 32MB)</li>
           <li>Phone scam checker</li>
           <li>Email risk checker</li>
-          <li>10 scans per day</li>
-          <li class="muted">No device audit</li>
+          <li>PC Scanner download</li>
+          <li>10 online scans per day</li>
           <li class="muted">No VPN access</li>
           <li class="muted">No scan history</li>
         </ul>
@@ -918,10 +925,10 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <p class="plan-desc">Full protection for individuals and families.</p>
         <ul class="plan-features">
           <li>Unlimited URL, file, phone & email scans</li>
-          <li>Full device vulnerability audit</li>
-          <li>Scheduled weekly scans</li>
+          <li>PC Scanner download</li>
           <li>Scan history & reports</li>
           <li>PolarGuarded VPN included</li>
+          <li>Priority support</li>
           <li class="muted">No team dashboard</li>
         </ul>
         <a href="https://buy.stripe.com/9B63co3PG9cCbB20PD8Zq00" class="plan-btn primary-btn" target="_blank" rel="noopener">Get Pro</a>
@@ -959,6 +966,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
           <li><a onclick="goToScanner('file')">File Scanner</a></li>
           <li><a onclick="goToScanner('phone')">Phone Scanner</a></li>
           <li><a onclick="goToScanner('email')">Email Scanner</a></li>
+          <li><a onclick="goToScanner('download')">PC Scanner</a></li>
           <li><a onclick="return false;">VPN (Soon)</a></li>
         </ul>
       </div>
