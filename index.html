@@ -139,9 +139,8 @@
   .footer-bottom p { font-size: 0.78rem; color: var(--text-dim); font-family: var(--mono); }
   .footer-bottom span { color: var(--ice); }
 
-  /* Scanner */
-  .scanner-tabs { display: flex; gap: 0; margin-bottom: 0; }
-  .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 28px; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
+  .scanner-tabs { display: flex; gap: 0; margin-bottom: 0; flex-wrap: wrap; }
+  .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 22px; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
   .scanner-tab:first-child { border-radius: 4px 0 0 0; }
   .scanner-tab:last-child { border-radius: 0 4px 0 0; }
   .scanner-tab.active { background: var(--surface2); color: var(--ice); border-color: var(--ice-dim); }
@@ -182,7 +181,6 @@
   .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; }
   .result-link:hover { text-decoration: underline; }
 
-  /* Footer Popup Modal */
   .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .popup-overlay.open { display: flex; }
   .popup-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; }
@@ -211,6 +209,7 @@
     .how-step { border-right: none; border-bottom: 1px solid var(--border); }
     .how-step:last-child { border-bottom: none; }
     .footer-top { flex-direction: column; }
+    .scanner-tab { padding: 10px 14px; font-size: 0.78rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -249,7 +248,6 @@
   <button class="mobile-menu-btn" onclick="toggleMobileNav()" style="display:none;background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 12px;border-radius:4px;cursor:pointer;font-size:1.1rem;">☰</button>
 </nav>
 
-<!-- Mobile nav -->
 <div class="mobile-nav" id="mobileNav">
   <a href="#services" onclick="closeMobileNav()">Services</a>
   <a href="#how" onclick="closeMobileNav()">How It Works</a>
@@ -300,7 +298,7 @@ const popupContent = {
     body: `
       <p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p>
       <h3>Our Mission</h3>
-      <p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, or verifying a phone number, PolarGuarded gives you the same threat intelligence used by security professionals.</p>
+      <p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, or checking an email address, PolarGuarded gives you the same threat intelligence used by security professionals.</p>
       <h3>Our Stack</h3>
       <p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p>
       <h3>Built in Canada 🇨🇦</h3>
@@ -331,7 +329,7 @@ const popupContent = {
       <h3>How We Use Your Data</h3>
       <p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p>
       <h3>Scan Data</h3>
-      <p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers are sent to IPQS. Please review their respective privacy policies for details on how they handle submitted data.</p>
+      <p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. Please review their respective privacy policies for details on how they handle submitted data.</p>
       <h3>Cookies</h3>
       <p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p>
       <h3>Contact</h3>
@@ -364,17 +362,16 @@ const popupContent = {
     body: `
       <h3>Overview</h3>
       <p>The PolarGuarded API is available to Business plan subscribers. It allows you to integrate our threat scanning capabilities directly into your own applications.</p>
-      <h3>Base URL</h3>
-      <p><code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p>
       <h3>URL Scan</h3>
-      <p>POST request with JSON body:</p>
-      <p><code>{ "url": "https://example.com" }</code></p>
+      <p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p>
+      <p>Body: <code>{ "url": "https://example.com" }</code></p>
       <h3>File Scan</h3>
-      <p>POST request with JSON body:</p>
-      <p><code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p>
+      <p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p>
+      <p>Body: <code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p>
       <h3>Phone Scan</h3>
-      <p>GET request:</p>
-      <p><code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p>
+      <p>GET: <code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p>
+      <h3>Email Scan</h3>
+      <p>GET: <code>https://polarguarded-email.liamstevenmatyas.workers.dev?email=test@example.com</code></p>
       <h3>Rate Limits</h3>
       <p>Business plan: 1,000 API calls per day. Contact us for higher limits.</p>
       <h3>Get Access</h3>
@@ -388,6 +385,7 @@ const popupContent = {
       <p><span class="status-dot"></span>URL Scanner — Operational</p>
       <p><span class="status-dot"></span>File Scanner — Operational</p>
       <p><span class="status-dot"></span>Phone Scanner — Operational</p>
+      <p><span class="status-dot"></span>Email Scanner — Operational</p>
       <p><span class="status-dot"></span>Authentication — Operational</p>
       <p><span class="status-dot"></span>Payment Processing — Operational</p>
       <h3>Upcoming</h3>
@@ -556,14 +554,17 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
 <div id="scanner">
   <div class="section" style="padding-bottom: 0;">
     <div class="section-label">Free Tools</div>
-    <h2 class="section-title">Scan URLs, files & phone numbers.</h2>
-    <p class="section-sub">Check suspicious links, files, and phone numbers against real threat intelligence in real time.</p>
+    <h2 class="section-title">Scan URLs, files, phones & emails.</h2>
+    <p class="section-sub">Check suspicious links, files, phone numbers, and email addresses against real threat intelligence in real time.</p>
     <div class="scanner-tabs">
       <button class="scanner-tab active" onclick="switchTab('url')">URL Scanner</button>
       <button class="scanner-tab" onclick="switchTab('file')">File Scanner</button>
       <button class="scanner-tab" onclick="switchTab('phone')">Phone Scanner</button>
+      <button class="scanner-tab" onclick="switchTab('email')">Email Scanner</button>
     </div>
     <div class="scanner-box">
+
+      <!-- URL Tab -->
       <div id="tab-url">
         <div class="scanner-input-row">
           <input type="text" id="urlInput" class="scanner-input" placeholder="https://suspicious-link.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -572,6 +573,8 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="scannerStatus" class="scanner-status" style="display:none;"></div>
         <div id="scannerResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- File Tab -->
       <div id="tab-file" style="display:none;">
         <div class="file-drop-zone" id="fileDropZone" onclick="document.getElementById('fileInput').click()">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ice);margin-bottom:12px;">
@@ -590,6 +593,8 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="fileStatus" class="scanner-status" style="display:none;"></div>
         <div id="fileResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- Phone Tab -->
       <div id="tab-phone" style="display:none;">
         <div class="scanner-input-row">
           <input type="tel" id="phoneInput" class="scanner-input" placeholder="+1 613 555 0123" autocomplete="off" />
@@ -599,6 +604,18 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="phoneStatus" class="scanner-status" style="display:none;"></div>
         <div id="phoneResult" class="scanner-result" style="display:none;"></div>
       </div>
+
+      <!-- Email Tab -->
+      <div id="tab-email" style="display:none;">
+        <div class="scanner-input-row">
+          <input type="email" id="emailInput" class="scanner-input" placeholder="suspicious@example.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          <button class="scanner-btn" onclick="scanEmail()">Scan</button>
+        </div>
+        <p style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-top:10px;letter-spacing:0.05em;">Check any email address for fraud, spam traps, and reputation risk</p>
+        <div id="emailStatus" class="scanner-status" style="display:none;"></div>
+        <div id="emailResult" class="scanner-result" style="display:none;"></div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -672,11 +689,11 @@ function showScanCounter() {
 }
 
 function switchTab(tab) {
-  document.getElementById('tab-url').style.display = tab === 'url' ? 'block' : 'none';
-  document.getElementById('tab-file').style.display = tab === 'file' ? 'block' : 'none';
-  document.getElementById('tab-phone').style.display = tab === 'phone' ? 'block' : 'none';
+  ['url','file','phone','email'].forEach(t => {
+    document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
+  });
   document.querySelectorAll('.scanner-tab').forEach((t, i) => {
-    t.classList.toggle('active', (tab === 'url' && i === 0) || (tab === 'file' && i === 1) || (tab === 'phone' && i === 2));
+    t.classList.toggle('active', ['url','file','phone','email'][i] === tab);
   });
 }
 
@@ -699,9 +716,7 @@ async function scanFile() {
   const result = document.getElementById('fileResult');
   const btn = document.getElementById('fileScanBtn');
   if (!checkScanLimit(status, result)) { btn.disabled = false; return; }
-  btn.disabled = true;
-  result.style.display = 'none';
-  status.style.display = 'flex';
+  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
   status.textContent = 'UPLOADING FILE TO THREAT DATABASES...';
   try {
     const base64 = await new Promise((resolve, reject) => {
@@ -748,7 +763,8 @@ async function scanURL() {
   if (!checkScanLimit(status, result)) return;
   let url = input;
   if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
-  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex'; status.textContent = 'SUBMITTING URL TO THREAT DATABASES...';
+  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
+  status.textContent = 'SUBMITTING URL TO THREAT DATABASES...';
   try {
     const urlId = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
     const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
@@ -786,10 +802,10 @@ async function scanPhone() {
   const btn = document.querySelector('#tab-phone .scanner-btn');
   if (!input) return;
   if (!checkScanLimit(status, result)) return;
-  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex'; status.textContent = 'LOOKING UP PHONE NUMBER...';
+  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
+  status.textContent = 'LOOKING UP PHONE NUMBER...';
   try {
-    const phone = encodeURIComponent(input);
-    const res = await fetch(`https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=${phone}`);
+    const res = await fetch(`https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=${encodeURIComponent(input)}`);
     const data = await res.json();
     if (!data.valid) {
       result.innerHTML = `<div class="result-header threat">⚠ Invalid Phone Number</div><div class="result-body"><p style="color:var(--text-muted)">This number could not be validated. Check the format and try again (e.g. +16135550123).</p></div>`;
@@ -800,8 +816,55 @@ async function scanPhone() {
     const isSuspicious = fraud >= 40 && fraud < 75;
     const headerClass = isRisky ? 'threat' : isSuspicious ? 'threat' : 'clean';
     const headerText = isRisky ? `⚠ High Risk — Fraud Score ${fraud}/100` : isSuspicious ? `⚠ Suspicious — Fraud Score ${fraud}/100` : `✓ Low Risk — Fraud Score ${fraud}/100`;
-    const lineType = data.line_type || 'Unknown'; const carrier = data.carrier || 'Unknown'; const country = data.country || 'Unknown'; const region = data.region || '';
-    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${input}</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${isRisky ? 'red' : isSuspicious ? 'red' : 'green'}">${fraud}</div><div class="result-stat-label">Fraud Score</div></div><div class="result-stat"><div class="result-stat-num muted">${lineType}</div><div class="result-stat-label">Line Type</div></div></div><div style="display:grid;gap:8px;margin-top:8px;"><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Carrier</span><span style="color:var(--text);font-family:var(--mono)">${carrier}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Location</span><span style="color:var(--text);font-family:var(--mono)">${region ? region + ', ' : ''}${country}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>VoIP Number</span><span style="color:${data.VOIP ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.VOIP ? '⚠ Yes — common in scam calls' : 'No'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Spam Reports</span><span style="color:${data.spammer ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.spammer ? '⚠ Reported spammer' : 'Not reported'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;"><span>Recent Abuse</span><span style="color:${data.recent_abuse ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.recent_abuse ? '⚠ Yes' : 'No'}</span></div></div></div>`;
+    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${input}</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${isRisky ? 'red' : isSuspicious ? 'red' : 'green'}">${fraud}</div><div class="result-stat-label">Fraud Score</div></div><div class="result-stat"><div class="result-stat-num muted">${data.line_type || 'Unknown'}</div><div class="result-stat-label">Line Type</div></div></div><div style="display:grid;gap:8px;margin-top:8px;"><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Carrier</span><span style="color:var(--text);font-family:var(--mono)">${data.carrier || 'Unknown'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Location</span><span style="color:var(--text);font-family:var(--mono)">${data.region ? data.region + ', ' : ''}${data.country || 'Unknown'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>VoIP Number</span><span style="color:${data.VOIP ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.VOIP ? '⚠ Yes — common in scam calls' : 'No'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Spam Reports</span><span style="color:${data.spammer ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.spammer ? '⚠ Reported spammer' : 'Not reported'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;"><span>Recent Abuse</span><span style="color:${data.recent_abuse ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.recent_abuse ? '⚠ Yes' : 'No'}</span></div></div></div>`;
+    status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
+  } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
+  btn.disabled = false;
+}
+
+async function scanEmail() {
+  const input = document.getElementById('emailInput').value.trim();
+  const status = document.getElementById('emailStatus');
+  const result = document.getElementById('emailResult');
+  const btn = document.querySelector('#tab-email .scanner-btn');
+  if (!input) return;
+  if (!checkScanLimit(status, result)) return;
+  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
+  status.textContent = 'CHECKING EMAIL REPUTATION...';
+  try {
+    const res = await fetch(`https://polarguarded-email.liamstevenmatyas.workers.dev?email=${encodeURIComponent(input)}`);
+    const data = await res.json();
+    if (!data.valid) {
+      result.innerHTML = `<div class="result-header threat">⚠ Invalid Email Address</div><div class="result-body"><p style="color:var(--text-muted)">This email address appears to be invalid or undeliverable.</p></div>`;
+      status.style.display = 'none'; result.style.display = 'block'; btn.disabled = false; return;
+    }
+    const fraud = data.fraud_score || 0;
+    const isRisky = fraud >= 75 || data.spam_trap_score === 'high' || data.disposable || data.recent_abuse;
+    const isSuspicious = fraud >= 40 && fraud < 75;
+    const headerClass = isRisky ? 'threat' : isSuspicious ? 'threat' : 'clean';
+    const headerText = isRisky ? `⚠ High Risk — Fraud Score ${fraud}/100` : isSuspicious ? `⚠ Suspicious — Fraud Score ${fraud}/100` : `✓ Low Risk — Fraud Score ${fraud}/100`;
+    const deliverable = data.deliverability || 'Unknown';
+    const disposable = data.disposable ? '⚠ Yes — likely throwaway' : 'No';
+    const spamTrap = data.spam_trap_score === 'high' ? '⚠ High' : data.spam_trap_score === 'medium' ? '⚠ Medium' : 'Low';
+    const recentAbuse = data.recent_abuse ? '⚠ Yes' : 'No';
+    const domainAge = data.domain_age?.human || 'Unknown';
+    const leaked = data.leaked ? '⚠ Found in data breaches' : 'Not found in known breaches';
+    result.innerHTML = `
+      <div class="result-header ${headerClass}">${headerText}</div>
+      <div class="result-body">
+        <div class="result-url">${input}</div>
+        <div class="result-stat-row">
+          <div class="result-stat"><div class="result-stat-num ${isRisky ? 'red' : isSuspicious ? 'red' : 'green'}">${fraud}</div><div class="result-stat-label">Fraud Score</div></div>
+          <div class="result-stat"><div class="result-stat-num muted" style="font-size:1rem;">${deliverable}</div><div class="result-stat-label">Deliverable</div></div>
+        </div>
+        <div style="display:grid;gap:8px;margin-top:8px;">
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Disposable Email</span><span style="color:${data.disposable ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${disposable}</span></div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Spam Trap Score</span><span style="color:${data.spam_trap_score === 'high' ? 'var(--danger)' : data.spam_trap_score === 'medium' ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${spamTrap}</span></div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Recent Abuse</span><span style="color:${data.recent_abuse ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${recentAbuse}</span></div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Domain Age</span><span style="color:var(--text);font-family:var(--mono)">${domainAge}</span></div>
+          <div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;"><span>Data Breaches</span><span style="color:${data.leaked ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${leaked}</span></div>
+        </div>
+      </div>`;
     status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
@@ -809,6 +872,7 @@ async function scanPhone() {
 
 document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanURL(); });
 document.getElementById('phoneInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanPhone(); });
+document.getElementById('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanEmail(); });
 window.addEventListener('load', () => setTimeout(showScanCounter, 500));
 </script>
 
@@ -832,9 +896,15 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <span class="service-tag tag-live">Live</span>
       </div>
       <div class="service-card">
-        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="8" width="24" height="28" rx="2"/><line x1="15" y1="16" x2="29" y2="16"/><line x1="15" y1="21" x2="29" y2="21"/><line x1="15" y1="26" x2="22" y2="26"/><circle cx="32" cy="32" r="6" fill="var(--bg)" stroke="currentColor"/><path d="M29 32 L31 34 L35 30"/></svg>
-        <div class="service-name">Device Vulnerability Audit</div>
-        <p class="service-desc">Run a full Lynis-powered system audit. Discover outdated software, open ports, weak configurations, and known CVEs on your device.</p>
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8 C16 8 10 12 10 20 C10 28 16 36 22 36 C28 36 34 28 34 20 C34 12 28 8 28 8"/><rect x="17" y="18" width="10" height="14" rx="2"/><circle cx="22" cy="16" r="3"/></svg>
+        <div class="service-name">Phone Scam Detector</div>
+        <p class="service-desc">Enter any phone number and instantly check its fraud score, carrier, line type, and whether it has been flagged as a scammer or spam caller.</p>
+        <span class="service-tag tag-live">Live</span>
+      </div>
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="10" width="32" height="24" rx="3"/><path d="M6 16 L22 26 L38 16"/></svg>
+        <div class="service-name">Email Risk Scanner</div>
+        <p class="service-desc">Check any email address for fraud risk, disposable accounts, spam traps, data breach history, and domain reputation in seconds.</p>
         <span class="service-tag tag-live">Live</span>
       </div>
       <div class="service-card">
@@ -842,12 +912,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <div class="service-name">PolarGuarded VPN</div>
         <p class="service-desc">WireGuard-based VPN with Canadian and international exit nodes. Encrypt every byte leaving your device with zero-log policy.</p>
         <span class="service-tag tag-soon">Coming Soon</span>
-      </div>
-      <div class="service-card">
-        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8 C16 8 10 12 10 20 C10 28 16 36 22 36 C28 36 34 28 34 20 C34 12 28 8 28 8"/><rect x="17" y="18" width="10" height="14" rx="2"/><circle cx="22" cy="16" r="3"/></svg>
-        <div class="service-name">Phone Scam Detector</div>
-        <p class="service-desc">Enter any phone number and instantly check its fraud score, carrier, line type, and whether it has been flagged as a scammer or spam caller.</p>
-        <span class="service-tag tag-live">Live</span>
       </div>
     </div>
   </div>
@@ -883,6 +947,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
           <li>URL & phishing scanner</li>
           <li>File malware scan (up to 32MB)</li>
           <li>Phone scam checker</li>
+          <li>Email risk checker</li>
           <li>10 scans per day</li>
           <li class="muted">No device audit</li>
           <li class="muted">No VPN access</li>
@@ -895,7 +960,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <div class="plan-price"><sup>$</sup>9<span>/mo</span></div>
         <p class="plan-desc">Full protection for individuals and families.</p>
         <ul class="plan-features">
-          <li>Unlimited URL, file & phone scans</li>
+          <li>Unlimited URL, file, phone & email scans</li>
           <li>Full device vulnerability audit</li>
           <li>Scheduled weekly scans</li>
           <li>Scan history & reports</li>
@@ -936,7 +1001,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
           <li><a onclick="switchTab('url');document.getElementById('scanner').scrollIntoView()">URL Scanner</a></li>
           <li><a onclick="switchTab('file');document.getElementById('scanner').scrollIntoView()">File Scanner</a></li>
           <li><a onclick="switchTab('phone');document.getElementById('scanner').scrollIntoView()">Phone Scanner</a></li>
-          <li><a onclick="return false;">Device Audit</a></li>
+          <li><a onclick="switchTab('email');document.getElementById('scanner').scrollIntoView()">Email Scanner</a></li>
           <li><a onclick="return false;">VPN (Soon)</a></li>
         </ul>
       </div>
