@@ -191,7 +191,6 @@
   .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; cursor: pointer; background: none; border: none; padding: 0; }
   .result-link:hover { text-decoration: underline; }
 
-  /* Full Report Popup */
   .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .popup-overlay.open { display: flex; }
   .popup-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; }
@@ -207,7 +206,6 @@
   .popup-body code { font-family: var(--mono); font-size: 0.78rem; background: var(--bg); padding: 2px 6px; border-radius: 3px; color: var(--ice); }
   .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--safe); box-shadow: 0 0 6px var(--safe); margin-right: 8px; }
 
-  /* Engine results grid */
   .engine-grid { display: grid; gap: 4px; margin-top: 16px; }
   .engine-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 3px; font-family: var(--mono); font-size: 0.72rem; }
   .engine-row.malicious { background: rgba(255,79,79,0.08); border: 1px solid rgba(255,79,79,0.15); }
@@ -386,7 +384,6 @@ function goToScanner(tab) {
 </div>
 
 <script>
-// ── FULL REPORT POPUP ────────────────────────────────────────
 let fullReportData = null;
 
 function showFullReport(label, results, stats, targetUrl) {
@@ -404,23 +401,17 @@ function closeReport() {
 function renderReport(filter) {
   if (!fullReportData) return;
   const { label, results, stats, targetUrl } = fullReportData;
-
   const malicious = stats.malicious || 0;
   const suspicious = stats.suspicious || 0;
   const clean = stats.harmless || 0;
   const undetected = stats.undetected || 0;
   const total = malicious + suspicious + clean + undetected;
-
-  const headerClass = malicious > 0 ? 'threat' : suspicious > 0 ? 'threat' : 'clean';
-  const headerText = malicious > 0
-    ? `⚠ Threat Detected`
-    : suspicious > 0 ? `⚠ Suspicious` : `✓ Clean`;
+  const headerText = malicious > 0 ? '⚠ Threat Detected' : suspicious > 0 ? '⚠ Suspicious' : '✓ Clean';
 
   document.getElementById('reportTitle').innerHTML = `
     <span style="color:${malicious > 0 || suspicious > 0 ? 'var(--danger)' : 'var(--safe)'};">${headerText}</span>
     <span style="color:var(--text-muted);font-size:0.75rem;font-weight:400;margin-left:8px;">— ${label}</span>`;
 
-  // Filter buttons
   let filterHtml = `
     <div class="engine-filter-tabs">
       <button class="engine-filter-btn ${filter==='all'?'active':''}" onclick="renderReport('all')">All (${total})</button>
@@ -430,7 +421,6 @@ function renderReport(filter) {
       <button class="engine-filter-btn ${filter==='undetected'?'active':''}" onclick="renderReport('undetected')">Undetected (${undetected})</button>
     </div>`;
 
-  // Summary
   let summaryHtml = `
     <div class="report-summary">
       <div class="report-stat"><div class="report-stat-num" style="color:${malicious>0?'var(--danger)':'var(--safe)'}">${malicious}</div><div class="report-stat-label">Malicious</div></div>
@@ -441,34 +431,20 @@ function renderReport(filter) {
     </div>
     <div style="font-family:var(--mono);font-size:0.72rem;color:var(--text-muted);word-break:break-all;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">${targetUrl}</div>`;
 
-  // Engine rows
   let enginesHtml = '<div class="engine-grid">';
-  const entries = Object.entries(results);
-
-  for (const [engine, data] of entries) {
+  for (const [engine, data] of Object.entries(results)) {
     const cat = data.category;
     if (filter === 'malicious' && cat !== 'malicious') continue;
     if (filter === 'suspicious' && cat !== 'suspicious') continue;
     if (filter === 'clean' && cat !== 'harmless') continue;
     if (filter === 'undetected' && cat !== 'undetected') continue;
-
-    let rowClass = 'undetected';
-    let verdictClass = 'muted';
-    let verdict = 'Undetected';
-
+    let rowClass = 'undetected', verdictClass = 'muted', verdict = 'Undetected';
     if (cat === 'malicious') { rowClass = 'malicious'; verdictClass = 'red'; verdict = data.result || 'Malicious'; }
     else if (cat === 'suspicious') { rowClass = 'suspicious'; verdictClass = 'yellow'; verdict = data.result || 'Suspicious'; }
     else if (cat === 'harmless') { rowClass = 'clean'; verdictClass = 'green'; verdict = 'Clean'; }
-
-    enginesHtml += `
-      <div class="engine-row ${rowClass}">
-        <span class="engine-name">${engine}</span>
-        <span class="engine-verdict ${verdictClass}">${verdict}</span>
-      </div>`;
+    enginesHtml += `<div class="engine-row ${rowClass}"><span class="engine-name">${engine}</span><span class="engine-verdict ${verdictClass}">${verdict}</span></div>`;
   }
-
   enginesHtml += '</div>';
-
   document.getElementById('reportBody').innerHTML = filterHtml + summaryHtml + enginesHtml;
 }
 
@@ -632,7 +608,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
     </div>
     <div class="scanner-box">
 
-      <!-- URL Tab -->
       <div id="tab-url">
         <div class="scanner-input-row">
           <input type="text" id="urlInput" class="scanner-input" placeholder="https://suspicious-link.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -642,7 +617,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="scannerResult" class="scanner-result" style="display:none;"></div>
       </div>
 
-      <!-- File Tab -->
       <div id="tab-file" style="display:none;">
         <div class="file-drop-zone" id="fileDropZone" onclick="document.getElementById('fileInput').click()">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ice);margin-bottom:12px;">
@@ -662,7 +636,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="fileResult" class="scanner-result" style="display:none;"></div>
       </div>
 
-      <!-- Phone Tab -->
       <div id="tab-phone" style="display:none;">
         <div class="scanner-input-row">
           <input type="tel" id="phoneInput" class="scanner-input" placeholder="+1 613 555 0123" autocomplete="off" />
@@ -673,7 +646,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="phoneResult" class="scanner-result" style="display:none;"></div>
       </div>
 
-      <!-- Email Tab -->
       <div id="tab-email" style="display:none;">
         <div class="scanner-input-row">
           <input type="email" id="emailInput" class="scanner-input" placeholder="suspicious@example.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -684,7 +656,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="emailResult" class="scanner-result" style="display:none;"></div>
       </div>
 
-      <!-- PC & Mac Scanner Tab -->
       <div id="tab-download" style="display:none;">
         <div style="text-align:center;padding:40px 20px;">
           <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="#5bc8f5" stroke-width="1.5" style="margin-bottom:20px;">
@@ -694,7 +665,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
           </svg>
           <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:12px;">PolarGuarded Device Scanner</h3>
           <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">Download our free security scanner for Windows or Mac. It performs 12 deep security checks on your device and generates a full branded HTML report saved directly to your desktop. Free for everyone — no account needed.</p>
-
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 28px;">
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:24px 20px;text-align:center;">
               <div style="font-size:2rem;margin-bottom:8px;">🪟</div>
@@ -709,7 +679,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
               <a href="PolarGuarded-Scan.sh" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">↓ Download (.sh)</a>
             </div>
           </div>
-
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 24px;">
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:left;">
               <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase;">Windows Instructions</div>
@@ -720,7 +689,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
               <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">1. Download the .sh file<br>2. Open <strong style="color:var(--text);">Terminal</strong><br>3. Type: <code style="color:var(--ice);font-size:0.75rem;">bash ~/Downloads/PolarGuarded-Scan.sh</code><br>4. Press Enter<br>5. Report opens on desktop</div>
             </div>
           </div>
-
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-width:520px;margin:0 auto 24px;">
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>Windows & Mac</div>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>12 security checks</div>
@@ -729,7 +697,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>HTML report on desktop</div>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>No account needed</div>
           </div>
-
           <div style="padding:20px;background:rgba(91,200,245,0.05);border:1px solid var(--ice-dim);border-radius:4px;max-width:500px;margin:0 auto;">
             <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Firewall · Disk Encryption · System Updates · Antivirus/Gatekeeper · Remote Access · Guest Account · UAC/Auto Login · Open Ports · Suspicious Processes · Shared Services · Password Policy · System Integrity</div>
           </div>
@@ -867,6 +834,7 @@ async function scanFile() {
     const threats = Object.entries(analysisResults).filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious').map(([engine, v]) => `${engine}: ${v.result}`).slice(0, 5);
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this file` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this file` : '✓ Clean — No threats detected';
+    window._lastFileScanResults = { analysisResults, stats, name: file.name };
     result.innerHTML = `
       <div class="result-header ${headerClass}">${headerText}</div>
       <div class="result-body">
@@ -878,7 +846,7 @@ async function scanFile() {
           <div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div>
         </div>
         ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
-        <button class="result-link" onclick="showFullReport('${file.name}', ${JSON.stringify(analysisResults).replace(/'/g,"&#39;")}, ${JSON.stringify(stats)}, '${file.name}')">→ VIEW FULL REPORT ON POLARGUARDED</button>
+        <button class="result-link" onclick="showFullReport(window._lastFileScanResults.name, window._lastFileScanResults.analysisResults, window._lastFileScanResults.stats, window._lastFileScanResults.name)">→ VIEW FULL REPORT ON POLARGUARDED</button>
       </div>`;
     status.style.display = 'none'; result.style.display = 'block';
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
@@ -923,10 +891,7 @@ async function scanURL() {
     const threats = Object.entries(analysisResults).filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious').map(([engine, v]) => `${engine}: ${v.result}`).slice(0, 5);
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this URL` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this URL` : '✓ Clean — No threats detected';
-
-    // Store results for popup
     window._lastScanResults = { analysisResults, stats, url };
-
     result.innerHTML = `
       <div class="result-header ${headerClass}">${headerText}</div>
       <div class="result-body">
@@ -1096,6 +1061,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <p class="plan-desc">Full protection for individuals and families.</p>
         <ul class="plan-features">
           <li>Unlimited URL, file, phone & email scans</li>
+          <li>PC &
           <li>PC & Mac scanner download</li>
           <li>Scan history & reports</li>
           <li>PolarGuarded VPN included</li>
@@ -1161,7 +1127,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 PolarGuarded. Built in <span>Canada 🇨🇦</span></p>
+    <p>© 2025–2026 PolarGuarded. Built in <span>Canada 🇨🇦</span></p>
     <p>Powered by ClamAV · VirusTotal · WireGuard · PhishTank · IPQS</p>
   </div>
 </footer>
