@@ -266,7 +266,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
     <div class="nav-logo-mark">
@@ -304,7 +303,6 @@
   <button class="mobile-menu-btn" onclick="toggleMobileNav()">☰</button>
 </nav>
 
-<!-- Mobile Nav -->
 <div class="mobile-nav" id="mobileNav">
   <a href="#services" onclick="closeMobileNav()">Services</a>
   <a href="#how" onclick="closeMobileNav()">How It Works</a>
@@ -345,7 +343,6 @@ function goToScanner(tab) {
 }
 </script>
 
-<!-- AUTH MODAL -->
 <div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px;">
   <div style="background:#0e1520;border:1px solid #1a2a40;padding:40px 32px;max-width:420px;width:100%;border-radius:6px;position:relative;">
     <button onclick="closeAuth()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#6b8aaa;font-size:1.2rem;cursor:pointer;">✕</button>
@@ -361,7 +358,6 @@ function goToScanner(tab) {
   </div>
 </div>
 
-<!-- FULL REPORT POPUP -->
 <div id="reportOverlay" class="popup-overlay" onclick="if(event.target===this)closeReport()">
   <div class="popup-box">
     <div class="popup-header">
@@ -372,7 +368,6 @@ function goToScanner(tab) {
   </div>
 </div>
 
-<!-- FOOTER POPUPS -->
 <div id="popupOverlay" class="popup-overlay" onclick="if(event.target===this)closePopup()">
   <div class="popup-box">
     <div class="popup-header">
@@ -385,19 +380,16 @@ function goToScanner(tab) {
 
 <script>
 let fullReportData = null;
-
 function showFullReport(label, results, stats, targetUrl) {
   fullReportData = { label, results, stats, targetUrl };
   renderReport('all');
   document.getElementById('reportOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
 function closeReport() {
   document.getElementById('reportOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-
 function renderReport(filter) {
   if (!fullReportData) return;
   const { label, results, stats, targetUrl } = fullReportData;
@@ -407,30 +399,9 @@ function renderReport(filter) {
   const undetected = stats.undetected || 0;
   const total = malicious + suspicious + clean + undetected;
   const headerText = malicious > 0 ? '⚠ Threat Detected' : suspicious > 0 ? '⚠ Suspicious' : '✓ Clean';
-
-  document.getElementById('reportTitle').innerHTML = `
-    <span style="color:${malicious > 0 || suspicious > 0 ? 'var(--danger)' : 'var(--safe)'};">${headerText}</span>
-    <span style="color:var(--text-muted);font-size:0.75rem;font-weight:400;margin-left:8px;">— ${label}</span>`;
-
-  let filterHtml = `
-    <div class="engine-filter-tabs">
-      <button class="engine-filter-btn ${filter==='all'?'active':''}" onclick="renderReport('all')">All (${total})</button>
-      ${malicious > 0 ? `<button class="engine-filter-btn ${filter==='malicious'?'active':''}" onclick="renderReport('malicious')" style="${filter==='malicious'?'background:var(--danger);border-color:var(--danger);':'color:#ff4f4f;border-color:rgba(255,79,79,0.3);'}">Malicious (${malicious})</button>` : ''}
-      ${suspicious > 0 ? `<button class="engine-filter-btn ${filter==='suspicious'?'active':''}" onclick="renderReport('suspicious')">Suspicious (${suspicious})</button>` : ''}
-      <button class="engine-filter-btn ${filter==='clean'?'active':''}" onclick="renderReport('clean')" style="${filter==='clean'?'background:var(--safe);border-color:var(--safe);color:var(--bg);':'color:var(--safe);border-color:rgba(63,214,138,0.3);'}">Clean (${clean})</button>
-      <button class="engine-filter-btn ${filter==='undetected'?'active':''}" onclick="renderReport('undetected')">Undetected (${undetected})</button>
-    </div>`;
-
-  let summaryHtml = `
-    <div class="report-summary">
-      <div class="report-stat"><div class="report-stat-num" style="color:${malicious>0?'var(--danger)':'var(--safe)'}">${malicious}</div><div class="report-stat-label">Malicious</div></div>
-      <div class="report-stat"><div class="report-stat-num" style="color:${suspicious>0?'#f5a623':'var(--text-muted)'}">${suspicious}</div><div class="report-stat-label">Suspicious</div></div>
-      <div class="report-stat"><div class="report-stat-num" style="color:var(--safe)">${clean}</div><div class="report-stat-label">Clean</div></div>
-      <div class="report-stat"><div class="report-stat-num" style="color:var(--text-muted)">${undetected}</div><div class="report-stat-label">Undetected</div></div>
-      <div class="report-stat"><div class="report-stat-num" style="color:var(--ice)">${total}</div><div class="report-stat-label">Engines</div></div>
-    </div>
-    <div style="font-family:var(--mono);font-size:0.72rem;color:var(--text-muted);word-break:break-all;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">${targetUrl}</div>`;
-
+  document.getElementById('reportTitle').innerHTML = `<span style="color:${malicious > 0 || suspicious > 0 ? 'var(--danger)' : 'var(--safe)'};">${headerText}</span><span style="color:var(--text-muted);font-size:0.75rem;font-weight:400;margin-left:8px;">— ${label}</span>`;
+  let filterHtml = `<div class="engine-filter-tabs"><button class="engine-filter-btn ${filter==='all'?'active':''}" onclick="renderReport('all')">All (${total})</button>${malicious > 0 ? `<button class="engine-filter-btn ${filter==='malicious'?'active':''}" onclick="renderReport('malicious')" style="${filter==='malicious'?'background:var(--danger);border-color:var(--danger);':'color:#ff4f4f;border-color:rgba(255,79,79,0.3);'}">Malicious (${malicious})</button>` : ''}${suspicious > 0 ? `<button class="engine-filter-btn ${filter==='suspicious'?'active':''}" onclick="renderReport('suspicious')">Suspicious (${suspicious})</button>` : ''}<button class="engine-filter-btn ${filter==='clean'?'active':''}" onclick="renderReport('clean')" style="${filter==='clean'?'background:var(--safe);border-color:var(--safe);color:var(--bg);':'color:var(--safe);border-color:rgba(63,214,138,0.3);'}">Clean (${clean})</button><button class="engine-filter-btn ${filter==='undetected'?'active':''}" onclick="renderReport('undetected')">Undetected (${undetected})</button></div>`;
+  let summaryHtml = `<div class="report-summary"><div class="report-stat"><div class="report-stat-num" style="color:${malicious>0?'var(--danger)':'var(--safe)'}">${malicious}</div><div class="report-stat-label">Malicious</div></div><div class="report-stat"><div class="report-stat-num" style="color:${suspicious>0?'#f5a623':'var(--text-muted)'}">${suspicious}</div><div class="report-stat-label">Suspicious</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--safe)">${clean}</div><div class="report-stat-label">Clean</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--text-muted)">${undetected}</div><div class="report-stat-label">Undetected</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--ice)">${total}</div><div class="report-stat-label">Engines</div></div></div><div style="font-family:var(--mono);font-size:0.72rem;color:var(--text-muted);word-break:break-all;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">${targetUrl}</div>`;
   let enginesHtml = '<div class="engine-grid">';
   for (const [engine, data] of Object.entries(results)) {
     const cat = data.category;
@@ -451,13 +422,12 @@ function renderReport(filter) {
 const popupContent = {
   about: { title: 'About PolarGuarded', body: `<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, checking an email, or scanning your PC or Mac — PolarGuarded gives you the same threat intelligence used by security professionals.</p><h3>Our Stack</h3><p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p><h3>Built in Canada 🇨🇦</h3><p>PolarGuarded is proudly built and operated in Canada. Your data stays in Canada and is never sold to third parties. Ever.</p>` },
   contact: { title: 'Contact Us', body: `<p>We'd love to hear from you — whether it's a question, a bug report, or a partnership inquiry.</p><h3>Email</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p><h3>Response Time</h3><p>We typically respond within 24–48 hours on business days.</p><h3>Bug Reports</h3><p>Found a bug or security issue? Please email us directly with details and we'll prioritize it immediately.</p><h3>Business Inquiries</h3><p>Interested in a custom plan or API partnership? Reach out and we'll set up a call.</p>` },
-  privacy: { title: 'Privacy Policy', body: `<h3>Data We Collect</h3><p>We collect your email address when you create an account, and we store your scan history if you are a Pro or Business subscriber.</p><h3>Data We Don't Collect</h3><p>We do not collect your name, phone number, payment card details (handled by Stripe), or any personally identifiable information beyond your email.</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p><h3>Scan Data</h3><p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. The PC and Mac Scanners run entirely locally — no data is sent to our servers.</p><h3>Cookies</h3><p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p><h3>Contact</h3><p>For privacy concerns, email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
-  terms: { title: 'Terms of Use', body: `<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms. If you do not agree, please discontinue use of the service.</p><h3>Permitted Use</h3><p>PolarGuarded is intended for lawful cybersecurity purposes only. You may not use our tools to scan systems or content you do not own or have explicit permission to scan.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 online scans per day. The PC and Mac Scanner downloads are unlimited for all users.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis. We do not guarantee that all threats will be detected.</p><h3>Limitation of Liability</h3><p>PolarGuarded is not liable for any damages arising from use or inability to use the service.</p><h3>Changes</h3><p>We may update these terms at any time. Continued use constitutes acceptance.</p><h3>Contact</h3><p>Questions? Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p><p style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);">Last updated: June 2025</p>` },
-  api: { title: 'API Documentation', body: `<h3>Overview</h3><p>The PolarGuarded API is available to Business plan subscribers.</p><h3>URL Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "url": "https://example.com" }</code></p><h3>File Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p><h3>Phone Scan</h3><p>GET: <code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p><h3>Email Scan</h3><p>GET: <code>https://polarguarded-email.liamstevenmatyas.workers.dev?email=test@example.com</code></p><h3>Rate Limits</h3><p>Business plan: 1,000 API calls per day.</p><h3>Get Access</h3><p>Subscribe to the Business plan or email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p>` },
+  privacy: { title: 'Privacy Policy', body: `<h3>Data We Collect</h3><p>We collect your email address when you create an account, and we store your scan history if you are a Pro or Business subscriber.</p><h3>Data We Don't Collect</h3><p>We do not collect your name, phone number, payment card details (handled by Stripe), or any personally identifiable information beyond your email.</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p><h3>Scan Data</h3><p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. The PC and Mac Scanners run entirely locally — no data is sent to our servers.</p><h3>Cookies</h3><p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p><h3>Contact</h3><p>For privacy concerns, email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p>` },
+  terms: { title: 'Terms of Use', body: `<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms. If you do not agree, please discontinue use of the service.</p><h3>Permitted Use</h3><p>PolarGuarded is intended for lawful cybersecurity purposes only. You may not use our tools to scan systems or content you do not own or have explicit permission to scan.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 online scans per day. The PC and Mac Scanner downloads are unlimited for all users.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis. We do not guarantee that all threats will be detected.</p><h3>Limitation of Liability</h3><p>PolarGuarded is not liable for any damages arising from use or inability to use the service.</p><h3>Changes</h3><p>We may update these terms at any time. Continued use constitutes acceptance.</p><h3>Contact</h3><p>Questions? Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p>` },
+  api: { title: 'API Documentation', body: `<h3>Overview</h3><p>The PolarGuarded API is available to Business plan subscribers.</p><h3>URL Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "url": "https://example.com" }</code></p><h3>File Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p><h3>Phone Scan</h3><p>GET: <code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p><h3>Email Scan</h3><p>GET: <code>https://polarguarded-email.liamstevenmatyas.workers.dev?email=test@example.com</code></p><h3>Rate Limits</h3><p>Business plan: 1,000 API calls per day.</p>` },
   status: { title: 'System Status', body: `<h3>All Systems Operational</h3><p><span class="status-dot"></span>URL Scanner — Operational</p><p><span class="status-dot"></span>File Scanner — Operational</p><p><span class="status-dot"></span>Phone Scanner — Operational</p><p><span class="status-dot"></span>Email Scanner — Operational</p><p><span class="status-dot"></span>PC & Mac Scanner Download — Operational</p><p><span class="status-dot"></span>Authentication — Operational</p><p><span class="status-dot"></span>Payment Processing — Operational</p><h3>Upcoming</h3><p>VPN service is currently in development and will be available soon for Pro and Business subscribers.</p><h3>Incidents</h3><p>No incidents reported in the last 30 days.</p>` },
   blog: { title: 'Blog', body: `<p>Our blog is coming soon! We'll be publishing guides, threat reports, and cybersecurity tips for Canadians.</p><h3>Topics We'll Cover</h3><p>— How to spot phishing emails</p><p>— The rise of phone scams in Canada</p><p>— Why VPNs matter for remote workers</p><p>— How to keep your Windows PC and Mac secure</p><h3>Stay Updated</h3><p>Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a> to be notified when we publish our first post.</p>` }
 };
-
 function openPopup(key) {
   const content = popupContent[key];
   if (!content) return;
@@ -552,7 +522,6 @@ async function signOut() { await supabaseClient.auth.signOut(); currentUser = nu
 document.getElementById('authOverlay').addEventListener('click', function(e) { if (e.target === this) closeAuth(); });
 </script>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-eyebrow">Canadian Cybersecurity</div>
   <h1 class="hero-title">Your devices.<br>Your data.<br><em>Defended.</em></h1>
@@ -583,7 +552,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat"><div class="stat-num">99.7%</div><div class="stat-label">Malware detection rate</div></div>
@@ -593,9 +561,8 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
   </div>
 </div>
 
-<!-- SCANNER -->
 <div id="scanner">
-  <div class="section" style="padding-bottom: 0;">
+  <div class="section" style="padding-bottom:0;">
     <div class="section-label">Free Tools</div>
     <h2 class="section-title">Scan URLs, files, phones, emails & your device.</h2>
     <p class="section-sub">Real threat intelligence across all your attack surfaces — online and on your device.</p>
@@ -717,27 +684,21 @@ function getScanCount() {
   if (stored.date !== today) return 0;
   return stored.count;
 }
-
 function incrementScanCount() {
   const today = new Date().toDateString();
   const count = getScanCount() + 1;
   localStorage.setItem('pg_scans', JSON.stringify({ date: today, count }));
 }
-
 async function checkProStatus(email) {
   if (!email) { userIsPro = false; return; }
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=is_pro`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=is_pro`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
     const data = await res.json();
     userIsPro = data?.[0]?.is_pro === true;
     showScanCounter();
   } catch(e) { userIsPro = false; }
 }
-
 function isProUser() { return userIsPro; }
-
 function checkScanLimit(statusEl, resultEl) {
   if (isProUser()) return true;
   const count = getScanCount();
@@ -749,7 +710,6 @@ function checkScanLimit(statusEl, resultEl) {
   }
   return true;
 }
-
 function showScanCounter() {
   const existing = document.getElementById('scanCounter');
   if (existing) existing.remove();
@@ -769,7 +729,6 @@ function showScanCounter() {
   counter.textContent = `${remaining} free scan${remaining !== 1 ? 's' : ''} remaining today`;
   document.querySelector('.scanner-box')?.appendChild(counter);
 }
-
 function switchTab(tab) {
   ['url','file','phone','email','download'].forEach(t => {
     document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
@@ -778,7 +737,6 @@ function switchTab(tab) {
     t.classList.toggle('active', ['url','file','phone','email','download'][i] === tab);
   });
 }
-
 function handleFileSelect(input) {
   const file = input.files[0];
   if (!file) return;
@@ -789,7 +747,6 @@ function handleFileSelect(input) {
   document.getElementById('fileSelected').style.display = 'flex';
   document.getElementById('fileResult').style.display = 'none';
 }
-
 async function scanFile() {
   const fileInput = document.getElementById('fileInput');
   const file = fileInput.files[0];
@@ -810,10 +767,9 @@ async function scanFile() {
     status.textContent = 'SCANNING FILE AGAINST 70+ ENGINES...';
     const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file: base64, filename: file.name }) });
     const data = await res.json();
-    let stats = null, analysisResults = {}, fileId = '';
+    let stats = null, analysisResults = {};
     if (data.type === 'file_submitted') {
       const analysisId = data.data?.data?.id;
-      fileId = data.fileId || '';
       if (!analysisId) throw new Error('Upload failed');
       let attempts = 0;
       while (attempts < 15) {
@@ -835,24 +791,11 @@ async function scanFile() {
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this file` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this file` : '✓ Clean — No threats detected';
     window._lastFileScanResults = { analysisResults, stats, name: file.name };
-    result.innerHTML = `
-      <div class="result-header ${headerClass}">${headerText}</div>
-      <div class="result-body">
-        <div class="result-url">${file.name} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(2)} MB</div>
-        <div class="result-stat-row">
-          <div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div>
-          <div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div>
-          <div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div>
-          <div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div>
-        </div>
-        ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
-        <button class="result-link" onclick="showFullReport(window._lastFileScanResults.name, window._lastFileScanResults.analysisResults, window._lastFileScanResults.stats, window._lastFileScanResults.name)">→ VIEW FULL REPORT ON POLARGUARDED</button>
-      </div>`;
+    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${file.name} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(2)} MB</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div></div>${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}<button class="result-link" onclick="showFullReport(window._lastFileScanResults.name, window._lastFileScanResults.analysisResults, window._lastFileScanResults.stats, window._lastFileScanResults.name)">→ VIEW FULL REPORT ON POLARGUARDED</button></div>`;
     status.style.display = 'none'; result.style.display = 'block';
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
 }
-
 async function scanURL() {
   const input = document.getElementById('urlInput').value.trim();
   const status = document.getElementById('scannerStatus');
@@ -892,24 +835,11 @@ async function scanURL() {
     const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
     const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this URL` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this URL` : '✓ Clean — No threats detected';
     window._lastScanResults = { analysisResults, stats, url };
-    result.innerHTML = `
-      <div class="result-header ${headerClass}">${headerText}</div>
-      <div class="result-body">
-        <div class="result-url">${url}</div>
-        <div class="result-stat-row">
-          <div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div>
-          <div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div>
-          <div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div>
-          <div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div>
-        </div>
-        ${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}
-        <button class="result-link" onclick="showFullReport(window._lastScanResults.url, window._lastScanResults.analysisResults, window._lastScanResults.stats, window._lastScanResults.url)">→ VIEW FULL REPORT ON POLARGUARDED</button>
-      </div>`;
+    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${url}</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div></div>${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}<button class="result-link" onclick="showFullReport(window._lastScanResults.url, window._lastScanResults.analysisResults, window._lastScanResults.stats, window._lastScanResults.url)">→ VIEW FULL REPORT ON POLARGUARDED</button></div>`;
     status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
 }
-
 async function scanPhone() {
   const input = document.getElementById('phoneInput').value.trim();
   const status = document.getElementById('phoneStatus');
@@ -936,7 +866,6 @@ async function scanPhone() {
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
 }
-
 async function scanEmail() {
   const input = document.getElementById('emailInput').value.trim();
   const status = document.getElementById('emailStatus');
@@ -963,14 +892,12 @@ async function scanEmail() {
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
 }
-
 document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanURL(); });
 document.getElementById('phoneInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanPhone(); });
 document.getElementById('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanEmail(); });
 window.addEventListener('load', () => setTimeout(showScanCounter, 500));
 </script>
 
-<!-- SERVICES -->
 <div id="services">
   <div class="section">
     <div class="section-label">What We Do</div>
@@ -1017,7 +944,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
 <div id="how" class="how-wrapper">
   <div class="section">
     <div class="section-label">How It Works</div>
@@ -1032,7 +958,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
   </div>
 </div>
 
-<!-- PRICING -->
 <div id="pricing">
   <div class="section">
     <div class="section-label">Pricing</div>
@@ -1061,7 +986,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <p class="plan-desc">Full protection for individuals and families.</p>
         <ul class="plan-features">
           <li>Unlimited URL, file, phone & email scans</li>
-          <li>PC &
           <li>PC & Mac scanner download</li>
           <li>Scan history & reports</li>
           <li>PolarGuarded VPN included</li>
@@ -1088,7 +1012,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
