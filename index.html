@@ -8,11 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#5bc8f5">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="PolarGuarded">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="theme-color" content="#00aaff">
 <style>
   :root {
     --bg:        #090d13;
@@ -31,21 +27,10 @@
     --mono:      'JetBrains Mono', monospace;
     --sans:      'Space Grotesk', sans-serif;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: linear-gradient(rgba(91,200,245,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(91,200,245,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(91,200,245,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(91,200,245,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 64px; background: rgba(9,13,19,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .nav-logo-mark { width: 32px; height: 32px; position: relative; }
@@ -57,17 +42,15 @@
   .nav-links a:hover { color: var(--ice); }
   .nav-cta { background: var(--ice); color: var(--bg) !important; padding: 8px 20px; border-radius: 4px; font-weight: 600 !important; transition: opacity 0.2s !important; }
   .nav-cta:hover { opacity: 0.85; color: var(--bg) !important; }
-
   .nav-dropdown { position: relative; }
   .nav-dropdown-btn { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; cursor: pointer; background: none; border: none; font-family: var(--sans); display: flex; align-items: center; gap: 5px; padding: 0; }
   .nav-dropdown-btn:hover { color: var(--ice); }
-  .nav-dropdown-btn::after { content: '▾'; font-size: 0.7rem; }
+  .nav-dropdown-btn::after { content: '\u25be'; font-size: 0.7rem; }
   .nav-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; min-width: 190px; padding: 8px 0; margin-top: 12px; z-index: 200; }
   .nav-dropdown.open .nav-dropdown-menu { display: block; }
   .nav-dropdown-menu a { display: block; padding: 10px 20px; color: var(--text-muted); font-size: 0.83rem; text-decoration: none; transition: background 0.15s, color 0.15s; cursor: pointer; }
   .nav-dropdown-menu a:hover { background: var(--surface2); color: var(--ice); }
-  .nav-dropdown-menu a::before { content: '→ '; color: var(--ice-dim); font-family: var(--mono); font-size: 0.7rem; }
-
+  .nav-dropdown-menu a::before { content: '\u2192 '; color: var(--ice-dim); font-family: var(--mono); font-size: 0.7rem; }
   .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 5% 80px; z-index: 1; overflow: hidden; }
   .hero::after { content: ''; position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; background: radial-gradient(ellipse, rgba(91,200,245,0.10) 0%, transparent 70%); pointer-events: none; animation: pulse 6s ease-in-out infinite; }
   @keyframes pulse { 0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); } 50% { opacity: 1; transform: translateX(-50%) scale(1.08); } }
@@ -81,7 +64,6 @@
   .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
   .btn-ghost { border: 1px solid var(--border); color: var(--text-muted); padding: 14px 32px; border-radius: 4px; text-decoration: none; font-weight: 500; font-size: 0.95rem; letter-spacing: 0.04em; transition: border-color 0.2s, color 0.2s; display: inline-block; }
   .btn-ghost:hover { border-color: var(--ice-dim); color: var(--ice); }
-
   .threat-ticker { position: absolute; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 12px 0; overflow: hidden; z-index: 2; }
   .ticker-track { display: flex; gap: 60px; white-space: nowrap; animation: ticker 30s linear infinite; }
   @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -90,12 +72,10 @@
   .ticker-dot.red { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
   .ticker-dot.green { background: var(--safe); box-shadow: 0 0 6px var(--safe); }
   .ticker-dot.ice { background: var(--ice); box-shadow: 0 0 6px var(--ice); }
-
   .section { position: relative; z-index: 1; padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
   .section-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--ice); text-transform: uppercase; margin-bottom: 16px; }
   .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; }
   .section-sub { color: var(--text-muted); font-size: 1rem; max-width: 480px; margin-bottom: 64px; }
-
   .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; border: 1px solid var(--border); }
   .service-card { background: var(--surface); padding: 40px 36px; position: relative; overflow: hidden; transition: background 0.2s; }
   .service-card:hover { background: var(--surface2); }
@@ -107,7 +87,6 @@
   .service-tag { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; display: inline-block; }
   .tag-live { background: rgba(63,214,138,0.12); color: var(--safe); }
   .tag-soon { background: rgba(91,200,245,0.1); color: var(--ice); }
-
   .how-wrapper { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; }
   .how-step { padding: 48px 36px; border-right: 1px solid var(--border); position: relative; }
@@ -115,7 +94,6 @@
   .step-num { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-dim); margin-bottom: 20px; }
   .step-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
   .step-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
-
   .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; border: 1px solid var(--border); }
   .pricing-card { background: var(--surface); padding: 44px 36px; position: relative; overflow: hidden; display: flex; flex-direction: column; }
   .pricing-card.featured { background: var(--surface2); outline: 1px solid var(--ice-dim); }
@@ -127,21 +105,19 @@
   .plan-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
   .plan-features { list-style: none; margin-bottom: 36px; flex: 1; }
   .plan-features li { font-size: 0.88rem; color: var(--text-muted); padding: 8px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .plan-features li::before { content: '—'; color: var(--ice); font-family: var(--mono); font-size: 0.75rem; flex-shrink: 0; }
+  .plan-features li::before { content: '\u2014'; color: var(--ice); font-family: var(--mono); font-size: 0.75rem; flex-shrink: 0; }
   .plan-features li.muted { color: var(--text-dim); }
   .plan-features li.muted::before { color: var(--text-dim); }
   .plan-btn { display: block; text-align: center; padding: 13px; border-radius: 4px; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.04em; text-decoration: none; transition: opacity 0.2s; border: 1px solid var(--border); color: var(--text-muted); }
   .plan-btn:hover { border-color: var(--ice-dim); color: var(--ice); }
   .plan-btn.primary-btn { background: var(--ice); color: var(--bg); border-color: var(--ice); }
   .plan-btn.primary-btn:hover { opacity: 0.88; color: var(--bg); }
-
   .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
   .stats-inner { max-width: 1200px; margin: 0 auto; padding: 0 5%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
   .stat { padding: 48px 36px; border-right: 1px solid var(--border); text-align: center; }
   .stat:last-child { border-right: none; }
   .stat-num { font-size: 2.4rem; font-weight: 700; color: var(--ice); letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px; font-family: var(--mono); }
   .stat-label { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; }
-
   footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 64px 5% 40px; max-width: 1200px; margin: 0 auto; }
   .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; margin-bottom: 48px; flex-wrap: wrap; }
   .footer-brand p { font-size: 0.85rem; color: var(--text-muted); max-width: 280px; margin-top: 12px; line-height: 1.7; }
@@ -154,7 +130,6 @@
   .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 16px; }
   .footer-bottom p { font-size: 0.78rem; color: var(--text-dim); font-family: var(--mono); }
   .footer-bottom span { color: var(--ice); }
-
   .scanner-tabs { display: flex; gap: 0; margin-bottom: 0; flex-wrap: wrap; }
   .scanner-tab { background: var(--surface); border: 1px solid var(--border); border-bottom: none; color: var(--text-muted); padding: 12px 18px; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
   .scanner-tab:first-child { border-radius: 4px 0 0 0; }
@@ -196,7 +171,6 @@
   .engine-threat { color: var(--danger); font-family: var(--mono); font-size: 0.72rem; display: block; padding: 3px 0; }
   .result-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ice); text-decoration: none; letter-spacing: 0.06em; cursor: pointer; background: none; border: none; padding: 0; }
   .result-link:hover { text-decoration: underline; }
-
   .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .popup-overlay.open { display: flex; }
   .popup-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; }
@@ -211,7 +185,6 @@
   .popup-body a:hover { text-decoration: underline; }
   .popup-body code { font-family: var(--mono); font-size: 0.78rem; background: var(--bg); padding: 2px 6px; border-radius: 3px; color: var(--ice); }
   .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--safe); box-shadow: 0 0 6px var(--safe); margin-right: 8px; }
-
   .engine-grid { display: grid; gap: 4px; margin-top: 16px; }
   .engine-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 3px; font-family: var(--mono); font-size: 0.72rem; }
   .engine-row.malicious { background: rgba(255,79,79,0.08); border: 1px solid rgba(255,79,79,0.15); }
@@ -224,17 +197,14 @@
   .engine-verdict.yellow { color: #f5a623; }
   .engine-verdict.green { color: var(--safe); }
   .engine-verdict.muted { color: var(--text-dim); }
-
   .report-summary { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; }
   .report-stat { text-align: center; flex: 1; min-width: 60px; }
   .report-stat-num { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; line-height: 1; }
   .report-stat-label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
-
   .engine-filter-tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
   .engine-filter-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 14px; border-radius: 3px; font-family: var(--mono); font-size: 0.7rem; cursor: pointer; transition: all 0.15s; letter-spacing: 0.05em; }
   .engine-filter-btn:hover { border-color: var(--ice-dim); color: var(--ice); }
   .engine-filter-btn.active { background: var(--ice); color: var(--bg); border-color: var(--ice); }
-
   .mobile-menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 1.1rem; }
   .mobile-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(9,13,19,0.98); border-bottom: 1px solid var(--border); padding: 20px; z-index: 99; flex-direction: column; gap: 4px; max-height: calc(100vh - 64px); overflow-y: auto; }
   .mobile-nav.open { display: flex; }
@@ -249,19 +219,8 @@
   .mobile-tools-sub a { color: var(--text-muted); font-size: 0.9rem; padding: 10px 16px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 8px; }
   .mobile-tools-sub a:last-child { border-bottom: none; }
   .mobile-tools-sub a:hover { color: var(--ice); background: var(--surface2); }
-  .mobile-tools-sub a::before { content: '→'; color: var(--ice-dim); font-family: var(--mono); font-size: 0.7rem; }
+  .mobile-tools-sub a::before { content: '\u2192'; color: var(--ice-dim); font-family: var(--mono); font-size: 0.7rem; }
   .mobile-nav-auth { color: var(--ice) !important; font-weight: 700 !important; border-bottom: none !important; }
-
-  /* PWA Install Banner */
-  #pwaInstallBanner { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--surface2); border: 1px solid var(--ice-dim); border-radius: 8px; padding: 16px 20px; z-index: 999; box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 360px; width: 90%; }
-  #pwaInstallBanner.show { display: flex; align-items: center; gap: 12px; }
-  #pwaInstallBanner .pwa-icon { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; }
-  #pwaInstallBanner .pwa-text { flex: 1; }
-  #pwaInstallBanner .pwa-text strong { display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 2px; }
-  #pwaInstallBanner .pwa-text span { font-size: 0.78rem; color: var(--text-muted); }
-  #pwaInstallBanner .pwa-install-btn { background: var(--ice); color: var(--bg); border: none; padding: 8px 16px; border-radius: 4px; font-family: var(--sans); font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; }
-  #pwaInstallBanner .pwa-dismiss { background: none; border: none; color: var(--text-dim); font-size: 1rem; cursor: pointer; padding: 4px; margin-left: 4px; }
-
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .mobile-menu-btn { display: flex; }
@@ -273,7 +232,6 @@
     .footer-top { flex-direction: column; }
     .scanner-tab { padding: 10px 12px; font-size: 0.75rem; }
   }
-
   @media (prefers-reduced-motion: reduce) {
     .ticker-track { animation: none; }
     .hero::after { animation: none; }
@@ -281,18 +239,6 @@
 </style>
 </head>
 <body>
-
-<!-- PWA Install Banner -->
-<div id="pwaInstallBanner">
-  <img src="/icon-192.png" class="pwa-icon" alt="PolarGuarded">
-  <div class="pwa-text">
-    <strong>Install PolarGuarded</strong>
-    <span>Add to your home screen for quick access</span>
-  </div>
-  <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
-  <button class="pwa-dismiss" id="pwaDismiss">✕</button>
-</div>
-
 <nav>
   <a href="#" class="nav-logo">
     <div class="nav-logo-mark">
@@ -317,83 +263,49 @@
         <a onclick="goToScanner('file')">File Scanner</a>
         <a onclick="goToScanner('phone')">Phone Scanner</a>
         <a onclick="goToScanner('email')">Email Scanner</a>
-        <a onclick="goToScanner('download')">PC & Mac Scanner</a>
+        <a onclick="goToScanner('download')">PC &amp; Mac Scanner</a>
       </div>
     </li>
     <li><a href="pricing.html">Pricing</a></li>
     <li><a href="#" id="navAuthBtn" class="nav-cta" onclick="openAuth('login'); return false;">Log In</a></li>
     <li id="navUserMenu" style="display:none;">
       <span id="navUserEmail" style="color:var(--text-muted);font-size:0.82rem;"></span>
+      <a href="history.html" style="color:var(--text-muted);font-size:0.82rem;margin-left:12px;">History</a>
       <a href="#" onclick="signOut(); return false;" style="color:var(--text-muted);font-size:0.82rem;margin-left:12px;">Sign Out</a>
     </li>
   </ul>
-  <button class="mobile-menu-btn" onclick="toggleMobileNav()">☰</button>
+  <button class="mobile-menu-btn" onclick="toggleMobileNav()">&#9776;</button>
 </nav>
-
 <div class="mobile-nav" id="mobileNav">
   <a href="#services" onclick="closeMobileNav()">Services</a>
   <a href="#how" onclick="closeMobileNav()">How It Works</a>
-  <div class="mobile-tools-toggle" id="mobileToolsToggle" onclick="toggleMobileTools()">
-    Tools <span class="arrow">▾</span>
-  </div>
+  <div class="mobile-tools-toggle" id="mobileToolsToggle" onclick="toggleMobileTools()">Tools <span class="arrow">&#9662;</span></div>
   <div class="mobile-tools-sub" id="mobileToolsSub">
     <a onclick="goToScanner('url');closeMobileNav()">URL Scanner</a>
     <a onclick="goToScanner('file');closeMobileNav()">File Scanner</a>
     <a onclick="goToScanner('phone');closeMobileNav()">Phone Scanner</a>
     <a onclick="goToScanner('email');closeMobileNav()">Email Scanner</a>
-    <a onclick="goToScanner('download');closeMobileNav()">PC & Mac Scanner</a>
+    <a onclick="goToScanner('download');closeMobileNav()">PC &amp; Mac Scanner</a>
   </div>
   <a href="pricing.html" onclick="closeMobileNav()">Pricing</a>
   <a href="#" id="mobileAuthBtn" class="mobile-nav-auth" onclick="openAuth('login'); closeMobileNav(); return false;">Log In</a>
   <div id="mobileUserMenu" style="display:none;">
     <span id="mobileUserEmail" style="color:var(--text-muted);font-size:0.9rem;display:block;padding:12px 0;border-bottom:1px solid var(--border);"></span>
+    <a href="history.html" onclick="closeMobileNav()">Scan History</a>
     <a href="#" onclick="signOut(); closeMobileNav(); return false;">Sign Out</a>
   </div>
 </div>
-
 <script>
-function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
-function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
-function toggleMobileTools() {
-  document.getElementById('mobileToolsToggle').classList.toggle('open');
-  document.getElementById('mobileToolsSub').classList.toggle('open');
-}
-function toggleToolsDropdown() { document.getElementById('navToolsDropdown').classList.toggle('open'); }
-document.addEventListener('click', function(e) {
-  const dropdown = document.getElementById('navToolsDropdown');
-  if (dropdown && !dropdown.contains(e.target)) dropdown.classList.remove('open');
-});
-function goToScanner(tab) {
-  switchTab(tab);
-  document.getElementById('scanner').scrollIntoView({ behavior: 'smooth' });
-  document.getElementById('navToolsDropdown').classList.remove('open');
-}
-
-// PWA Install
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (!localStorage.getItem('pwa_dismissed')) {
-    document.getElementById('pwaInstallBanner').classList.add('show');
-  }
-});
-document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  document.getElementById('pwaInstallBanner').classList.remove('show');
-});
-document.getElementById('pwaDismiss').addEventListener('click', () => {
-  document.getElementById('pwaInstallBanner').classList.remove('show');
-  localStorage.setItem('pwa_dismissed', '1');
-});
+function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
+function closeMobileNav(){document.getElementById('mobileNav').classList.remove('open');}
+function toggleMobileTools(){document.getElementById('mobileToolsToggle').classList.toggle('open');document.getElementById('mobileToolsSub').classList.toggle('open');}
+function toggleToolsDropdown(){document.getElementById('navToolsDropdown').classList.toggle('open');}
+document.addEventListener('click',function(e){var d=document.getElementById('navToolsDropdown');if(d&&!d.contains(e.target))d.classList.remove('open');});
+function goToScanner(tab){switchTab(tab);document.getElementById('scanner').scrollIntoView({behavior:'smooth'});document.getElementById('navToolsDropdown').classList.remove('open');}
 </script>
-
 <div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px;">
   <div style="background:#0e1520;border:1px solid #1a2a40;padding:40px 32px;max-width:420px;width:100%;border-radius:6px;position:relative;">
-    <button onclick="closeAuth()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#6b8aaa;font-size:1.2rem;cursor:pointer;">✕</button>
+    <button onclick="closeAuth()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#6b8aaa;font-size:1.2rem;cursor:pointer;">&#10005;</button>
     <div id="authTabs" style="display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid #1a2a40;">
       <button onclick="switchAuthTab('login')" id="tabLogin" style="background:none;border:none;color:#5bc8f5;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;padding:0 0 12px;margin-right:24px;cursor:pointer;border-bottom:2px solid #5bc8f5;">Log In</button>
       <button onclick="switchAuthTab('signup')" id="tabSignup" style="background:none;border:none;color:#6b8aaa;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;padding:0 0 12px;cursor:pointer;border-bottom:2px solid transparent;">Sign Up</button>
@@ -402,174 +314,46 @@ document.getElementById('pwaDismiss').addEventListener('click', () => {
     <input id="authEmail" type="email" placeholder="Email address" style="width:100%;background:#090d13;border:1px solid #1a2a40;color:#e8f0f8;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:13px 16px;border-radius:4px;outline:none;margin-bottom:12px;box-sizing:border-box;" />
     <input id="authPassword" type="password" placeholder="Password" style="width:100%;background:#090d13;border:1px solid #1a2a40;color:#e8f0f8;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:13px 16px;border-radius:4px;outline:none;margin-bottom:20px;box-sizing:border-box;" />
     <button onclick="submitAuth()" style="width:100%;background:#5bc8f5;color:#090d13;border:none;padding:14px;border-radius:4px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;" id="authSubmitBtn">Log In</button>
-    <p style="text-align:center;margin-top:16px;font-size:0.8rem;color:#6b8aaa;">Free accounts get 10 scans/day. <a href="pricing.html" onclick="closeAuth()" style="color:#5bc8f5;">Go Pro</a> for unlimited.</p>
+    <p style="text-align:center;margin-top:16px;font-size:0.8rem;color:#6b8aaa;">Free accounts get 10 scans/day. <a href="#pricing" onclick="closeAuth()" style="color:#5bc8f5;">Go Pro</a> for unlimited.</p>
   </div>
 </div>
-
 <div id="reportOverlay" class="popup-overlay" onclick="if(event.target===this)closeReport()">
   <div class="popup-box">
-    <div class="popup-header">
-      <span class="popup-title" id="reportTitle">Full Scan Report</span>
-      <button class="popup-close" onclick="closeReport()">✕</button>
-    </div>
+    <div class="popup-header"><span class="popup-title" id="reportTitle">Full Scan Report</span><button class="popup-close" onclick="closeReport()">&#10005;</button></div>
     <div class="popup-body" id="reportBody"></div>
   </div>
 </div>
-
 <div id="popupOverlay" class="popup-overlay" onclick="if(event.target===this)closePopup()">
   <div class="popup-box">
-    <div class="popup-header">
-      <span class="popup-title" id="popupTitle"></span>
-      <button class="popup-close" onclick="closePopup()">✕</button>
-    </div>
+    <div class="popup-header"><span class="popup-title" id="popupTitle"></span><button class="popup-close" onclick="closePopup()">&#10005;</button></div>
     <div class="popup-body" id="popupBody"></div>
   </div>
 </div>
-
 <script>
-let fullReportData = null;
-function showFullReport(label, results, stats, targetUrl) {
-  fullReportData = { label, results, stats, targetUrl };
-  renderReport('all');
-  document.getElementById('reportOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeReport() {
-  document.getElementById('reportOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function renderReport(filter) {
-  if (!fullReportData) return;
-  const { label, results, stats, targetUrl } = fullReportData;
-  const malicious = stats.malicious || 0;
-  const suspicious = stats.suspicious || 0;
-  const clean = stats.harmless || 0;
-  const undetected = stats.undetected || 0;
-  const total = malicious + suspicious + clean + undetected;
-  const headerText = malicious > 0 ? '⚠ Threat Detected' : suspicious > 0 ? '⚠ Suspicious' : '✓ Clean';
-  document.getElementById('reportTitle').innerHTML = `<span style="color:${malicious > 0 || suspicious > 0 ? 'var(--danger)' : 'var(--safe)'};">${headerText}</span><span style="color:var(--text-muted);font-size:0.75rem;font-weight:400;margin-left:8px;">— ${label}</span>`;
-  let filterHtml = `<div class="engine-filter-tabs"><button class="engine-filter-btn ${filter==='all'?'active':''}" onclick="renderReport('all')">All (${total})</button>${malicious > 0 ? `<button class="engine-filter-btn ${filter==='malicious'?'active':''}" onclick="renderReport('malicious')" style="${filter==='malicious'?'background:var(--danger);border-color:var(--danger);':'color:#ff4f4f;border-color:rgba(255,79,79,0.3);'}">Malicious (${malicious})</button>` : ''}${suspicious > 0 ? `<button class="engine-filter-btn ${filter==='suspicious'?'active':''}" onclick="renderReport('suspicious')">Suspicious (${suspicious})</button>` : ''}<button class="engine-filter-btn ${filter==='clean'?'active':''}" onclick="renderReport('clean')" style="${filter==='clean'?'background:var(--safe);border-color:var(--safe);color:var(--bg);':'color:var(--safe);border-color:rgba(63,214,138,0.3);'}">Clean (${clean})</button><button class="engine-filter-btn ${filter==='undetected'?'active':''}" onclick="renderReport('undetected')">Undetected (${undetected})</button></div>`;
-  let summaryHtml = `<div class="report-summary"><div class="report-stat"><div class="report-stat-num" style="color:${malicious>0?'var(--danger)':'var(--safe)'}">${malicious}</div><div class="report-stat-label">Malicious</div></div><div class="report-stat"><div class="report-stat-num" style="color:${suspicious>0?'#f5a623':'var(--text-muted)'}">${suspicious}</div><div class="report-stat-label">Suspicious</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--safe)">${clean}</div><div class="report-stat-label">Clean</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--text-muted)">${undetected}</div><div class="report-stat-label">Undetected</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--ice)">${total}</div><div class="report-stat-label">Engines</div></div></div><div style="font-family:var(--mono);font-size:0.72rem;color:var(--text-muted);word-break:break-all;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">${targetUrl}</div>`;
-  let enginesHtml = '<div class="engine-grid">';
-  for (const [engine, data] of Object.entries(results)) {
-    const cat = data.category;
-    if (filter === 'malicious' && cat !== 'malicious') continue;
-    if (filter === 'suspicious' && cat !== 'suspicious') continue;
-    if (filter === 'clean' && cat !== 'harmless') continue;
-    if (filter === 'undetected' && cat !== 'undetected') continue;
-    let rowClass = 'undetected', verdictClass = 'muted', verdict = 'Undetected';
-    if (cat === 'malicious') { rowClass = 'malicious'; verdictClass = 'red'; verdict = data.result || 'Malicious'; }
-    else if (cat === 'suspicious') { rowClass = 'suspicious'; verdictClass = 'yellow'; verdict = data.result || 'Suspicious'; }
-    else if (cat === 'harmless') { rowClass = 'clean'; verdictClass = 'green'; verdict = 'Clean'; }
-    enginesHtml += `<div class="engine-row ${rowClass}"><span class="engine-name">${engine}</span><span class="engine-verdict ${verdictClass}">${verdict}</span></div>`;
-  }
-  enginesHtml += '</div>';
-  document.getElementById('reportBody').innerHTML = filterHtml + summaryHtml + enginesHtml;
-}
-
-const popupContent = {
-  about: { title: 'About PolarGuarded', body: `<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats — without the bloat, complexity, or high price tags of enterprise security tools.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian. Whether you're checking a suspicious link, scanning a file, verifying a phone number, checking an email, or scanning your PC or Mac — PolarGuarded gives you the same threat intelligence used by security professionals.</p><h3>Our Stack</h3><p>We run on proven open-source engines including VirusTotal, ClamAV, PhishTank, and IPQS — audited, transparent, and always up to date.</p><h3>Built in Canada 🇨🇦</h3><p>PolarGuarded is proudly built and operated in Canada. Your data stays in Canada and is never sold to third parties. Ever.</p>` },
-  contact: { title: 'Contact Us', body: `<p>We'd love to hear from you — whether it's a question, a bug report, or a partnership inquiry.</p><h3>Email</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p><h3>Response Time</h3><p>We typically respond within 24–48 hours on business days.</p><h3>Bug Reports</h3><p>Found a bug or security issue? Please email us directly with details and we'll prioritize it immediately.</p><h3>Business Inquiries</h3><p>Interested in a custom plan or API partnership? Reach out and we'll set up a call.</p>` },
-  privacy: { title: 'Privacy Policy', body: `<h3>Data We Collect</h3><p>We collect your email address when you create an account, and we store your scan history if you are a Pro or Business subscriber.</p><h3>Data We Don't Collect</h3><p>We do not collect your name, phone number, payment card details (handled by Stripe), or any personally identifiable information beyond your email.</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication and service notifications. We never sell, rent, or share your data with advertisers or third parties.</p><h3>Scan Data</h3><p>URLs and files you submit for scanning are sent to VirusTotal for analysis. Phone numbers and emails are sent to IPQS. The PC and Mac Scanners run entirely locally — no data is sent to our servers.</p><h3>Cookies</h3><p>We use minimal cookies for authentication sessions only. No tracking or advertising cookies are used.</p><h3>Contact</h3><p>For privacy concerns, email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p>` },
-  terms: { title: 'Terms of Use', body: `<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms. If you do not agree, please discontinue use of the service.</p><h3>Permitted Use</h3><p>PolarGuarded is intended for lawful cybersecurity purposes only. You may not use our tools to scan systems or content you do not own or have explicit permission to scan.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 online scans per day. The PC and Mac Scanner downloads are unlimited for all users.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis. We do not guarantee that all threats will be detected.</p><h3>Limitation of Liability</h3><p>PolarGuarded is not liable for any damages arising from use or inability to use the service.</p><h3>Changes</h3><p>We may update these terms at any time. Continued use constitutes acceptance.</p><h3>Contact</h3><p>Questions? Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a>.</p>` },
-  api: { title: 'API Documentation', body: `<h3>Overview</h3><p>The PolarGuarded API is available to Business plan subscribers.</p><h3>URL Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "url": "https://example.com" }</code></p><h3>File Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><p>Body: <code>{ "file": "&lt;base64&gt;", "filename": "file.exe" }</code></p><h3>Phone Scan</h3><p>GET: <code>https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=+16135550123</code></p><h3>Email Scan</h3><p>GET: <code>https://polarguarded-email.liamstevenmatyas.workers.dev?email=test@example.com</code></p><h3>Rate Limits</h3><p>Business plan: 1,000 API calls per day.</p>` },
-  status: { title: 'System Status', body: `<h3>All Systems Operational</h3><p><span class="status-dot"></span>URL Scanner — Operational</p><p><span class="status-dot"></span>File Scanner — Operational</p><p><span class="status-dot"></span>Phone Scanner — Operational</p><p><span class="status-dot"></span>Email Scanner — Operational</p><p><span class="status-dot"></span>PC & Mac Scanner Download — Operational</p><p><span class="status-dot"></span>Authentication — Operational</p><p><span class="status-dot"></span>Payment Processing — Operational</p><h3>Upcoming</h3><p>VPN service is currently in development and will be available soon for Pro and Business subscribers.</p><h3>Incidents</h3><p>No incidents reported in the last 30 days.</p>` },
-  blog: { title: 'Blog', body: `<p>Our blog is coming soon! We'll be publishing guides, threat reports, and cybersecurity tips for Canadians.</p><h3>Topics We'll Cover</h3><p>— How to spot phishing emails</p><p>— The rise of phone scams in Canada</p><p>— Why VPNs matter for remote workers</p><p>— How to keep your Windows PC and Mac secure</p><h3>Stay Updated</h3><p>Email <a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a> to be notified when we publish our first post.</p>` }
-};
-function openPopup(key) {
-  const content = popupContent[key];
-  if (!content) return;
-  document.getElementById('popupTitle').textContent = content.title;
-  document.getElementById('popupBody').innerHTML = content.body;
-  document.getElementById('popupOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closePopup() {
-  document.getElementById('popupOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
+var fullReportData=null;
+function showFullReport(label,results,stats,targetUrl){fullReportData={label,results,stats,targetUrl};renderReport('all');document.getElementById('reportOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeReport(){document.getElementById('reportOverlay').classList.remove('open');document.body.style.overflow='';}
+function renderReport(filter){if(!fullReportData)return;var label=fullReportData.label,results=fullReportData.results,stats=fullReportData.stats,targetUrl=fullReportData.targetUrl;var malicious=stats.malicious||0,suspicious=stats.suspicious||0,clean=stats.harmless||0,undetected=stats.undetected||0,total=malicious+suspicious+clean+undetected;var headerText=malicious>0?'\u26a0 Threat Detected':suspicious>0?'\u26a0 Suspicious':'\u2713 Clean';document.getElementById('reportTitle').innerHTML='<span style="color:'+(malicious>0||suspicious>0?'var(--danger)':'var(--safe)')+';">'+headerText+'</span><span style="color:var(--text-muted);font-size:0.75rem;font-weight:400;margin-left:8px;">\u2014 '+label+'</span>';var filterHtml='<div class="engine-filter-tabs"><button class="engine-filter-btn '+(filter==='all'?'active':'')+'" onclick="renderReport(\'all\')">All ('+total+')</button>'+(malicious>0?'<button class="engine-filter-btn '+(filter==='malicious'?'active':'')+'" onclick="renderReport(\'malicious\')" style="'+(filter==='malicious'?'background:var(--danger);border-color:var(--danger);':'color:#ff4f4f;border-color:rgba(255,79,79,0.3);')+'">Malicious ('+malicious+')</button>':'')+(suspicious>0?'<button class="engine-filter-btn '+(filter==='suspicious'?'active':'')+'" onclick="renderReport(\'suspicious\')">Suspicious ('+suspicious+')</button>':'')+'<button class="engine-filter-btn '+(filter==='clean'?'active':'')+'" onclick="renderReport(\'clean\')" style="'+(filter==='clean'?'background:var(--safe);border-color:var(--safe);color:var(--bg);':'color:var(--safe);border-color:rgba(63,214,138,0.3);')+'">Clean ('+clean+')</button><button class="engine-filter-btn '+(filter==='undetected'?'active':'')+'" onclick="renderReport(\'undetected\')">Undetected ('+undetected+')</button></div>';var summaryHtml='<div class="report-summary"><div class="report-stat"><div class="report-stat-num" style="color:'+(malicious>0?'var(--danger)':'var(--safe)')+'">'+malicious+'</div><div class="report-stat-label">Malicious</div></div><div class="report-stat"><div class="report-stat-num" style="color:'+(suspicious>0?'#f5a623':'var(--text-muted)')+'">'+suspicious+'</div><div class="report-stat-label">Suspicious</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--safe)">'+clean+'</div><div class="report-stat-label">Clean</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--text-muted)">'+undetected+'</div><div class="report-stat-label">Undetected</div></div><div class="report-stat"><div class="report-stat-num" style="color:var(--ice)">'+total+'</div><div class="report-stat-label">Engines</div></div></div><div style="font-family:var(--mono);font-size:0.72rem;color:var(--text-muted);word-break:break-all;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">'+targetUrl+'</div>';var enginesHtml='<div class="engine-grid">';for(var engine in results){var data=results[engine],cat=data.category;if(filter==='malicious'&&cat!=='malicious')continue;if(filter==='suspicious'&&cat!=='suspicious')continue;if(filter==='clean'&&cat!=='harmless')continue;if(filter==='undetected'&&cat!=='undetected')continue;var rowClass='undetected',verdictClass='muted',verdict='Undetected';if(cat==='malicious'){rowClass='malicious';verdictClass='red';verdict=data.result||'Malicious';}else if(cat==='suspicious'){rowClass='suspicious';verdictClass='yellow';verdict=data.result||'Suspicious';}else if(cat==='harmless'){rowClass='clean';verdictClass='green';verdict='Clean';}enginesHtml+='<div class="engine-row '+rowClass+'"><span class="engine-name">'+engine+'</span><span class="engine-verdict '+verdictClass+'">'+verdict+'</span></div>';}enginesHtml+='</div>';document.getElementById('reportBody').innerHTML=filterHtml+summaryHtml+enginesHtml;}
+var popupContent={about:{title:'About PolarGuarded',body:'<p>PolarGuarded is a Canadian-built cybersecurity platform designed to protect everyday users from online threats.</p><h3>Our Mission</h3><p>To make professional-grade cybersecurity accessible to every Canadian.</p><h3>Built in Canada \ud83c\udde8\ud83c\udde6</h3><p>Your data stays in Canada and is never sold to third parties. Ever.</p>'},contact:{title:'Contact Us',body:'<p>We\'d love to hear from you.</p><h3>Email</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p><h3>Response Time</h3><p>We typically respond within 24\u201348 hours on business days.</p>'},privacy:{title:'Privacy Policy',body:'<h3>Data We Collect</h3><p>We collect your email address when you create an account.</p><h3>Data We Don\'t Collect</h3><p>We do not collect your name, phone number, or payment card details (handled by Stripe).</p><h3>How We Use Your Data</h3><p>Your email is used only for account authentication. We never sell your data.</p><h3>Scan Data</h3><p>URLs and files are sent to VirusTotal. Phone numbers and emails are sent to IPQS. PC and Mac Scanners run entirely locally.</p><h3>Contact</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p>'},terms:{title:'Terms of Use',body:'<h3>Acceptance</h3><p>By using PolarGuarded, you agree to these terms.</p><h3>Permitted Use</h3><p>PolarGuarded is for lawful cybersecurity purposes only.</p><h3>Free Tier Limits</h3><p>Free accounts are limited to 10 online scans per day.</p><h3>No Warranty</h3><p>PolarGuarded provides threat intelligence on a best-effort basis.</p><h3>Contact</h3><p><a href="mailto:polarguarded@gmail.com">polarguarded@gmail.com</a></p>'},api:{title:'API Documentation',body:'<h3>Overview</h3><p>The PolarGuarded API is available to Business plan subscribers.</p><h3>URL Scan</h3><p>POST: <code>https://polarguarded-scan.liamstevenmatyas.workers.dev</code></p><h3>Rate Limits</h3><p>Business plan: 1,000 API calls per day.</p>'},status:{title:'System Status',body:'<h3>All Systems Operational</h3><p><span class="status-dot"></span>URL Scanner \u2014 Operational</p><p><span class="status-dot"></span>File Scanner \u2014 Operational</p><p><span class="status-dot"></span>Phone Scanner \u2014 Operational</p><p><span class="status-dot"></span>Email Scanner \u2014 Operational</p><p><span class="status-dot"></span>Authentication \u2014 Operational</p><p><span class="status-dot"></span>Payment Processing \u2014 Operational</p><h3>Upcoming</h3><p>VPN service is in development.</p>'},blog:{title:'Blog',body:'<p>Our blog is coming soon!</p><h3>Topics We\'ll Cover</h3><p>\u2014 How to spot phishing emails</p><p>\u2014 The rise of phone scams in Canada</p><p>\u2014 Why VPNs matter for remote workers</p>'}};
+function openPopup(key){var content=popupContent[key];if(!content)return;document.getElementById('popupTitle').textContent=content.title;document.getElementById('popupBody').innerHTML=content.body;document.getElementById('popupOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closePopup(){document.getElementById('popupOverlay').classList.remove('open');document.body.style.overflow='';}
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const SUPABASE_URL = 'https://zpgltytvrodgmzdkzhbp.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_RBSdC0Yh1OaEfX_wV5IozQ_aNI2yZ2s';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let currentUser = null;
-
-supabaseClient.auth.onAuthStateChange((event, session) => {
-  currentUser = session?.user || null;
-  updateNavAuth();
-  if (currentUser) checkProStatus(currentUser.email);
-  else { userIsPro = false; showScanCounter(); }
-});
-
-function updateNavAuth() {
-  const mobileBtn = document.getElementById('mobileAuthBtn');
-  const mobileUserMenu = document.getElementById('mobileUserMenu');
-  const mobileEmailSpan = document.getElementById('mobileUserEmail');
-  const btn = document.getElementById('navAuthBtn');
-  const userMenu = document.getElementById('navUserMenu');
-  const emailSpan = document.getElementById('navUserEmail');
-  if (currentUser) {
-    btn.style.display = 'none';
-    userMenu.style.display = 'flex';
-    userMenu.style.alignItems = 'center';
-    emailSpan.textContent = currentUser.email.split('@')[0];
-    if(mobileBtn) mobileBtn.style.display = 'none';
-    if(mobileUserMenu) { mobileUserMenu.style.display = 'block'; mobileEmailSpan.textContent = currentUser.email.split('@')[0]; }
-  } else {
-    btn.style.display = 'inline-block';
-    if(mobileBtn) mobileBtn.style.display = 'block';
-    if(mobileUserMenu) mobileUserMenu.style.display = 'none';
-    userMenu.style.display = 'none';
-  }
-}
-
-function openAuth(tab) { document.getElementById('authOverlay').style.display = 'flex'; switchAuthTab(tab || 'login'); }
-function closeAuth() { document.getElementById('authOverlay').style.display = 'none'; document.getElementById('authMessage').style.display = 'none'; }
-
-function switchAuthTab(tab) {
-  document.getElementById('tabLogin').style.color = tab === 'login' ? '#5bc8f5' : '#6b8aaa';
-  document.getElementById('tabLogin').style.borderBottom = tab === 'login' ? '2px solid #5bc8f5' : '2px solid transparent';
-  document.getElementById('tabSignup').style.color = tab === 'signup' ? '#5bc8f5' : '#6b8aaa';
-  document.getElementById('tabSignup').style.borderBottom = tab === 'signup' ? '2px solid #5bc8f5' : '2px solid transparent';
-  document.getElementById('authSubmitBtn').textContent = tab === 'login' ? 'Log In' : 'Create Account';
-  document.getElementById('authSubmitBtn').dataset.tab = tab;
-  document.getElementById('authMessage').style.display = 'none';
-}
-
-function showAuthMsg(msg, isError) {
-  const el = document.getElementById('authMessage');
-  el.textContent = msg;
-  el.style.display = 'block';
-  el.style.background = isError ? 'rgba(255,79,79,0.1)' : 'rgba(63,214,138,0.1)';
-  el.style.color = isError ? '#ff4f4f' : '#3fd68a';
-  el.style.border = isError ? '1px solid rgba(255,79,79,0.3)' : '1px solid rgba(63,214,138,0.3)';
-}
-
-async function submitAuth() {
-  const email = document.getElementById('authEmail').value.trim();
-  const password = document.getElementById('authPassword').value;
-  const tab = document.getElementById('authSubmitBtn').dataset.tab || 'login';
-  const btn = document.getElementById('authSubmitBtn');
-  if (!email || !password) { showAuthMsg('Please enter email and password.', true); return; }
-  btn.disabled = true; btn.textContent = 'Please wait...';
-  if (tab === 'signup') {
-    const { error } = await supabaseClient.auth.signUp({ email, password });
-    if (error) { showAuthMsg(error.message, true); } else { showAuthMsg('Account created! Check your email to confirm.', false); }
-  } else {
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) { showAuthMsg('Invalid email or password.', true); } else { closeAuth(); }
-  }
-  btn.disabled = false;
-  btn.textContent = tab === 'login' ? 'Log In' : 'Create Account';
-}
-
-async function signOut() { await supabaseClient.auth.signOut(); currentUser = null; updateNavAuth(); }
-document.getElementById('authOverlay').addEventListener('click', function(e) { if (e.target === this) closeAuth(); });
+var SUPABASE_URL='https://zpgltytvrodgmzdkzhbp.supabase.co';
+var SUPABASE_KEY='sb_publishable_RBSdC0Yh1OaEfX_wV5IozQ_aNI2yZ2s';
+var supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+var currentUser=null;
+supabaseClient.auth.onAuthStateChange(function(event,session){currentUser=session&&session.user?session.user:null;updateNavAuth();if(currentUser)checkProStatus(currentUser.email);else{userIsPro=false;showScanCounter();}});
+function updateNavAuth(){var mobileBtn=document.getElementById('mobileAuthBtn'),mobileUserMenu=document.getElementById('mobileUserMenu'),mobileEmailSpan=document.getElementById('mobileUserEmail'),btn=document.getElementById('navAuthBtn'),userMenu=document.getElementById('navUserMenu'),emailSpan=document.getElementById('navUserEmail');if(currentUser){btn.style.display='none';userMenu.style.display='flex';userMenu.style.alignItems='center';emailSpan.textContent=currentUser.email.split('@')[0];if(mobileBtn)mobileBtn.style.display='none';if(mobileUserMenu){mobileUserMenu.style.display='block';mobileEmailSpan.textContent=currentUser.email.split('@')[0];}}else{btn.style.display='inline-block';if(mobileBtn)mobileBtn.style.display='block';if(mobileUserMenu)mobileUserMenu.style.display='none';userMenu.style.display='none';}}
+function openAuth(tab){document.getElementById('authOverlay').style.display='flex';switchAuthTab(tab||'login');}
+function closeAuth(){document.getElementById('authOverlay').style.display='none';document.getElementById('authMessage').style.display='none';}
+function switchAuthTab(tab){document.getElementById('tabLogin').style.color=tab==='login'?'#5bc8f5':'#6b8aaa';document.getElementById('tabLogin').style.borderBottom=tab==='login'?'2px solid #5bc8f5':'2px solid transparent';document.getElementById('tabSignup').style.color=tab==='signup'?'#5bc8f5':'#6b8aaa';document.getElementById('tabSignup').style.borderBottom=tab==='signup'?'2px solid #5bc8f5':'2px solid transparent';document.getElementById('authSubmitBtn').textContent=tab==='login'?'Log In':'Create Account';document.getElementById('authSubmitBtn').dataset.tab=tab;document.getElementById('authMessage').style.display='none';}
+function showAuthMsg(msg,isError){var el=document.getElementById('authMessage');el.textContent=msg;el.style.display='block';el.style.background=isError?'rgba(255,79,79,0.1)':'rgba(63,214,138,0.1)';el.style.color=isError?'#ff4f4f':'#3fd68a';el.style.border=isError?'1px solid rgba(255,79,79,0.3)':'1px solid rgba(63,214,138,0.3)';}
+async function submitAuth(){var email=document.getElementById('authEmail').value.trim(),password=document.getElementById('authPassword').value,tab=document.getElementById('authSubmitBtn').dataset.tab||'login',btn=document.getElementById('authSubmitBtn');if(!email||!password){showAuthMsg('Please enter email and password.',true);return;}btn.disabled=true;btn.textContent='Please wait...';if(tab==='signup'){var r=await supabaseClient.auth.signUp({email,password});if(r.error)showAuthMsg(r.error.message,true);else showAuthMsg('Account created! Check your email to confirm.',false);}else{var r=await supabaseClient.auth.signInWithPassword({email,password});if(r.error)showAuthMsg('Invalid email or password.',true);else closeAuth();}btn.disabled=false;btn.textContent=tab==='login'?'Log In':'Create Account';}
+async function signOut(){await supabaseClient.auth.signOut();currentUser=null;updateNavAuth();}
+document.getElementById('authOverlay').addEventListener('click',function(e){if(e.target===this)closeAuth();});
 </script>
-
 <section class="hero">
   <div class="hero-eyebrow">Canadian Cybersecurity</div>
   <h1 class="hero-title">Your devices.<br>Your data.<br><em>Defended.</em></h1>
@@ -580,26 +364,25 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
   </div>
   <div class="threat-ticker">
     <div class="ticker-track">
-      <span class="ticker-item"><span class="ticker-dot red"></span>PHISHING DOMAIN BLOCKED — paypal-secure-login.xyz</span>
-      <span class="ticker-item"><span class="ticker-dot green"></span>MALWARE SCAN CLEAN — user device verified</span>
-      <span class="ticker-item"><span class="ticker-dot red"></span>RANSOMWARE SIGNATURE DETECTED — trojan.win32.agent</span>
-      <span class="ticker-item"><span class="ticker-dot ice"></span>VPN CONNECTION SECURED — Ottawa, CA</span>
-      <span class="ticker-item"><span class="ticker-dot red"></span>SCAM URL FLAGGED — interac-etransfer-confirm.cc</span>
-      <span class="ticker-item"><span class="ticker-dot green"></span>VULNERABILITY SCAN COMPLETE — 0 critical issues</span>
-      <span class="ticker-item"><span class="ticker-dot red"></span>EXPLOIT ATTEMPT BLOCKED — CVE-2024-4577</span>
-      <span class="ticker-item"><span class="ticker-dot ice"></span>THREAT DATABASE UPDATED — 1,204 new signatures</span>
-      <span class="ticker-item"><span class="ticker-dot red"></span>PHISHING DOMAIN BLOCKED — paypal-secure-login.xyz</span>
-      <span class="ticker-item"><span class="ticker-dot green"></span>MALWARE SCAN CLEAN — user device verified</span>
-      <span class="ticker-item"><span class="ticker-dot red"></span>RANSOMWARE SIGNATURE DETECTED — trojan.win32.agent</span>
-      <span class="ticker-item"><span class="ticker-dot ice"></span>VPN CONNECTION SECURED — Ottawa, CA</span>
-      <span class="ticker-item"><span class="ticker-dot red"></span>SCAM URL FLAGGED — interac-etransfer-confirm.cc</span>
-      <span class="ticker-item"><span class="ticker-dot green"></span>VULNERABILITY SCAN COMPLETE — 0 critical issues</span>
-      <span class="ticker-item"><span class="ticker-dot red"></span>EXPLOIT ATTEMPT BLOCKED — CVE-2024-4577</span>
-      <span class="ticker-item"><span class="ticker-dot ice"></span>THREAT DATABASE UPDATED — 1,204 new signatures</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>PHISHING DOMAIN BLOCKED &mdash; paypal-secure-login.xyz</span>
+      <span class="ticker-item"><span class="ticker-dot green"></span>MALWARE SCAN CLEAN &mdash; user device verified</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>RANSOMWARE SIGNATURE DETECTED &mdash; trojan.win32.agent</span>
+      <span class="ticker-item"><span class="ticker-dot ice"></span>VPN CONNECTION SECURED &mdash; Ottawa, CA</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>SCAM URL FLAGGED &mdash; interac-etransfer-confirm.cc</span>
+      <span class="ticker-item"><span class="ticker-dot green"></span>VULNERABILITY SCAN COMPLETE &mdash; 0 critical issues</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>EXPLOIT ATTEMPT BLOCKED &mdash; CVE-2024-4577</span>
+      <span class="ticker-item"><span class="ticker-dot ice"></span>THREAT DATABASE UPDATED &mdash; 1,204 new signatures</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>PHISHING DOMAIN BLOCKED &mdash; paypal-secure-login.xyz</span>
+      <span class="ticker-item"><span class="ticker-dot green"></span>MALWARE SCAN CLEAN &mdash; user device verified</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>RANSOMWARE SIGNATURE DETECTED &mdash; trojan.win32.agent</span>
+      <span class="ticker-item"><span class="ticker-dot ice"></span>VPN CONNECTION SECURED &mdash; Ottawa, CA</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>SCAM URL FLAGGED &mdash; interac-etransfer-confirm.cc</span>
+      <span class="ticker-item"><span class="ticker-dot green"></span>VULNERABILITY SCAN COMPLETE &mdash; 0 critical issues</span>
+      <span class="ticker-item"><span class="ticker-dot red"></span>EXPLOIT ATTEMPT BLOCKED &mdash; CVE-2024-4577</span>
+      <span class="ticker-item"><span class="ticker-dot ice"></span>THREAT DATABASE UPDATED &mdash; 1,204 new signatures</span>
     </div>
   </div>
 </section>
-
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat"><div class="stat-num">99.7%</div><div class="stat-label">Malware detection rate</div></div>
@@ -608,21 +391,19 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
     <div class="stat"><div class="stat-num">256-bit</div><div class="stat-label">VPN encryption standard</div></div>
   </div>
 </div>
-
 <div id="scanner">
   <div class="section" style="padding-bottom:0;">
     <div class="section-label">Free Tools</div>
-    <h2 class="section-title">Scan URLs, files, phones, emails & your device.</h2>
-    <p class="section-sub">Real threat intelligence across all your attack surfaces — online and on your device.</p>
+    <h2 class="section-title">Scan URLs, files, phones, emails &amp; your device.</h2>
+    <p class="section-sub">Real threat intelligence across all your attack surfaces.</p>
     <div class="scanner-tabs">
       <button class="scanner-tab active" onclick="switchTab('url')">URL Scanner</button>
       <button class="scanner-tab" onclick="switchTab('file')">File Scanner</button>
       <button class="scanner-tab" onclick="switchTab('phone')">Phone Scanner</button>
       <button class="scanner-tab" onclick="switchTab('email')">Email Scanner</button>
-      <button class="scanner-tab" onclick="switchTab('download')">PC & Mac Scanner</button>
+      <button class="scanner-tab" onclick="switchTab('download')">PC &amp; Mac Scanner</button>
     </div>
     <div class="scanner-box">
-
       <div id="tab-url">
         <div class="scanner-input-row">
           <input type="text" id="urlInput" class="scanner-input" placeholder="https://suspicious-link.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -631,15 +412,11 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="scannerStatus" class="scanner-status" style="display:none;"></div>
         <div id="scannerResult" class="scanner-result" style="display:none;"></div>
       </div>
-
       <div id="tab-file" style="display:none;">
         <div class="file-drop-zone" id="fileDropZone" onclick="document.getElementById('fileInput').click()">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ice);margin-bottom:12px;">
-            <path d="M20 4 L20 26M12 18 L20 26 L28 18"/>
-            <path d="M6 30 L6 34 L34 34 L34 30"/>
-          </svg>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ice);margin-bottom:12px;"><path d="M20 4 L20 26M12 18 L20 26 L28 18"/><path d="M6 30 L6 34 L34 34 L34 30"/></svg>
           <div class="file-drop-text">Drop a file here or tap to browse</div>
-          <div class="file-drop-limit">Max 32MB — EXE, PDF, ZIP, DOC, and more</div>
+          <div class="file-drop-limit">Max 32MB &mdash; EXE, PDF, ZIP, DOC, and more</div>
           <input type="file" id="fileInput" style="display:none;" onchange="handleFileSelect(this)" />
         </div>
         <div id="fileSelected" class="file-selected" style="display:none;">
@@ -650,7 +427,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="fileStatus" class="scanner-status" style="display:none;"></div>
         <div id="fileResult" class="scanner-result" style="display:none;"></div>
       </div>
-
       <div id="tab-phone" style="display:none;">
         <div class="scanner-input-row">
           <input type="tel" id="phoneInput" class="scanner-input" placeholder="+1 613 555 0123" autocomplete="off" />
@@ -660,7 +436,6 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="phoneStatus" class="scanner-status" style="display:none;"></div>
         <div id="phoneResult" class="scanner-result" style="display:none;"></div>
       </div>
-
       <div id="tab-email" style="display:none;">
         <div class="scanner-input-row">
           <input type="email" id="emailInput" class="scanner-input" placeholder="suspicious@example.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -670,28 +445,23 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
         <div id="emailStatus" class="scanner-status" style="display:none;"></div>
         <div id="emailResult" class="scanner-result" style="display:none;"></div>
       </div>
-
       <div id="tab-download" style="display:none;">
         <div style="text-align:center;padding:40px 20px;">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="#5bc8f5" stroke-width="1.5" style="margin-bottom:20px;">
-            <rect x="4" y="8" width="48" height="34" rx="3"/>
-            <path d="M18 42 L38 42M28 42 L28 48M20 48 L36 48"/>
-            <path d="M28 18 L28 30M22 26 L28 32 L34 26"/>
-          </svg>
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="#5bc8f5" stroke-width="1.5" style="margin-bottom:20px;"><rect x="4" y="8" width="48" height="34" rx="3"/><path d="M14 42 L30 42M22 42 L22 48M16 48 L28 48"/><path d="M28 18 L28 30M22 26 L28 32 L34 26"/></svg>
           <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:12px;">PolarGuarded Device Scanner</h3>
-          <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">Download our free security scanner for Windows or Mac. It performs 12 deep security checks on your device and generates a full branded HTML report saved directly to your desktop. Free for everyone — no account needed.</p>
+          <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">Download our free security scanner for Windows or Mac. Performs 12 deep security checks and generates a full HTML report on your desktop. Free for everyone &mdash; no account needed.</p>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 28px;">
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:24px 20px;text-align:center;">
               <div style="font-size:2rem;margin-bottom:8px;">🪟</div>
               <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">Windows</div>
-              <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">Windows 10 & 11</div>
-              <a href="PolarGuarded-Scan.ps1" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">↓ Download (.ps1)</a>
+              <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">Windows 10 &amp; 11</div>
+              <a href="PolarGuarded-Scan.ps1" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">&#8595; Download (.ps1)</a>
             </div>
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:24px 20px;text-align:center;">
               <div style="font-size:2rem;margin-bottom:8px;">🍎</div>
               <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">macOS</div>
               <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">macOS 12 and later</div>
-              <a href="PolarGuarded-Scan.sh" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">↓ Download (.sh)</a>
+              <a href="PolarGuarded-Scan.sh" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">&#8595; Download (.sh)</a>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 24px;">
@@ -704,263 +474,48 @@ document.getElementById('authOverlay').addEventListener('click', function(e) { i
               <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">1. Download the .sh file<br>2. Open <strong style="color:var(--text);">Terminal</strong><br>3. Type: <code style="color:var(--ice);font-size:0.75rem;">bash ~/Downloads/PolarGuarded-Scan.sh</code><br>4. Press Enter<br>5. Report opens on desktop</div>
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-width:520px;margin:0 auto 24px;">
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>Windows & Mac</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>12 security checks</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>No data sent to servers</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>Free for everyone</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>HTML report on desktop</div>
-            <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;"><span style="color:var(--safe);">✓</span>No account needed</div>
-          </div>
           <div style="padding:20px;background:rgba(91,200,245,0.05);border:1px solid var(--ice-dim);border-radius:4px;max-width:500px;margin:0 auto;">
-            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Firewall · Disk Encryption · System Updates · Antivirus/Gatekeeper · Remote Access · Guest Account · UAC/Auto Login · Open Ports · Suspicious Processes · Shared Services · Password Policy · System Integrity</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Firewall &middot; Disk Encryption &middot; System Updates &middot; Antivirus/Gatekeeper &middot; Remote Access &middot; Guest Account &middot; UAC/Auto Login &middot; Open Ports &middot; Suspicious Processes &middot; Shared Services &middot; Password Policy &middot; System Integrity</div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
-
 <script>
-const FREE_LIMIT = 10;
-let userIsPro = false;
-
-function getScanCount() {
-  const today = new Date().toDateString();
-  const stored = JSON.parse(localStorage.getItem('pg_scans') || '{"date":"","count":0}');
-  if (stored.date !== today) return 0;
-  return stored.count;
-}
-function incrementScanCount() {
-  const today = new Date().toDateString();
-  const count = getScanCount() + 1;
-  localStorage.setItem('pg_scans', JSON.stringify({ date: today, count }));
-}
-async function checkProStatus(email) {
-  if (!email) { userIsPro = false; return; }
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=is_pro`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
-    const data = await res.json();
-    userIsPro = data?.[0]?.is_pro === true;
-    showScanCounter();
-  } catch(e) { userIsPro = false; }
-}
-function isProUser() { return userIsPro; }
-function checkScanLimit(statusEl, resultEl) {
-  if (isProUser()) return true;
-  const count = getScanCount();
-  if (count >= FREE_LIMIT) {
-    statusEl.style.display = 'none';
-    resultEl.innerHTML = `<div class="result-header threat">⚠ Daily scan limit reached</div><div class="result-body"><p style="color:var(--text-muted);margin-bottom:16px;">Free accounts get ${FREE_LIMIT} scans per day. Upgrade to Pro for unlimited scans.</p><a href="pricing.html" class="plan-btn primary-btn" style="display:inline-block;text-decoration:none;">Upgrade to Pro — $9/mo</a></div>`;
-    resultEl.style.display = 'block';
-    return false;
-  }
-  return true;
-}
-function showScanCounter() {
-  const existing = document.getElementById('scanCounter');
-  if (existing) existing.remove();
-  if (isProUser()) {
-    const counter = document.createElement('div');
-    counter.id = 'scanCounter';
-    counter.style.cssText = 'font-family:var(--mono);font-size:0.7rem;color:var(--safe);letter-spacing:0.08em;margin-top:12px;';
-    counter.textContent = '✓ Pro — unlimited scans';
-    document.querySelector('.scanner-box')?.appendChild(counter);
-    return;
-  }
-  const count = getScanCount();
-  const remaining = FREE_LIMIT - count;
-  const counter = document.createElement('div');
-  counter.id = 'scanCounter';
-  counter.style.cssText = 'font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);letter-spacing:0.08em;margin-top:12px;';
-  counter.textContent = `${remaining} free scan${remaining !== 1 ? 's' : ''} remaining today`;
-  document.querySelector('.scanner-box')?.appendChild(counter);
-}
-function switchTab(tab) {
-  ['url','file','phone','email','download'].forEach(t => {
-    document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
-  });
-  document.querySelectorAll('.scanner-tab').forEach((t, i) => {
-    t.classList.toggle('active', ['url','file','phone','email','download'][i] === tab);
-  });
-}
-function handleFileSelect(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 32 * 1024 * 1024) { alert('File is too large. Maximum size is 32MB.'); input.value = ''; return; }
-  document.getElementById('fileName').textContent = file.name;
-  document.getElementById('fileSize').textContent = (file.size / (1024*1024)).toFixed(2) + ' MB';
-  document.getElementById('fileDropZone').style.display = 'none';
-  document.getElementById('fileSelected').style.display = 'flex';
-  document.getElementById('fileResult').style.display = 'none';
-}
-async function scanFile() {
-  const fileInput = document.getElementById('fileInput');
-  const file = fileInput.files[0];
-  if (!file) return;
-  const status = document.getElementById('fileStatus');
-  const result = document.getElementById('fileResult');
-  const btn = document.getElementById('fileScanBtn');
-  if (!checkScanLimit(status, result)) { btn.disabled = false; return; }
-  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
-  status.textContent = 'UPLOADING FILE TO THREAT DATABASES...';
-  try {
-    const base64 = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-    status.textContent = 'SCANNING FILE AGAINST 70+ ENGINES...';
-    const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file: base64, filename: file.name }) });
-    const data = await res.json();
-    let stats = null, analysisResults = {};
-    if (data.type === 'file_submitted') {
-      const analysisId = data.data?.data?.id;
-      if (!analysisId) throw new Error('Upload failed');
-      let attempts = 0;
-      while (attempts < 15) {
-        await new Promise(r => setTimeout(r, 4000));
-        status.textContent = `ANALYZING... ${attempts * 4 + 4}s`;
-        const pollRes = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ analysisId }) });
-        const pollData = await pollRes.json();
-        if (pollData?.data?.attributes?.status === 'completed') { stats = pollData.data.attributes.stats; analysisResults = pollData.data.attributes.results || {}; break; }
-        attempts++;
-      }
-    }
-    if (!stats) throw new Error('No results returned');
-    const malicious = stats.malicious || 0;
-    const suspicious = stats.suspicious || 0;
-    const clean = stats.harmless || 0;
-    const undetected = stats.undetected || 0;
-    const total = malicious + suspicious + clean + undetected;
-    const threats = Object.entries(analysisResults).filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious').map(([engine, v]) => `${engine}: ${v.result}`).slice(0, 5);
-    const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
-    const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this file` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this file` : '✓ Clean — No threats detected';
-    window._lastFileScanResults = { analysisResults, stats, name: file.name };
-    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${file.name} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(2)} MB</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div></div>${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}<button class="result-link" onclick="showFullReport(window._lastFileScanResults.name, window._lastFileScanResults.analysisResults, window._lastFileScanResults.stats, window._lastFileScanResults.name)">→ VIEW FULL REPORT ON POLARGUARDED</button></div>`;
-    status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
-  } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
-  btn.disabled = false;
-}
-async function scanURL() {
-  const input = document.getElementById('urlInput').value.trim();
-  const status = document.getElementById('scannerStatus');
-  const result = document.getElementById('scannerResult');
-  const btn = document.querySelector('#tab-url .scanner-btn');
-  if (!input) return;
-  if (!checkScanLimit(status, result)) return;
-  let url = input;
-  if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
-  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
-  status.textContent = 'SUBMITTING URL TO THREAT DATABASES...';
-  try {
-    const res = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
-    const data = await res.json();
-    let stats = null, analysisResults = {};
-    if (data.type === 'cached') { stats = data.data?.data?.attributes?.last_analysis_stats; analysisResults = data.data?.data?.attributes?.last_analysis_results || {}; }
-    else if (data.type === 'submitted') {
-      const analysisId = data.data?.data?.id;
-      if (!analysisId) throw new Error('Submission failed');
-      let attempts = 0;
-      while (attempts < 12) {
-        await new Promise(r => setTimeout(r, 3000));
-        status.textContent = `SCANNING... ${attempts * 3 + 3}s`;
-        const pollRes = await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ analysisId }) });
-        const pollData = await pollRes.json();
-        if (pollData?.data?.attributes?.status === 'completed') { stats = pollData.data.attributes.stats; analysisResults = pollData.data.attributes.results || {}; break; }
-        attempts++;
-      }
-    }
-    if (!stats) throw new Error('No results returned');
-    const malicious = stats.malicious || 0;
-    const suspicious = stats.suspicious || 0;
-    const clean = stats.harmless || 0;
-    const undetected = stats.undetected || 0;
-    const total = malicious + suspicious + clean + undetected;
-    const threats = Object.entries(analysisResults).filter(([,v]) => v.category === 'malicious' || v.category === 'suspicious').map(([engine, v]) => `${engine}: ${v.result}`).slice(0, 5);
-    const headerClass = malicious > 0 || suspicious > 0 ? 'threat' : 'clean';
-    const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this URL` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this URL` : '✓ Clean — No threats detected';
-    window._lastScanResults = { analysisResults, stats, url };
-    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${url}</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div></div>${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}<button class="result-link" onclick="showFullReport(window._lastScanResults.url, window._lastScanResults.analysisResults, window._lastScanResults.stats, window._lastScanResults.url)">→ VIEW FULL REPORT ON POLARGUARDED</button></div>`;
-    status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
-  } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
-  btn.disabled = false;
-}
-async function scanPhone() {
-  const input = document.getElementById('phoneInput').value.trim();
-  const status = document.getElementById('phoneStatus');
-  const result = document.getElementById('phoneResult');
-  const btn = document.querySelector('#tab-phone .scanner-btn');
-  if (!input) return;
-  if (!checkScanLimit(status, result)) return;
-  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
-  status.textContent = 'LOOKING UP PHONE NUMBER...';
-  try {
-    const res = await fetch(`https://polarguarded-phone.liamstevenmatyas.workers.dev?phone=${encodeURIComponent(input)}`);
-    const data = await res.json();
-    if (!data.valid) {
-      result.innerHTML = `<div class="result-header threat">⚠ Invalid Phone Number</div><div class="result-body"><p style="color:var(--text-muted)">This number could not be validated. Check the format and try again (e.g. +16135550123).</p></div>`;
-      status.style.display = 'none'; result.style.display = 'block'; btn.disabled = false; return;
-    }
-    const fraud = data.fraud_score || 0;
-    const isRisky = fraud >= 75 || data.spammer || data.active_vpn || data.recent_abuse;
-    const isSuspicious = fraud >= 40 && fraud < 75;
-    const headerClass = isRisky ? 'threat' : isSuspicious ? 'threat' : 'clean';
-    const headerText = isRisky ? `⚠ High Risk — Fraud Score ${fraud}/100` : isSuspicious ? `⚠ Suspicious — Fraud Score ${fraud}/100` : `✓ Low Risk — Fraud Score ${fraud}/100`;
-    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${input}</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${isRisky ? 'red' : isSuspicious ? 'red' : 'green'}">${fraud}</div><div class="result-stat-label">Fraud Score</div></div><div class="result-stat"><div class="result-stat-num muted">${data.line_type || 'Unknown'}</div><div class="result-stat-label">Line Type</div></div></div><div style="display:grid;gap:8px;margin-top:8px;"><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Carrier</span><span style="color:var(--text);font-family:var(--mono)">${data.carrier || 'Unknown'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Location</span><span style="color:var(--text);font-family:var(--mono)">${data.region ? data.region + ', ' : ''}${data.country || 'Unknown'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>VoIP Number</span><span style="color:${data.VOIP ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.VOIP ? '⚠ Yes — common in scam calls' : 'No'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Spam Reports</span><span style="color:${data.spammer ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.spammer ? '⚠ Reported spammer' : 'Not reported'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;"><span>Recent Abuse</span><span style="color:${data.recent_abuse ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.recent_abuse ? '⚠ Yes' : 'No'}</span></div></div></div>`;
-    status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
-  } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
-  btn.disabled = false;
-}
-async function scanEmail() {
-  const input = document.getElementById('emailInput').value.trim();
-  const status = document.getElementById('emailStatus');
-  const result = document.getElementById('emailResult');
-  const btn = document.querySelector('#tab-email .scanner-btn');
-  if (!input) return;
-  if (!checkScanLimit(status, result)) return;
-  btn.disabled = true; result.style.display = 'none'; status.style.display = 'flex';
-  status.textContent = 'CHECKING EMAIL REPUTATION...';
-  try {
-    const res = await fetch(`https://polarguarded-email.liamstevenmatyas.workers.dev?email=${encodeURIComponent(input)}`);
-    const data = await res.json();
-    if (!data.valid) {
-      result.innerHTML = `<div class="result-header threat">⚠ Invalid Email Address</div><div class="result-body"><p style="color:var(--text-muted)">This email address appears to be invalid or undeliverable.</p></div>`;
-      status.style.display = 'none'; result.style.display = 'block'; btn.disabled = false; return;
-    }
-    const fraud = data.fraud_score || 0;
-    const isRisky = fraud >= 75 || data.spam_trap_score === 'high' || data.disposable || data.recent_abuse;
-    const isSuspicious = fraud >= 40 && fraud < 75;
-    const headerClass = isRisky ? 'threat' : isSuspicious ? 'threat' : 'clean';
-    const headerText = isRisky ? `⚠ High Risk — Fraud Score ${fraud}/100` : isSuspicious ? `⚠ Suspicious — Fraud Score ${fraud}/100` : `✓ Low Risk — Fraud Score ${fraud}/100`;
-    result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${input}</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${isRisky ? 'red' : isSuspicious ? 'red' : 'green'}">${fraud}</div><div class="result-stat-label">Fraud Score</div></div><div class="result-stat"><div class="result-stat-num muted" style="font-size:1rem;">${data.deliverability || 'Unknown'}</div><div class="result-stat-label">Deliverable</div></div></div><div style="display:grid;gap:8px;margin-top:8px;"><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Disposable Email</span><span style="color:${data.disposable ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.disposable ? '⚠ Yes — likely throwaway' : 'No'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Spam Trap Score</span><span style="color:${data.spam_trap_score === 'high' || data.spam_trap_score === 'medium' ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.spam_trap_score === 'high' ? '⚠ High' : data.spam_trap_score === 'medium' ? '⚠ Medium' : 'Low'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Recent Abuse</span><span style="color:${data.recent_abuse ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.recent_abuse ? '⚠ Yes' : 'No'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Domain Age</span><span style="color:var(--text);font-family:var(--mono)">${data.domain_age?.human || 'Unknown'}</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;"><span>Data Breaches</span><span style="color:${data.leaked ? 'var(--danger)' : 'var(--safe)'};font-family:var(--mono)">${data.leaked ? '⚠ Found in data breaches' : 'Not found in known breaches'}</span></div></div></div>`;
-    status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
-  } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
-  btn.disabled = false;
-}
-document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanURL(); });
-document.getElementById('phoneInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanPhone(); });
-document.getElementById('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') scanEmail(); });
-window.addEventListener('load', () => setTimeout(showScanCounter, 500));
+var FREE_LIMIT=10,userIsPro=false;
+function getScanCount(){var today=new Date().toDateString(),stored=JSON.parse(localStorage.getItem('pg_scans')||'{"date":"","count":0}');if(stored.date!==today)return 0;return stored.count;}
+function incrementScanCount(){var today=new Date().toDateString(),count=getScanCount()+1;localStorage.setItem('pg_scans',JSON.stringify({date:today,count:count}));}
+async function checkProStatus(email){if(!email){userIsPro=false;return;}try{var res=await fetch(SUPABASE_URL+'/rest/v1/profiles?email=eq.'+encodeURIComponent(email)+'&select=is_pro',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});var data=await res.json();userIsPro=data&&data[0]&&data[0].is_pro===true;showScanCounter();}catch(e){userIsPro=false;}}
+function isProUser(){return userIsPro;}
+function checkScanLimit(statusEl,resultEl){if(isProUser())return true;var count=getScanCount();if(count>=FREE_LIMIT){statusEl.style.display='none';resultEl.innerHTML='<div class="result-header threat">\u26a0 Daily scan limit reached</div><div class="result-body"><p style="color:var(--text-muted);margin-bottom:16px;">Free accounts get '+FREE_LIMIT+' scans per day. Upgrade to Pro for unlimited scans.</p><a href="pricing.html" class="plan-btn primary-btn" style="display:inline-block;text-decoration:none;">Upgrade to Pro &mdash; $9/mo</a></div>';resultEl.style.display='block';return false;}return true;}
+function showScanCounter(){var existing=document.getElementById('scanCounter');if(existing)existing.remove();if(isProUser()){var counter=document.createElement('div');counter.id='scanCounter';counter.style.cssText='font-family:var(--mono);font-size:0.7rem;color:var(--safe);letter-spacing:0.08em;margin-top:12px;';counter.textContent='\u2713 Pro \u2014 unlimited scans';document.querySelector('.scanner-box')&&document.querySelector('.scanner-box').appendChild(counter);return;}var count=getScanCount(),remaining=FREE_LIMIT-count,counter=document.createElement('div');counter.id='scanCounter';counter.style.cssText='font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);letter-spacing:0.08em;margin-top:12px;';counter.textContent=remaining+' free scan'+(remaining!==1?'s':'')+' remaining today';document.querySelector('.scanner-box')&&document.querySelector('.scanner-box').appendChild(counter);}
+function switchTab(tab){['url','file','phone','email','download'].forEach(function(t){document.getElementById('tab-'+t).style.display=t===tab?'block':'none';});document.querySelectorAll('.scanner-tab').forEach(function(t,i){t.classList.toggle('active',['url','file','phone','email','download'][i]===tab);});}
+function handleFileSelect(input){var file=input.files[0];if(!file)return;if(file.size>32*1024*1024){alert('File is too large. Maximum size is 32MB.');input.value='';return;}document.getElementById('fileName').textContent=file.name;document.getElementById('fileSize').textContent=(file.size/(1024*1024)).toFixed(2)+' MB';document.getElementById('fileDropZone').style.display='none';document.getElementById('fileSelected').style.display='flex';document.getElementById('fileResult').style.display='none';}
+async function scanFile(){var fileInput=document.getElementById('fileInput'),file=fileInput.files[0];if(!file)return;var status=document.getElementById('fileStatus'),result=document.getElementById('fileResult'),btn=document.getElementById('fileScanBtn');if(!checkScanLimit(status,result)){btn.disabled=false;return;}btn.disabled=true;result.style.display='none';status.style.display='flex';status.textContent='UPLOADING FILE TO THREAT DATABASES...';try{var base64=await new Promise(function(resolve,reject){var reader=new FileReader();reader.onload=function(){resolve(reader.result.split(',')[1]);};reader.onerror=reject;reader.readAsDataURL(file);});status.textContent='SCANNING FILE AGAINST 70+ ENGINES...';var res=await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({file:base64,filename:file.name})});var data=await res.json();var stats=null,analysisResults={};if(data.type==='file_submitted'){var analysisId=data.data&&data.data.data&&data.data.data.id;if(!analysisId)throw new Error('Upload failed');var attempts=0;while(attempts<15){await new Promise(function(r){setTimeout(r,4000);});status.textContent='ANALYZING... '+(attempts*4+4)+'s';var pollRes=await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({analysisId:analysisId})});var pollData=await pollRes.json();if(pollData&&pollData.data&&pollData.data.attributes&&pollData.data.attributes.status==='completed'){stats=pollData.data.attributes.stats;analysisResults=pollData.data.attributes.results||{};break;}attempts++;}}if(!stats)throw new Error('No results returned');var malicious=stats.malicious||0,suspicious=stats.suspicious||0,clean=stats.harmless||0,undetected=stats.undetected||0,total=malicious+suspicious+clean+undetected;var threats=Object.entries(analysisResults).filter(function(e){return e[1].category==='malicious'||e[1].category==='suspicious';}).map(function(e){return e[0]+': '+e[1].result;}).slice(0,5);var headerClass=malicious>0||suspicious>0?'threat':'clean';var headerText=malicious>0?'\u26a0 Threat Detected \u2014 '+malicious+' engine'+(malicious!==1?'s':'')+' flagged this file':suspicious>0?'\u26a0 Suspicious \u2014 '+suspicious+' engine'+(suspicious!==1?'s':'')+' flagged this file':'\u2713 Clean \u2014 No threats detected';window._lastFileScanResults={analysisResults:analysisResults,stats:stats,name:file.name};result.innerHTML='<div class="result-header '+headerClass+'">'+headerText+'</div><div class="result-body"><div class="result-url">'+file.name+' &nbsp;&middot;&nbsp; '+(file.size/1024/1024).toFixed(2)+' MB</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num '+(malicious>0?'red':'green')+'">'+malicious+'</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num '+(suspicious>0?'red':'muted')+'">'+suspicious+'</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">'+clean+'</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">'+total+'</div><div class="result-stat-label">Engines</div></div></div>'+(threats.length>0?'<div class="result-engines">'+threats.map(function(t){return'<span class="engine-threat">\u25b8 '+t+'</span>';}).join('')+'</div>':'')+'<button class="result-link" onclick="showFullReport(window._lastFileScanResults.name,window._lastFileScanResults.analysisResults,window._lastFileScanResults.stats,window._lastFileScanResults.name)">\u2192 VIEW FULL REPORT ON POLARGUARDED</button></div>';var fileResult=malicious>0?'threat':suspicious>0?'suspicious':'clean';saveScanHistory('file',file.name,fileResult,{malicious:malicious,suspicious:suspicious,clean:clean,total_engines:total});incrementScanCount();showScanCounter();status.style.display='none';result.style.display='block';}catch(err){status.textContent='SCAN FAILED \u2014 please try again';console.error(err);}btn.disabled=false;}
+async function scanURL(){var input=document.getElementById('urlInput').value.trim(),status=document.getElementById('scannerStatus'),result=document.getElementById('scannerResult'),btn=document.querySelector('#tab-url .scanner-btn');if(!input)return;if(!checkScanLimit(status,result))return;var url=input;if(!url.startsWith('http://')&&!url.startsWith('https://'))url='https://'+url;btn.disabled=true;result.style.display='none';status.style.display='flex';status.textContent='SUBMITTING URL TO THREAT DATABASES...';try{var res=await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:url})});var data=await res.json();var stats=null,analysisResults={};if(data.type==='cached'){stats=data.data&&data.data.data&&data.data.data.attributes&&data.data.data.attributes.last_analysis_stats;analysisResults=data.data&&data.data.data&&data.data.data.attributes&&data.data.data.attributes.last_analysis_results||{};}else if(data.type==='submitted'){var analysisId=data.data&&data.data.data&&data.data.data.id;if(!analysisId)throw new Error('Submission failed');var attempts=0;while(attempts<12){await new Promise(function(r){setTimeout(r,3000);});status.textContent='SCANNING... '+(attempts*3+3)+'s';var pollRes=await fetch('https://polarguarded-scan.liamstevenmatyas.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({analysisId:analysisId})});var pollData=await pollRes.json();if(pollData&&pollData.data&&pollData.data.attributes&&pollData.data.attributes.status==='completed'){stats=pollData.data.attributes.stats;analysisResults=pollData.data.attributes.results||{};break;}attempts++;}}if(!stats)throw new Error('No results returned');var malicious=stats.malicious||0,suspicious=stats.suspicious||0,clean=stats.harmless||0,undetected=stats.undetected||0,total=malicious+suspicious+clean+undetected;var threats=Object.entries(analysisResults).filter(function(e){return e[1].category==='malicious'||e[1].category==='suspicious';}).map(function(e){return e[0]+': '+e[1].result;}).slice(0,5);var headerClass=malicious>0||suspicious>0?'threat':'clean';var headerText=malicious>0?'\u26a0 Threat Detected \u2014 '+malicious+' engine'+(malicious!==1?'s':'')+' flagged this URL':suspicious>0?'\u26a0 Suspicious \u2014 '+suspicious+' engine'+(suspicious!==1?'s':'')+' flagged this URL':'\u2713 Clean \u2014 No threats detected';window._lastScanResults={analysisResults:analysisResults,stats:stats,url:url};result.innerHTML='<div class="result-header '+headerClass+'">'+headerText+'</div><div class="result-body"><div class="result-url">'+url+'</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num '+(malicious>0?'red':'green')+'">'+malicious+'</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num '+(suspicious>0?'red':'muted')+'">'+suspicious+'</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">'+clean+'</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">'+total+'</div><div class="result-stat-label">Engines</div></div></div>'+(threats.length>0?'<div class="result-engines">'+threats.map(function(t){return'<span class="engine-threat">\u25b8 '+t+'</span>';}).join('')+'</div>':'')+'<button class="result-link" onclick="showFullReport(window._lastScanResults.url,window._lastScanResults.analysisResults,window._lastScanResults.stats,window._lastScanResults.url)">\u2192 VIEW FULL REPORT ON POLARGUARDED</button></div>';var urlResult=malicious>0?'threat':suspicious>0?'suspicious':'clean';saveScanHistory('url',url,urlResult,{malicious:malicious,suspicious:suspicious,clean:clean,total_engines:total});status.style.display='none';result.style.display='block';incrementScanCount();showScanCounter();}catch(err){status.textContent='SCAN FAILED \u2014 please try again';console.error(err);}btn.disabled=false;}
+async function scanPhone(){var input=document.getElementById('phoneInput').value.trim(),status=document.getElementById('phoneStatus'),result=document.getElementById('phoneResult'),btn=document.querySelector('#tab-phone .scanner-btn');if(!input)return;if(!checkScanLimit(status,result))return;btn.disabled=true;result.style.display='none';status.style.display='flex';status.textContent='LOOKING UP PHONE NUMBER...';try{var res=await fetch('https://polarguarded-phone.liamstevenmatyas.workers.dev?phone='+encodeURIComponent(input));var data=await res.json();if(!data.valid){result.innerHTML='<div class="result-header threat">\u26a0 Invalid Phone Number</div><div class="result-body"><p style="color:var(--text-muted)">This number could not be validated. Check the format and try again (e.g. +16135550123).</p></div>';status.style.display='none';result.style.display='block';btn.disabled=false;return;}var fraud=data.fraud_score||0,isRisky=fraud>=75||data.spammer||data.active_vpn||data.recent_abuse,isSuspicious=fraud>=40&&fraud<75;var headerClass=isRisky?'threat':isSuspicious?'threat':'clean';var headerText=isRisky?'\u26a0 High Risk \u2014 Fraud Score '+fraud+'/100':isSuspicious?'\u26a0 Suspicious \u2014 Fraud Score '+fraud+'/100':'\u2713 Low Risk \u2014 Fraud Score '+fraud+'/100';result.innerHTML='<div class="result-header '+headerClass+'">'+headerText+'</div><div class="result-body"><div class="result-url">'+input+'</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num '+(isRisky?'red':isSuspicious?'red':'green')+'">'+fraud+'</div><div class="result-stat-label">Fraud Score</div></div><div class="result-stat"><div class="result-stat-num muted">'+(data.line_type||'Unknown')+'</div><div class="result-stat-label">Line Type</div></div></div><div style="display:grid;gap:8px;margin-top:8px;"><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Carrier</span><span style="color:var(--text);font-family:var(--mono)">'+(data.carrier||'Unknown')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Location</span><span style="color:var(--text);font-family:var(--mono)">'+(data.region?data.region+', ':'')+(data.country||'Unknown')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>VoIP Number</span><span style="color:'+(data.VOIP?'var(--danger)':'var(--safe)')+';font-family:var(--mono)">'+(data.VOIP?'\u26a0 Yes \u2014 common in scam calls':'No')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Spam Reports</span><span style="color:'+(data.spammer?'var(--danger)':'var(--safe)')+';font-family:var(--mono)">'+(data.spammer?'\u26a0 Reported spammer':'Not reported')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;"><span>Recent Abuse</span><span style="color:'+(data.recent_abuse?'var(--danger)':'var(--safe)')+';font-family:var(--mono)">'+(data.recent_abuse?'\u26a0 Yes':'No')+'</span></div></div></div>';status.style.display='none';result.style.display='block';incrementScanCount();showScanCounter();}catch(err){status.textContent='SCAN FAILED \u2014 please try again';console.error(err);}btn.disabled=false;}
+async function scanEmail(){var input=document.getElementById('emailInput').value.trim(),status=document.getElementById('emailStatus'),result=document.getElementById('emailResult'),btn=document.querySelector('#tab-email .scanner-btn');if(!input)return;if(!checkScanLimit(status,result))return;btn.disabled=true;result.style.display='none';status.style.display='flex';status.textContent='CHECKING EMAIL REPUTATION...';try{var res=await fetch('https://polarguarded-email.liamstevenmatyas.workers.dev?email='+encodeURIComponent(input));var data=await res.json();if(!data.valid){result.innerHTML='<div class="result-header threat">\u26a0 Invalid Email Address</div><div class="result-body"><p style="color:var(--text-muted)">This email address appears to be invalid or undeliverable.</p></div>';status.style.display='none';result.style.display='block';btn.disabled=false;return;}var fraud=data.fraud_score||0,isRisky=fraud>=75||data.spam_trap_score==='high'||data.disposable||data.recent_abuse,isSuspicious=fraud>=40&&fraud<75;var headerClass=isRisky?'threat':isSuspicious?'threat':'clean';var headerText=isRisky?'\u26a0 High Risk \u2014 Fraud Score '+fraud+'/100':isSuspicious?'\u26a0 Suspicious \u2014 Fraud Score '+fraud+'/100':'\u2713 Low Risk \u2014 Fraud Score '+fraud+'/100';result.innerHTML='<div class="result-header '+headerClass+'">'+headerText+'</div><div class="result-body"><div class="result-url">'+input+'</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num '+(isRisky?'red':isSuspicious?'red':'green')+'">'+fraud+'</div><div class="result-stat-label">Fraud Score</div></div><div class="result-stat"><div class="result-stat-num muted" style="font-size:1rem;">'+(data.deliverability||'Unknown')+'</div><div class="result-stat-label">Deliverable</div></div></div><div style="display:grid;gap:8px;margin-top:8px;"><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Disposable Email</span><span style="color:'+(data.disposable?'var(--danger)':'var(--safe)')+';font-family:var(--mono)">'+(data.disposable?'\u26a0 Yes \u2014 likely throwaway':'No')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Spam Trap Score</span><span style="color:'+(data.spam_trap_score==='high'||data.spam_trap_score==='medium'?'var(--danger)':'var(--safe)')+';font-family:var(--mono)">'+(data.spam_trap_score==='high'?'\u26a0 High':data.spam_trap_score==='medium'?'\u26a0 Medium':'Low')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Recent Abuse</span><span style="color:'+(data.recent_abuse?'var(--danger)':'var(--safe)')+';font-family:var(--mono)">'+(data.recent_abuse?'\u26a0 Yes':'No')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);"><span>Domain Age</span><span style="color:var(--text);font-family:var(--mono)">'+(data.domain_age&&data.domain_age.human||'Unknown')+'</span></div><div style="font-size:0.82rem;color:var(--text-muted);display:flex;justify-content:space-between;padding:8px 0;"><span>Data Breaches</span><span style="color:'+(data.leaked?'var(--danger)':'var(--safe)')+';font-family:var(--mono)">'+(data.leaked?'\u26a0 Found in data breaches':'Not found in known breaches')+'</span></div></div></div>';status.style.display='none';result.style.display='block';incrementScanCount();showScanCounter();}catch(err){status.textContent='SCAN FAILED \u2014 please try again';console.error(err);}btn.disabled=false;}
+document.getElementById('urlInput').addEventListener('keydown',function(e){if(e.key==='Enter')scanURL();});
+document.getElementById('phoneInput').addEventListener('keydown',function(e){if(e.key==='Enter')scanPhone();});
+document.getElementById('emailInput').addEventListener('keydown',function(e){if(e.key==='Enter')scanEmail();});
+window.addEventListener('load',function(){setTimeout(showScanCounter,500);});
 </script>
-
 <div id="services">
   <div class="section">
     <div class="section-label">What We Do</div>
     <h2 class="section-title">Built to catch threats<br>before they catch you.</h2>
-    <p class="section-sub">Every tool in PolarGuarded runs on proven open-source engines — audited, transparent, and always up to date.</p>
+    <p class="section-sub">Every tool in PolarGuarded runs on proven open-source engines &mdash; audited, transparent, and always up to date.</p>
     <div class="services-grid">
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="22" cy="22" r="18"/><path d="M22 10 L22 22 L30 28"/><circle cx="22" cy="22" r="4" fill="currentColor" opacity="0.2"/></svg>
         <div class="service-name">Malware Scanner</div>
-        <p class="service-desc">Powered by ClamAV and VirusTotal — upload a file and get an instant threat report against 2.4M+ known malware signatures.</p>
+        <p class="service-desc">Powered by ClamAV and VirusTotal &mdash; upload a file and get an instant threat report against 2.4M+ known malware signatures.</p>
         <span class="service-tag tag-live">Live</span>
       </div>
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="14" width="28" height="18" rx="2"/><path d="M14 14 L14 10 L30 10 L30 14"/><line x1="15" y1="21" x2="29" y2="21"/><line x1="15" y1="26" x2="22" y2="26"/></svg>
-        <div class="service-name">Phishing & Scam Detector</div>
+        <div class="service-name">Phishing &amp; Scam Detector</div>
         <p class="service-desc">Paste any URL or email link. PolarGuarded checks it against PhishTank, Google Safe Browsing, and our Canadian scam database in real time.</p>
         <span class="service-tag tag-live">Live</span>
       </div>
@@ -978,7 +533,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
       </div>
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="8" width="36" height="26" rx="3"/><path d="M14 34 L30 34M22 34 L22 38M16 38 L28 38"/><path d="M22 14 L22 24M18 21 L22 25 L26 21"/></svg>
-        <div class="service-name">PC & Mac Security Scanner</div>
+        <div class="service-name">PC &amp; Mac Security Scanner</div>
         <p class="service-desc">Download our free Windows and macOS scanner. Checks 12 critical security settings and generates a full report on your desktop. Free for everyone.</p>
         <span class="service-tag tag-live">Free Download</span>
       </div>
@@ -991,21 +546,19 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     </div>
   </div>
 </div>
-
 <div id="how" class="how-wrapper">
   <div class="section">
     <div class="section-label">How It Works</div>
     <h2 class="section-title">Scan in seconds.</h2>
     <p class="section-sub">No installs required for basic scans. Create a free account to unlock scheduled scans and history.</p>
     <div class="how-steps">
-      <div class="how-step"><div class="step-num">STEP 01</div><div class="step-title">Choose your tool</div><p class="step-desc">Paste a suspicious link, upload a file, check a phone number or email, or download the PC & Mac scanner for a full device check.</p></div>
+      <div class="how-step"><div class="step-num">STEP 01</div><div class="step-title">Choose your tool</div><p class="step-desc">Paste a suspicious link, upload a file, check a phone number or email, or download the PC &amp; Mac scanner for a full device check.</p></div>
       <div class="how-step"><div class="step-num">STEP 02</div><div class="step-title">We run the engines</div><p class="step-desc">ClamAV, VirusTotal, PhishTank, and Google Safe Browsing all check simultaneously against their databases.</p></div>
-      <div class="how-step"><div class="step-num">STEP 03</div><div class="step-title">Get a clear result</div><p class="step-desc">Clean or threat — no jargon. If something's found, we tell you exactly what it is and what to do next.</p></div>
+      <div class="how-step"><div class="step-num">STEP 03</div><div class="step-title">Get a clear result</div><p class="step-desc">Clean or threat &mdash; no jargon. If something's found, we tell you exactly what it is and what to do next.</p></div>
       <div class="how-step"><div class="step-num">STEP 04</div><div class="step-title">Stay protected</div><p class="step-desc">Pro users get unlimited online scans and VPN access to stay covered around the clock.</p></div>
     </div>
   </div>
 </div>
-
 <div id="pricing">
   <div class="section">
     <div class="section-label">Pricing</div>
@@ -1017,11 +570,11 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <div class="plan-price">$0</div>
         <p class="plan-desc">Scan anytime, no account needed. Good for one-off checks.</p>
         <ul class="plan-features">
-          <li>URL & phishing scanner</li>
+          <li>URL &amp; phishing scanner</li>
           <li>File malware scan (up to 32MB)</li>
           <li>Phone scam checker</li>
           <li>Email risk checker</li>
-          <li>PC & Mac scanner download</li>
+          <li>PC &amp; Mac scanner download</li>
           <li>10 online scans per day</li>
           <li class="muted">No VPN access</li>
           <li class="muted">No scan history</li>
@@ -1033,9 +586,9 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
         <div class="plan-price"><sup>$</sup>9<span>/mo</span></div>
         <p class="plan-desc">Full protection for individuals and families.</p>
         <ul class="plan-features">
-          <li>Unlimited URL, file, phone & email scans</li>
-          <li>PC & Mac scanner download</li>
-          <li>Scan history & reports</li>
+          <li>Unlimited URL, file, phone &amp; email scans</li>
+          <li>PC &amp; Mac scanner download</li>
+          <li>Scan history &amp; reports</li>
           <li>PolarGuarded VPN included</li>
           <li>Priority support</li>
           <li class="muted">No team dashboard</li>
@@ -1059,7 +612,6 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     </div>
   </div>
 </div>
-
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
@@ -1074,7 +626,7 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
           <li><a onclick="goToScanner('file')">File Scanner</a></li>
           <li><a onclick="goToScanner('phone')">Phone Scanner</a></li>
           <li><a onclick="goToScanner('email')">Email Scanner</a></li>
-          <li><a onclick="goToScanner('download')">PC & Mac Scanner</a></li>
+          <li><a onclick="goToScanner('download')">PC &amp; Mac Scanner</a></li>
           <li><a onclick="return false;">VPN (Soon)</a></li>
         </ul>
       </div>
@@ -1098,11 +650,10 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025–2026 PolarGuarded. Built in <span>Canada 🇨🇦</span></p>
-    <p>Powered by ClamAV · VirusTotal · WireGuard · PhishTank · IPQS</p>
+    <p>&copy; 2025&ndash;2026 PolarGuarded. Built in <span>Canada &#127464;&#127462;</span></p>
+    <p>Powered by ClamAV &middot; VirusTotal &middot; WireGuard &middot; PhishTank &middot; IPQS</p>
   </div>
 </footer>
-
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js');
