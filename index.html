@@ -1,3 +1,4 @@
+cat > /home/claude/polarguarded-final.html << 'ENDOFFILE'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#5bc8f5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PolarGuarded">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <style>
   :root {
     --bg:        #090d13;
@@ -246,6 +253,16 @@
   .mobile-tools-sub a::before { content: '→'; color: var(--ice-dim); font-family: var(--mono); font-size: 0.7rem; }
   .mobile-nav-auth { color: var(--ice) !important; font-weight: 700 !important; border-bottom: none !important; }
 
+  /* PWA Install Banner */
+  #pwaInstallBanner { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--surface2); border: 1px solid var(--ice-dim); border-radius: 8px; padding: 16px 20px; z-index: 999; box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 360px; width: 90%; }
+  #pwaInstallBanner.show { display: flex; align-items: center; gap: 12px; }
+  #pwaInstallBanner .pwa-icon { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; }
+  #pwaInstallBanner .pwa-text { flex: 1; }
+  #pwaInstallBanner .pwa-text strong { display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 2px; }
+  #pwaInstallBanner .pwa-text span { font-size: 0.78rem; color: var(--text-muted); }
+  #pwaInstallBanner .pwa-install-btn { background: var(--ice); color: var(--bg); border: none; padding: 8px 16px; border-radius: 4px; font-family: var(--sans); font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; }
+  #pwaInstallBanner .pwa-dismiss { background: none; border: none; color: var(--text-dim); font-size: 1rem; cursor: pointer; padding: 4px; margin-left: 4px; }
+
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .mobile-menu-btn { display: flex; }
@@ -265,6 +282,17 @@
 </style>
 </head>
 <body>
+
+<!-- PWA Install Banner -->
+<div id="pwaInstallBanner">
+  <img src="/icon-192.png" class="pwa-icon" alt="PolarGuarded">
+  <div class="pwa-text">
+    <strong>Install PolarGuarded</strong>
+    <span>Add to your home screen for quick access</span>
+  </div>
+  <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
+  <button class="pwa-dismiss" id="pwaDismiss">✕</button>
+</div>
 
 <nav>
   <a href="#" class="nav-logo">
@@ -341,6 +369,27 @@ function goToScanner(tab) {
   document.getElementById('scanner').scrollIntoView({ behavior: 'smooth' });
   document.getElementById('navToolsDropdown').classList.remove('open');
 }
+
+// PWA Install
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!localStorage.getItem('pwa_dismissed')) {
+    document.getElementById('pwaInstallBanner').classList.add('show');
+  }
+});
+document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwaInstallBanner').classList.remove('show');
+});
+document.getElementById('pwaDismiss').addEventListener('click', () => {
+  document.getElementById('pwaInstallBanner').classList.remove('show');
+  localStorage.setItem('pwa_dismissed', '1');
+});
 </script>
 
 <div id="authOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px;">
@@ -354,7 +403,7 @@ function goToScanner(tab) {
     <input id="authEmail" type="email" placeholder="Email address" style="width:100%;background:#090d13;border:1px solid #1a2a40;color:#e8f0f8;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:13px 16px;border-radius:4px;outline:none;margin-bottom:12px;box-sizing:border-box;" />
     <input id="authPassword" type="password" placeholder="Password" style="width:100%;background:#090d13;border:1px solid #1a2a40;color:#e8f0f8;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:13px 16px;border-radius:4px;outline:none;margin-bottom:20px;box-sizing:border-box;" />
     <button onclick="submitAuth()" style="width:100%;background:#5bc8f5;color:#090d13;border:none;padding:14px;border-radius:4px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;" id="authSubmitBtn">Log In</button>
-    <p style="text-align:center;margin-top:16px;font-size:0.8rem;color:#6b8aaa;">Free accounts get 10 scans/day. <a href="#pricing" onclick="closeAuth()" style="color:#5bc8f5;">Go Pro</a> for unlimited.</p>
+    <p style="text-align:center;margin-top:16px;font-size:0.8rem;color:#6b8aaa;">Free accounts get 10 scans/day. <a href="pricing.html" onclick="closeAuth()" style="color:#5bc8f5;">Go Pro</a> for unlimited.</p>
   </div>
 </div>
 
@@ -792,7 +841,7 @@ async function scanFile() {
     const headerText = malicious > 0 ? `⚠ Threat Detected — ${malicious} engine${malicious !== 1 ? 's' : ''} flagged this file` : suspicious > 0 ? `⚠ Suspicious — ${suspicious} engine${suspicious !== 1 ? 's' : ''} flagged this file` : '✓ Clean — No threats detected';
     window._lastFileScanResults = { analysisResults, stats, name: file.name };
     result.innerHTML = `<div class="result-header ${headerClass}">${headerText}</div><div class="result-body"><div class="result-url">${file.name} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(2)} MB</div><div class="result-stat-row"><div class="result-stat"><div class="result-stat-num ${malicious > 0 ? 'red' : 'green'}">${malicious}</div><div class="result-stat-label">Malicious</div></div><div class="result-stat"><div class="result-stat-num ${suspicious > 0 ? 'red' : 'muted'}">${suspicious}</div><div class="result-stat-label">Suspicious</div></div><div class="result-stat"><div class="result-stat-num green">${clean}</div><div class="result-stat-label">Clean</div></div><div class="result-stat"><div class="result-stat-num muted">${total}</div><div class="result-stat-label">Engines</div></div></div>${threats.length > 0 ? `<div class="result-engines">${threats.map(t => `<span class="engine-threat">▸ ${t}</span>`).join('')}</div>` : ''}<button class="result-link" onclick="showFullReport(window._lastFileScanResults.name, window._lastFileScanResults.analysisResults, window._lastFileScanResults.stats, window._lastFileScanResults.name)">→ VIEW FULL REPORT ON POLARGUARDED</button></div>`;
-    status.style.display = 'none'; result.style.display = 'block';
+    status.style.display = 'none'; result.style.display = 'block'; incrementScanCount(); showScanCounter();
   } catch(err) { status.textContent = 'SCAN FAILED — please try again'; console.error(err); }
   btn.disabled = false;
 }
@@ -1055,5 +1104,12 @@ window.addEventListener('load', () => setTimeout(showScanCounter, 500));
   </div>
 </footer>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js');
+  }
+</script>
 </body>
-</html> 
+</html>
+ENDOFFILE
+echo "File created successfully"
