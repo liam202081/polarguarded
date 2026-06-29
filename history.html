@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scan History — PolarGuarded</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#5bc8f5">
+<style>
+  :root {
+    --bg: #090d13; --surface: #0e1520; --surface2: #131d2e; --border: #1a2a40;
+    --ice: #5bc8f5; --ice-dim: #2a6e8a; --text: #e8f0f8; --text-muted: #6b8aaa;
+    --text-dim: #3d5a78; --danger: #ff4f4f; --safe: #3fd68a;
+    --mono: 'JetBrains Mono', monospace; --sans: 'Space Grotesk', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(91,200,245,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(91,200,245,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 64px; background: rgba(9,13,19,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-text { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text); text-transform: uppercase; }
+  .nav-logo-text span { color: var(--ice); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-back { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-back:hover { color: var(--ice); }
+  .nav-user { font-size: 0.82rem; color: var(--text-muted); }
+  .nav-signout { color: var(--text-muted); font-size: 0.82rem; cursor: pointer; background: none; border: none; font-family: var(--sans); transition: color 0.2s; }
+  .nav-signout:hover { color: var(--danger); }
+
+  .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 100px 5% 80px; }
+  .page-header { margin-bottom: 48px; }
+  .page-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--ice); text-transform: uppercase; margin-bottom: 12px; }
+  .page-title { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .page-sub { color: var(--text-muted); font-size: 0.9rem; }
+
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 4px; font-family: var(--mono); font-size: 0.72rem; cursor: pointer; transition: all 0.15s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .filter-btn:hover { border-color: var(--ice-dim); color: var(--ice); }
+  .filter-btn.active { background: var(--ice); color: var(--bg); border-color: var(--ice); font-weight: 700; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2px; border: 1px solid var(--border); margin-bottom: 32px; }
+  .stat-box { background: var(--surface); padding: 20px 24px; }
+  .stat-box-num { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; color: var(--ice); line-height: 1; margin-bottom: 4px; }
+  .stat-box-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .history-list { display: flex; flex-direction: column; gap: 2px; }
+  .history-item { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; transition: background 0.15s; cursor: pointer; }
+  .history-item:hover { background: var(--surface2); }
+  .history-item-icon { width: 40px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
+  .history-item-icon.url { background: rgba(91,200,245,0.1); }
+  .history-item-icon.file { background: rgba(245,166,35,0.1); }
+  .history-item-icon.phone { background: rgba(63,214,138,0.1); }
+  .history-item-icon.email { background: rgba(91,200,245,0.08); }
+  .history-item-type { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; }
+  .history-item-target { font-family: var(--mono); font-size: 0.82rem; color: var(--text); word-break: break-all; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px; }
+  .history-item-date { font-size: 0.75rem; color: var(--text-dim); }
+  .history-item-result { text-align: right; flex-shrink: 0; }
+  .result-badge { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 2px; font-weight: 700; text-transform: uppercase; display: inline-block; margin-bottom: 4px; }
+  .result-badge.clean { background: rgba(63,214,138,0.12); color: var(--safe); }
+  .result-badge.threat { background: rgba(255,79,79,0.12); color: var(--danger); }
+  .result-badge.suspicious { background: rgba(245,166,35,0.12); color: #f5a623; }
+  .result-badge.low-risk { background: rgba(63,214,138,0.12); color: var(--safe); }
+  .result-badge.high-risk { background: rgba(255,79,79,0.12); color: var(--danger); }
+  .result-detail { font-size: 0.72rem; color: var(--text-dim); font-family: var(--mono); }
+
+  .empty-state { text-align: center; padding: 80px 20px; }
+  .empty-state-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
+  .empty-state h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-muted); }
+  .empty-state p { font-size: 0.85rem; color: var(--text-dim); }
+
+  .loading-state { text-align: center; padding: 60px 20px; }
+  .loading-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ice); animation: blink 1s ease-in-out infinite; margin: 0 3px; }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  .gate { position: relative; z-index: 1; max-width: 480px; margin: 120px auto 0; text-align: center; padding: 0 5%; }
+  .gate-icon { font-size: 3rem; margin-bottom: 20px; }
+  .gate h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
+  .gate p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.7; }
+  .gate-btn { display: inline-block; background: var(--ice); color: var(--bg); padding: 13px 28px; border-radius: 4px; font-weight: 700; font-size: 0.9rem; text-decoration: none; cursor: pointer; border: none; font-family: var(--sans); }
+  .gate-btn.outline { background: transparent; color: var(--ice); border: 1px solid var(--ice-dim); margin-left: 12px; }
+
+  .pagination { display: flex; gap: 8px; justify-content: center; margin-top: 32px; }
+  .page-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 4px; font-family: var(--mono); font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
+  .page-btn:hover { border-color: var(--ice-dim); color: var(--ice); }
+  .page-btn.active { background: var(--ice); color: var(--bg); border-color: var(--ice); }
+  .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  @media (max-width: 600px) {
+    .history-item { grid-template-columns: auto 1fr; }
+    .history-item-result { grid-column: 2; text-align: left; }
+    .history-item-target { max-width: 220px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-text">Polar<span>Guarded</span></span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Back to Scanner</a>
+    <span class="nav-user" id="navUserEmail"></span>
+    <button class="nav-signout" onclick="signOut()" id="navSignOut" style="display:none;">Sign Out</button>
+  </div>
+</nav>
+
+<!-- Not logged in gate -->
+<div class="gate" id="gateNotLoggedIn" style="display:none;">
+  <div class="gate-icon">🔒</div>
+  <h2>Sign in to view history</h2>
+  <p>Your scan history is saved to your account. Sign in to access it.</p>
+  <a href="index.html" class="gate-btn">Go to PolarGuarded</a>
+</div>
+
+<!-- Not Pro gate -->
+<div class="gate" id="gateNotPro" style="display:none;">
+  <div class="gate-icon">⭐</div>
+  <h2>Pro feature</h2>
+  <p>Scan history is available on the Pro and Business plans. Upgrade to save every scan and access your full history.</p>
+  <a href="pricing.html" class="gate-btn">Upgrade to Pro — $9/mo</a>
+  <a href="index.html" class="gate-btn outline">Back to Scanner</a>
+</div>
+
+<!-- Main history page -->
+<div class="page" id="mainPage" style="display:none;">
+  <div class="page-header">
+    <div class="page-label">Pro Feature</div>
+    <h1 class="page-title">Scan History</h1>
+    <p class="page-sub" id="historySubtitle">Your complete scan log across all tools.</p>
+  </div>
+
+  <div class="stats-row" id="statsRow">
+    <div class="stat-box"><div class="stat-box-num" id="statTotal">—</div><div class="stat-box-label">Total Scans</div></div>
+    <div class="stat-box"><div class="stat-box-num" id="statThreats" style="color:var(--danger)">—</div><div class="stat-box-label">Threats Found</div></div>
+    <div class="stat-box"><div class="stat-box-num" id="statClean" style="color:var(--safe)">—</div><div class="stat-box-label">Clean</div></div>
+    <div class="stat-box"><div class="stat-box-num" id="statUrls">—</div><div class="stat-box-label">URL Scans</div></div>
+    <div class="stat-box"><div class="stat-box-num" id="statFiles">—</div><div class="stat-box-label">File Scans</div></div>
+    <div class="stat-box"><div class="stat-box-num" id="statPhones">—</div><div class="stat-box-label">Phone Checks</div></div>
+    <div class="stat-box"><div class="stat-box-num" id="statEmails">—</div><div class="stat-box-label">Email Checks</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all')">All</button>
+    <button class="filter-btn" onclick="setFilter('url')">URLs</button>
+    <button class="filter-btn" onclick="setFilter('file')">Files</button>
+    <button class="filter-btn" onclick="setFilter('phone')">Phones</button>
+    <button class="filter-btn" onclick="setFilter('email')">Emails</button>
+    <button class="filter-btn" onclick="setFilter('threat')" style="color:#ff4f4f;border-color:rgba(255,79,79,0.3);">Threats Only</button>
+  </div>
+
+  <div id="loadingState" class="loading-state">
+    <span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>
+  </div>
+
+  <div id="historyList" class="history-list" style="display:none;"></div>
+  <div id="emptyState" class="empty-state" style="display:none;">
+    <div class="empty-state-icon">📋</div>
+    <h3>No scans yet</h3>
+    <p>Your scans will appear here. <a href="index.html" style="color:var(--ice);">Start scanning</a> to build your history.</p>
+  </div>
+
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SUPABASE_URL = 'https://zpgltytvrodgmzdkzhbp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_RBSdC0Yh1OaEfX_wV5IozQ_aNI2yZ2s';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let allScans = [];
+let currentFilter = 'all';
+const PER_PAGE = 25;
+let currentPage = 1;
+
+const typeIcons = { url: '🔗', file: '📁', phone: '📞', email: '✉️' };
+const typeLabels = { url: 'URL Scan', file: 'File Scan', phone: 'Phone Check', email: 'Email Check' };
+
+sb.auth.onAuthStateChange(async (event, session) => {
+  currentUser = session?.user || null;
+  if (!currentUser) {
+    showGate('notLoggedIn');
+    return;
+  }
+  document.getElementById('navUserEmail').textContent = currentUser.email.split('@')[0];
+  document.getElementById('navSignOut').style.display = 'inline';
+
+  // Check pro status
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(currentUser.email)}&select=is_pro`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  const data = await res.json();
+  const isPro = data?.[0]?.is_pro === true;
+
+  if (!isPro) {
+    showGate('notPro');
+    return;
+  }
+
+  showMainPage();
+  loadHistory();
+});
+
+function showGate(type) {
+  document.getElementById('gateNotLoggedIn').style.display = type === 'notLoggedIn' ? 'block' : 'none';
+  document.getElementById('gateNotPro').style.display = type === 'notPro' ? 'block' : 'none';
+  document.getElementById('mainPage').style.display = 'none';
+}
+
+function showMainPage() {
+  document.getElementById('gateNotLoggedIn').style.display = 'none';
+  document.getElementById('gateNotPro').style.display = 'none';
+  document.getElementById('mainPage').style.display = 'block';
+}
+
+async function loadHistory() {
+  document.getElementById('loadingState').style.display = 'block';
+  document.getElementById('historyList').style.display = 'none';
+  document.getElementById('emptyState').style.display = 'none';
+
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/scan_history?user_email=eq.${encodeURIComponent(currentUser.email)}&order=created_at.desc&limit=500`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    allScans = await res.json();
+    updateStats();
+    renderHistory();
+  } catch(e) {
+    console.error(e);
+  }
+
+  document.getElementById('loadingState').style.display = 'none';
+}
+
+function updateStats() {
+  const total = allScans.length;
+  const threats = allScans.filter(s => s.result === 'threat' || s.result === 'high-risk').length;
+  const clean = allScans.filter(s => s.result === 'clean' || s.result === 'low-risk').length;
+  const urls = allScans.filter(s => s.scan_type === 'url').length;
+  const files = allScans.filter(s => s.scan_type === 'file').length;
+  const phones = allScans.filter(s => s.scan_type === 'phone').length;
+  const emails = allScans.filter(s => s.scan_type === 'email').length;
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statThreats').textContent = threats;
+  document.getElementById('statClean').textContent = clean;
+  document.getElementById('statUrls').textContent = urls;
+  document.getElementById('statFiles').textContent = files;
+  document.getElementById('statPhones').textContent = phones;
+  document.getElementById('statEmails').textContent = emails;
+
+  document.getElementById('historySubtitle').textContent =
+    `${total} scan${total !== 1 ? 's' : ''} across all tools · ${threats} threat${threats !== 1 ? 's' : ''} detected`;
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  currentPage = 1;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderHistory();
+}
+
+function getFiltered() {
+  if (currentFilter === 'all') return allScans;
+  if (currentFilter === 'threat') return allScans.filter(s => s.result === 'threat' || s.result === 'high-risk' || s.result === 'suspicious');
+  return allScans.filter(s => s.scan_type === currentFilter);
+}
+
+function renderHistory() {
+  const filtered = getFiltered();
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('emptyState');
+
+  if (filtered.length === 0) {
+    list.style.display = 'none';
+    empty.style.display = 'block';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  const start = (currentPage - 1) * PER_PAGE;
+  const page = filtered.slice(start, start + PER_PAGE);
+
+  list.innerHTML = page.map(scan => {
+    const date = new Date(scan.created_at);
+    const dateStr = date.toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' });
+    const timeStr = date.toLocaleTimeString('en-CA', { hour:'2-digit', minute:'2-digit' });
+    const icon = typeIcons[scan.scan_type] || '🔍';
+    const label = typeLabels[scan.scan_type] || 'Scan';
+    const resultBadge = getResultBadge(scan);
+    const detail = getResultDetail(scan);
+
+    return `<div class="history-item" onclick="void(0)">
+      <div class="history-item-icon ${scan.scan_type}">${icon}</div>
+      <div>
+        <div class="history-item-type">${label}</div>
+        <div class="history-item-target">${escapeHtml(scan.target)}</div>
+        <div class="history-item-date">${dateStr} at ${timeStr}</div>
+      </div>
+      <div class="history-item-result">
+        <div class="result-badge ${scan.result}">${resultBadge}</div>
+        <div class="result-detail">${detail}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  list.style.display = 'flex';
+  empty.style.display = 'none';
+  renderPagination(filtered.length);
+}
+
+function getResultBadge(scan) {
+  const map = {
+    'clean': '✓ Clean',
+    'threat': '⚠ Threat',
+    'suspicious': '⚠ Suspicious',
+    'low-risk': '✓ Low Risk',
+    'high-risk': '⚠ High Risk'
+  };
+  return map[scan.result] || scan.result;
+}
+
+function getResultDetail(scan) {
+  if (scan.scan_type === 'url' || scan.scan_type === 'file') {
+    if (scan.malicious > 0) return `${scan.malicious} malicious · ${scan.total_engines} engines`;
+    if (scan.suspicious > 0) return `${scan.suspicious} suspicious · ${scan.total_engines} engines`;
+    return `${scan.clean} clean · ${scan.total_engines} engines`;
+  }
+  if (scan.scan_type === 'phone' || scan.scan_type === 'email') {
+    if (scan.fraud_score !== null) return `Fraud score: ${scan.fraud_score}/100`;
+  }
+  return '';
+}
+
+function renderPagination(total) {
+  const pages = Math.ceil(total / PER_PAGE);
+  if (pages <= 1) { document.getElementById('pagination').innerHTML = ''; return; }
+  let html = `<button class="page-btn" onclick="changePage(${currentPage-1})" ${currentPage===1?'disabled':''}>← Prev</button>`;
+  for (let i = 1; i <= pages; i++) {
+    if (i === 1 || i === pages || Math.abs(i - currentPage) <= 1) {
+      html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="changePage(${i})">${i}</button>`;
+    } else if (Math.abs(i - currentPage) === 2) {
+      html += `<span style="color:var(--text-dim);padding:8px 4px;">…</span>`;
+    }
+  }
+  html += `<button class="page-btn" onclick="changePage(${currentPage+1})" ${currentPage===pages?'disabled':''}>Next →</button>`;
+  document.getElementById('pagination').innerHTML = html;
+}
+
+function changePage(p) {
+  currentPage = p;
+  renderHistory();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function signOut() {
+  await sb.auth.signOut();
+  window.location.href = 'index.html';
+}
+</script>
+</body>
+</html>
