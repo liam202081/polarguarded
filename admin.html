@@ -81,7 +81,7 @@ async function init() {
   var { data: profile, error: profileErr } = await supabaseClient
     .from('profiles')
     .select('is_admin')
-    .eq('id', session.user.id)
+    .eq('email', session.user.email)
     .single();
 
   if (profileErr || !profile || profile.is_admin !== true) {
