@@ -96,8 +96,8 @@ function showLogin(message, isError) {
     '<div class="login-box">' +
       '<h2>Admin Sign In</h2>' +
       '<div id="loginMsg" class="login-msg ' + (message ? 'show' : '') + ' ' + (isError ? 'error' : '') + '">' + (message || '') + '</div>' +
-      '<input id="loginEmail" type="email" class="login-input" placeholder="Email address" autocomplete="username" />' +
-      '<input id="loginPassword" type="password" class="login-input" placeholder="Password" autocomplete="current-password" />' +
+      '<input id="loginEmail" type="email" class="login-input" placeholder="Email address" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" />' +
+      '<input id="loginPassword" type="password" class="login-input" placeholder="Password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" />' +
       '<button id="loginBtn" class="login-btn" onclick="doLogin()">Sign In</button>' +
     '</div>';
 
@@ -107,7 +107,7 @@ function showLogin(message, isError) {
 }
 
 async function doLogin() {
-  var email = document.getElementById('loginEmail').value.trim();
+  var email = document.getElementById('loginEmail').value.trim().toLowerCase();
   var password = document.getElementById('loginPassword').value;
   var btn = document.getElementById('loginBtn');
 
