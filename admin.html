@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — PolarGuarded</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #090d13; --surface: #0e1520; --surface2: #131d2e; --border: #1a2a40;
+    --ice: #5bc8f5; --text: #e8f0f8; --text-muted: #6b8aaa; --text-dim: #3d5a78;
+    --danger: #ff4f4f; --safe: #3fd68a; --mono: 'JetBrains Mono', monospace; --sans: 'Space Grotesk', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.5; padding: 0; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 18px 5%; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .topbar h1 { font-size: 1.1rem; letter-spacing: 0.04em; }
+  .topbar h1 span { color: var(--ice); }
+  .topbar a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
+  .topbar a:hover { color: var(--ice); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 40px 5%; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2px; border: 1px solid var(--border); margin-bottom: 32px; }
+  .stat-box { background: var(--surface); padding: 24px; text-align: center; }
+  .stat-box .num { font-family: var(--mono); font-size: 1.8rem; color: var(--ice); font-weight: 700; }
+  .stat-box .label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+  .search-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .search-input { flex: 1; min-width: 200px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.85rem; padding: 10px 14px; border-radius: 4px; outline: none; }
+  .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); padding: 10px 16px; border-radius: 4px; font-family: var(--mono); font-size: 0.78rem; cursor: pointer; }
+  .filter-btn.active { background: var(--ice); color: var(--bg); border-color: var(--ice); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead th { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; user-select: none; }
+  thead th:hover { color: var(--ice); }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  tbody tr:hover { background: var(--surface); }
+  .badge { font-family: var(--mono); font-size: 0.68rem; padding: 3px 9px; border-radius: 3px; letter-spacing: 0.05em; display: inline-block; }
+  .badge-pro { background: rgba(91,200,245,0.12); color: var(--ice); }
+  .badge-free { background: rgba(255,255,255,0.05); color: var(--text-dim); }
+  .badge-admin { background: rgba(255,79,79,0.12); color: var(--danger); margin-left: 6px; }
+  .loading, .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); font-family: var(--mono); font-size: 0.85rem; }
+  .denied { max-width: 420px; margin: 100px auto; text-align: center; padding: 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+  .denied h2 { color: var(--danger); margin-bottom: 12px; }
+  .denied p { color: var(--text-muted); font-size: 0.9rem; }
+  .email-cell { font-family: var(--mono); font-size: 0.8rem; }
+  .muted { color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>Polar<span>Guarded</span> — Admin</h1>
+  <a href="index.html">&larr; Back to site</a>
+</div>
+
+<div class="wrap" id="appRoot">
+  <div class="loading">Checking access…</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+var SUPABASE_URL = 'https://zpgltytvrodgmzdkzhbp.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_RBSdC0Yh1OaEfX_wV5IozQ_aNI2yZ2s';
+var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+var allUsers = [];
+var sortKey = 'created_at';
+var sortDir = 'desc';
+var planFilter = 'all';
+
+async function init() {
+  var root = document.getElementById('appRoot');
+  var { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session || !session.user) {
+    root.innerHTML = '<div class="denied"><h2>Not signed in</h2><p>Log in on the main site first, then return to this page.</p></div>';
+    return;
+  }
+
+  // Confirm admin status — this query returns zero/blocked rows for
+  // non-admins because of the RLS policy, so it's safe even though
+  // the check also happens client-side here.
+  var { data: profile, error: profileErr } = await supabaseClient
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', session.user.id)
+    .single();
+
+  if (profileErr || !profile || profile.is_admin !== true) {
+    root.innerHTML = '<div class="denied"><h2>Access denied</h2><p>This account does not have admin privileges.</p></div>';
+    return;
+  }
+
+  loadUsers();
+}
+
+async function loadUsers() {
+  var root = document.getElementById('appRoot');
+  var { data, error } = await supabaseClient
+    .from('admin_user_summary')
+    .select('*');
+
+  if (error) {
+    root.innerHTML = '<div class="empty-state">Failed to load data: ' + error.message + '<br><br>Make sure admin-setup.sql has been run in Supabase.</div>';
+    return;
+  }
+
+  allUsers = data || [];
+  render();
+}
+
+function render() {
+  var root = document.getElementById('appRoot');
+  var totalUsers = allUsers.length;
+  var proCount = allUsers.filter(function(u){ return u.is_pro; }).length;
+  var freeCount = totalUsers - proCount;
+  var scans30d = allUsers.reduce(function(sum,u){ return sum + (u.scans_last_30d||0); }, 0);
+
+  var searchVal = document.getElementById('searchBox') ? document.getElementById('searchBox').value : '';
+
+  var filtered = allUsers.filter(function(u) {
+    if (planFilter === 'pro' && !u.is_pro) return false;
+    if (planFilter === 'free' && u.is_pro) return false;
+    if (planFilter === 'admin' && !u.is_admin) return false;
+    var q = searchVal.toLowerCase();
+    if (q && u.email.toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+
+  filtered.sort(function(a,b) {
+    var av = a[sortKey], bv = b[sortKey];
+    if (av == null) av = sortDir === 'asc' ? -Infinity : Infinity;
+    if (bv == null) bv = sortDir === 'asc' ? -Infinity : Infinity;
+    if (av < bv) return sortDir === 'asc' ? -1 : 1;
+    if (av > bv) return sortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  root.innerHTML =
+    '<div class="stats-row">' +
+      '<div class="stat-box"><div class="num">' + totalUsers + '</div><div class="label">Total Users</div></div>' +
+      '<div class="stat-box"><div class="num">' + proCount + '</div><div class="label">Pro / Business</div></div>' +
+      '<div class="stat-box"><div class="num">' + freeCount + '</div><div class="label">Free</div></div>' +
+      '<div class="stat-box"><div class="num">' + scans30d + '</div><div class="label">Scans (30d)</div></div>' +
+    '</div>' +
+    '<div class="search-row">' +
+      '<input id="searchBox" class="search-input" placeholder="Search by email…" oninput="render()" />' +
+      '<button class="filter-btn ' + (planFilter==='all'?'active':'') + '" onclick="setFilter(\'all\')">All</button>' +
+      '<button class="filter-btn ' + (planFilter==='pro'?'active':'') + '" onclick="setFilter(\'pro\')">Pro/Business</button>' +
+      '<button class="filter-btn ' + (planFilter==='free'?'active':'') + '" onclick="setFilter(\'free\')">Free</button>' +
+      '<button class="filter-btn ' + (planFilter==='admin'?'active':'') + '" onclick="setFilter(\'admin\')">Admins</button>' +
+    '</div>' +
+    (filtered.length === 0
+      ? '<div class="empty-state">No users match this filter.</div>'
+      : '<table><thead><tr>' +
+          '<th onclick="setSort(\'email\')">Email</th>' +
+          '<th onclick="setSort(\'is_pro\')">Plan</th>' +
+          '<th onclick="setSort(\'scans_total\')">Total Scans</th>' +
+          '<th onclick="setSort(\'scans_last_30d\')">Scans (30d)</th>' +
+          '<th onclick="setSort(\'last_scan_at\')">Last Scan</th>' +
+          '<th onclick="setSort(\'created_at\')">Joined</th>' +
+        '</tr></thead><tbody>' +
+        filtered.map(function(u) {
+          var planBadge = u.is_pro
+            ? '<span class="badge badge-pro">PRO</span>'
+            : '<span class="badge badge-free">FREE</span>';
+          var adminBadge = u.is_admin ? '<span class="badge badge-admin">ADMIN</span>' : '';
+          return '<tr>' +
+            '<td class="email-cell">' + escapeHtml(u.email) + '</td>' +
+            '<td>' + planBadge + adminBadge + '</td>' +
+            '<td>' + (u.scans_total || 0) + '</td>' +
+            '<td>' + (u.scans_last_30d || 0) + '</td>' +
+            '<td class="muted">' + formatDate(u.last_scan_at) + '</td>' +
+            '<td class="muted">' + formatDate(u.created_at) + '</td>' +
+          '</tr>';
+        }).join('') +
+        '</tbody></table>');
+
+  var sb = document.getElementById('searchBox');
+  if (sb) { sb.value = searchVal; sb.focus(); sb.selectionStart = sb.selectionEnd = sb.value.length; }
+}
+
+function setFilter(f) { planFilter = f; render(); }
+function setSort(key) {
+  if (sortKey === key) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
+  else { sortKey = key; sortDir = 'desc'; }
+  render();
+}
+function formatDate(d) {
+  if (!d) return '—';
+  var date = new Date(d);
+  return date.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+function escapeHtml(str) {
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+init();
+</script>
+</body>
+</html>
