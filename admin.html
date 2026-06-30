@@ -42,13 +42,25 @@
   .denied p { color: var(--text-muted); font-size: 0.9rem; }
   .email-cell { font-family: var(--mono); font-size: 0.8rem; }
   .muted { color: var(--text-dim); }
+  .login-box { max-width: 380px; margin: 100px auto; padding: 36px 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+  .login-box h2 { font-size: 1.1rem; margin-bottom: 24px; text-align: center; }
+  .login-input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.85rem; padding: 13px 16px; border-radius: 4px; outline: none; margin-bottom: 12px; box-sizing: border-box; }
+  .login-input:focus { border-color: var(--ice); }
+  .login-btn { width: 100%; background: var(--ice); color: var(--bg); border: none; padding: 14px; border-radius: 4px; font-family: var(--sans); font-weight: 700; font-size: 0.95rem; cursor: pointer; margin-top: 8px; }
+  .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .login-msg { font-size: 0.82rem; padding: 10px 14px; border-radius: 4px; margin-bottom: 14px; display: none; }
+  .login-msg.show { display: block; }
+  .login-msg.error { background: rgba(255,79,79,0.1); color: var(--danger); border: 1px solid rgba(255,79,79,0.3); }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <h1>Polar<span>Guarded</span> — Admin</h1>
-  <a href="index.html">&larr; Back to site</a>
+  <div>
+    <a href="#" onclick="doSignOut(); return false;" style="margin-right:18px;">Sign Out</a>
+    <a href="index.html">&larr; Back to site</a>
+  </div>
 </div>
 
 <div class="wrap" id="appRoot">
@@ -71,9 +83,55 @@ async function init() {
   var { data: { session } } = await supabaseClient.auth.getSession();
 
   if (!session || !session.user) {
-    root.innerHTML = '<div class="denied"><h2>Not signed in</h2><p>Log in on the main site first, then return to this page.</p></div>';
+    showLogin();
     return;
   }
+
+  await checkAdminAndLoad(session);
+}
+
+function showLogin(message, isError) {
+  var root = document.getElementById('appRoot');
+  root.innerHTML =
+    '<div class="login-box">' +
+      '<h2>Admin Sign In</h2>' +
+      '<div id="loginMsg" class="login-msg ' + (message ? 'show' : '') + ' ' + (isError ? 'error' : '') + '">' + (message || '') + '</div>' +
+      '<input id="loginEmail" type="email" class="login-input" placeholder="Email address" autocomplete="username" />' +
+      '<input id="loginPassword" type="password" class="login-input" placeholder="Password" autocomplete="current-password" />' +
+      '<button id="loginBtn" class="login-btn" onclick="doLogin()">Sign In</button>' +
+    '</div>';
+
+  document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+}
+
+async function doLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var password = document.getElementById('loginPassword').value;
+  var btn = document.getElementById('loginBtn');
+
+  if (!email || !password) {
+    showLogin('Enter both email and password.', true);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  var { data, error } = await supabaseClient.auth.signInWithPassword({ email: email, password: password });
+
+  if (error) {
+    showLogin('Invalid email or password.', true);
+    return;
+  }
+
+  await checkAdminAndLoad(data.session);
+}
+
+async function checkAdminAndLoad(session) {
+  var root = document.getElementById('appRoot');
+  root.innerHTML = '<div class="loading">Checking access…</div>';
 
   // Confirm admin status — this query returns zero/blocked rows for
   // non-admins because of the RLS policy, so it's safe even though
@@ -85,7 +143,8 @@ async function init() {
     .single();
 
   if (profileErr || !profile || profile.is_admin !== true) {
-    root.innerHTML = '<div class="denied"><h2>Access denied</h2><p>This account does not have admin privileges.</p></div>';
+    await supabaseClient.auth.signOut();
+    showLogin('This account does not have admin privileges.', true);
     return;
   }
 
@@ -179,6 +238,10 @@ function render() {
 }
 
 function setFilter(f) { planFilter = f; render(); }
+async function doSignOut() {
+  await supabaseClient.auth.signOut();
+  showLogin();
+}
 function setSort(key) {
   if (sortKey === key) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
   else { sortKey = key; sortDir = 'desc'; }
