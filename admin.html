@@ -143,8 +143,11 @@ async function checkAdminAndLoad(session) {
     .single();
 
   if (profileErr || !profile || profile.is_admin !== true) {
+    var debugMsg = profileErr
+      ? ('Query error: ' + profileErr.message + ' (code: ' + (profileErr.code || 'none') + ')')
+      : (!profile ? 'No profile row returned for this email.' : 'is_admin is not true (got: ' + JSON.stringify(profile.is_admin) + ')');
     await supabaseClient.auth.signOut();
-    showLogin('This account does not have admin privileges.', true);
+    showLogin(debugMsg, true);
     return;
   }
 
