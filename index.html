@@ -449,13 +449,13 @@ document.getElementById('authOverlay').addEventListener('click',function(e){if(e
         <div style="text-align:center;padding:40px 20px;">
           <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="#5bc8f5" stroke-width="1.5" style="margin-bottom:20px;"><rect x="4" y="8" width="48" height="34" rx="3"/><path d="M14 42 L30 42M22 42 L22 48M16 48 L28 48"/><path d="M28 18 L28 30M22 26 L28 32 L34 26"/></svg>
           <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:12px;">PolarGuarded Device Scanner</h3>
-          <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">Download our free security scanner for Windows or Mac. Performs 12 deep security checks and generates a full HTML report on your desktop. Free for everyone &mdash; no account needed.</p>
+          <p style="color:var(--text-muted);font-size:0.88rem;max-width:500px;margin:0 auto 28px;line-height:1.7;">Download our free security scanner for Windows or Mac. Performs 12 deep security checks and shows results right in the app. Free for everyone &mdash; no account needed.</p>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 28px;">
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:24px 20px;text-align:center;">
               <div style="font-size:2rem;margin-bottom:8px;">🪟</div>
               <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">Windows</div>
               <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">Windows 10 &amp; 11</div>
-              <a href="PolarGuarded-Scan.ps1" download style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">&#8595; Download (.ps1)</a>
+              <a href="https://github.com/liam202081/polarguarded/releases/download/v1.0.0/PolarGuarded.Setup.1.0.0.exe" style="display:block;background:var(--ice);color:var(--bg);padding:10px 20px;border-radius:4px;font-weight:700;font-size:0.85rem;text-decoration:none;">&#8595; Download (.exe)</a>
             </div>
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:24px 20px;text-align:center;">
               <div style="font-size:2rem;margin-bottom:8px;">🍎</div>
@@ -467,7 +467,7 @@ document.getElementById('authOverlay').addEventListener('click',function(e){if(e
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:480px;margin:0 auto 24px;">
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:left;">
               <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase;">Windows Instructions</div>
-              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">1. Download the .ps1 file<br>2. Right-click the file<br>3. Select <strong style="color:var(--text);">Run with PowerShell</strong><br>4. Allow if prompted<br>5. Report opens on desktop</div>
+              <div style="font-size:0.82rem;color:var(--text-muted);line-height:2;">1. Download the installer<br>2. Run <strong style="color:var(--text);">PolarGuarded Setup 1.0.0.exe</strong><br>3. Allow if prompted<br>4. Open PolarGuarded from the Start Menu<br>5. Click <strong style="color:var(--text);">Start Device Scan</strong></div>
             </div>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:left;">
               <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ice);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase;">Mac Instructions</div>
@@ -475,7 +475,7 @@ document.getElementById('authOverlay').addEventListener('click',function(e){if(e
             </div>
           </div>
           <div style="padding:20px;background:rgba(91,200,245,0.05);border:1px solid var(--ice-dim);border-radius:4px;max-width:500px;margin:0 auto;">
-            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Firewall &middot; Disk Encryption &middot; System Updates &middot; Antivirus/Gatekeeper &middot; Remote Access &middot; Guest Account &middot; UAC/Auto Login &middot; Open Ports &middot; Suspicious Processes &middot; Shared Services &middot; Password Policy &middot; System Integrity</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;"><span style="color:var(--ice);font-weight:700;">What gets checked:</span> Firewall &middot; Disk Encryption &middot; Antivirus &middot; Remote Desktop &middot; Guest Account &middot; UAC &middot; Open Ports &middot; Suspicious Processes &middot; Shared Folders &middot; and more</div>
           </div>
         </div>
       </div>
@@ -534,7 +534,7 @@ window.addEventListener('load',function(){setTimeout(showScanCounter,500);});
       <div class="service-card">
         <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="8" width="36" height="26" rx="3"/><path d="M14 34 L30 34M22 34 L22 38M16 38 L28 38"/><path d="M22 14 L22 24M18 21 L22 25 L26 21"/></svg>
         <div class="service-name">PC &amp; Mac Security Scanner</div>
-        <p class="service-desc">Download our free Windows and macOS scanner. Checks 12 critical security settings and generates a full report on your desktop. Free for everyone.</p>
+        <p class="service-desc">Download our free Windows and macOS scanner. Checks 12 critical security settings and shows results right in the app. Free for everyone.</p>
         <span class="service-tag tag-live">Free Download</span>
       </div>
       <div class="service-card">
