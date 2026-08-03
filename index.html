@@ -264,6 +264,7 @@
         <a onclick="goToScanner('phone')">Phone Scanner</a>
         <a onclick="goToScanner('email')">Email Scanner</a>
         <a onclick="goToScanner('download')">PC &amp; Mac Scanner</a>
+        <a href="history.html">Scan History</a>
       </div>
     </li>
     <li><a href="pricing.html">Pricing</a></li>
@@ -286,6 +287,7 @@
     <a onclick="goToScanner('phone');closeMobileNav()">Phone Scanner</a>
     <a onclick="goToScanner('email');closeMobileNav()">Email Scanner</a>
     <a onclick="goToScanner('download');closeMobileNav()">PC &amp; Mac Scanner</a>
+    <a href="history.html" onclick="closeMobileNav()">Scan History</a>
   </div>
   <a href="pricing.html" onclick="closeMobileNav()">Pricing</a>
   <a href="#" id="mobileAuthBtn" class="mobile-nav-auth" onclick="openAuth('login'); closeMobileNav(); return false;">Log In</a>
@@ -361,6 +363,7 @@ document.getElementById('authOverlay').addEventListener('click',function(e){if(e
   <div class="hero-actions">
     <a href="#scanner" class="btn-primary">Start Free Scan</a>
     <a href="#services" class="btn-ghost">See What We Detect</a>
+    <a onclick="goToScanner('download')" class="btn-ghost" style="cursor:pointer;">&#8595; Download App</a>
   </div>
   <div class="threat-ticker">
     <div class="ticker-track">
