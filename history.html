@@ -49,7 +49,7 @@
   .stat-box-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
 
   .history-list { display: flex; flex-direction: column; gap: 2px; }
-  .history-item { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; transition: background 0.15s; cursor: pointer; }
+  .history-item { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; transition: background 0.15s; }
   .history-item:hover { background: var(--surface2); }
   .history-item-icon { width: 40px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
   .history-item-icon.url { background: rgba(91,200,245,0.1); }
@@ -64,9 +64,6 @@
   .result-badge.clean { background: rgba(63,214,138,0.12); color: var(--safe); }
   .result-badge.threat { background: rgba(255,79,79,0.12); color: var(--danger); }
   .result-badge.suspicious { background: rgba(245,166,35,0.12); color: #f5a623; }
-  .result-badge.low-risk { background: rgba(63,214,138,0.12); color: var(--safe); }
-  .result-badge.high-risk { background: rgba(255,79,79,0.12); color: var(--danger); }
-  .result-detail { font-size: 0.72rem; color: var(--text-dim); font-family: var(--mono); }
 
   .empty-state { text-align: center; padding: 80px 20px; }
   .empty-state-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
@@ -149,12 +146,12 @@
   </div>
 
   <div class="filter-bar">
-    <button class="filter-btn active" onclick="setFilter('all')">All</button>
-    <button class="filter-btn" onclick="setFilter('url')">URLs</button>
-    <button class="filter-btn" onclick="setFilter('file')">Files</button>
-    <button class="filter-btn" onclick="setFilter('phone')">Phones</button>
-    <button class="filter-btn" onclick="setFilter('email')">Emails</button>
-    <button class="filter-btn" onclick="setFilter('threat')" style="color:#ff4f4f;border-color:rgba(255,79,79,0.3);">Threats Only</button>
+    <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" onclick="setFilter('url', this)">URLs</button>
+    <button class="filter-btn" onclick="setFilter('file', this)">Files</button>
+    <button class="filter-btn" onclick="setFilter('phone', this)">Phones</button>
+    <button class="filter-btn" onclick="setFilter('email', this)">Emails</button>
+    <button class="filter-btn" onclick="setFilter('threat', this)" style="color:#ff4f4f;border-color:rgba(255,79,79,0.3);">Threats Only</button>
   </div>
 
   <div id="loadingState" class="loading-state">
@@ -178,6 +175,7 @@ const SUPABASE_KEY = 'sb_publishable_RBSdC0Yh1OaEfX_wV5IozQ_aNI2yZ2s';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
+let accessToken = null;
 let allScans = [];
 let currentFilter = 'all';
 const PER_PAGE = 25;
@@ -188,21 +186,31 @@ const typeLabels = { url: 'URL Scan', file: 'File Scan', phone: 'Phone Check', e
 
 sb.auth.onAuthStateChange(async (event, session) => {
   currentUser = session?.user || null;
-  if (!currentUser) {
+  accessToken = session?.access_token || null;
+
+  if (!currentUser || !accessToken) {
     showGate('notLoggedIn');
     return;
   }
+
   document.getElementById('navUserEmail').textContent = currentUser.email.split('@')[0];
   document.getElementById('navSignOut').style.display = 'inline';
 
-  // Check pro status
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(currentUser.email)}&select=is_pro`, {
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-  });
-  const data = await res.json();
-  const isPro = data?.[0]?.is_pro === true;
+  // Check pro status using the session access token (not anon key)
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(currentUser.email)}&select=is_pro,is_business`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${accessToken}` } }
+    );
+    const data = await res.json();
+    const isPro = data?.[0]?.is_pro === true || data?.[0]?.is_business === true;
 
-  if (!isPro) {
+    if (!isPro) {
+      showGate('notPro');
+      return;
+    }
+  } catch(e) {
+    console.error('Pro check failed:', e);
     showGate('notPro');
     return;
   }
@@ -230,14 +238,15 @@ async function loadHistory() {
 
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/scan_history?user_email=eq.${encodeURIComponent(currentUser.email)}&order=created_at.desc&limit=500`,
-      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      `${SUPABASE_URL}/rest/v1/scan_history?user_email=eq.${encodeURIComponent(currentUser.email)}&order=scanned_at.desc&limit=500`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${accessToken}` } }
     );
-    allScans = await res.json();
+    const data = await res.json();
+    allScans = Array.isArray(data) ? data : [];
     updateStats();
     renderHistory();
   } catch(e) {
-    console.error(e);
+    console.error('loadHistory error:', e);
   }
 
   document.getElementById('loadingState').style.display = 'none';
@@ -245,7 +254,7 @@ async function loadHistory() {
 
 function updateStats() {
   const total = allScans.length;
-  const threats = allScans.filter(s => s.result === 'threat' || s.result === 'high-risk').length;
+  const threats = allScans.filter(s => s.result === 'threat' || s.result === 'high-risk' || s.result === 'suspicious').length;
   const clean = allScans.filter(s => s.result === 'clean' || s.result === 'low-risk').length;
   const urls = allScans.filter(s => s.scan_type === 'url').length;
   const files = allScans.filter(s => s.scan_type === 'file').length;
@@ -264,11 +273,11 @@ function updateStats() {
     `${total} scan${total !== 1 ? 's' : ''} across all tools · ${threats} threat${threats !== 1 ? 's' : ''} detected`;
 }
 
-function setFilter(filter) {
+function setFilter(filter, btn) {
   currentFilter = filter;
   currentPage = 1;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
   renderHistory();
 }
 
@@ -294,24 +303,26 @@ function renderHistory() {
   const page = filtered.slice(start, start + PER_PAGE);
 
   list.innerHTML = page.map(scan => {
-    const date = new Date(scan.created_at);
-    const dateStr = date.toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' });
-    const timeStr = date.toLocaleTimeString('en-CA', { hour:'2-digit', minute:'2-digit' });
+    const dateField = scan.scanned_at || scan.created_at;
+    const date = dateField ? new Date(dateField) : null;
+    const dateStr = date ? date.toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' }) : '—';
+    const timeStr = date ? date.toLocaleTimeString('en-CA', { hour:'2-digit', minute:'2-digit' }) : '';
     const icon = typeIcons[scan.scan_type] || '🔍';
     const label = typeLabels[scan.scan_type] || 'Scan';
     const resultBadge = getResultBadge(scan);
     const detail = getResultDetail(scan);
+    const resultClass = scan.result || 'clean';
 
-    return `<div class="history-item" onclick="void(0)">
+    return `<div class="history-item">
       <div class="history-item-icon ${scan.scan_type}">${icon}</div>
       <div>
         <div class="history-item-type">${label}</div>
-        <div class="history-item-target">${escapeHtml(scan.target)}</div>
-        <div class="history-item-date">${dateStr} at ${timeStr}</div>
+        <div class="history-item-target">${escapeHtml(scan.target || '—')}</div>
+        <div class="history-item-date">${dateStr}${timeStr ? ' at ' + timeStr : ''}</div>
       </div>
       <div class="history-item-result">
-        <div class="result-badge ${scan.result}">${resultBadge}</div>
-        <div class="result-detail">${detail}</div>
+        <div class="result-badge ${resultClass}">${resultBadge}</div>
+        ${detail ? `<div class="result-detail">${detail}</div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -323,24 +334,25 @@ function renderHistory() {
 
 function getResultBadge(scan) {
   const map = {
-    'clean': '✓ Clean',
-    'threat': '⚠ Threat',
-    'suspicious': '⚠ Suspicious',
-    'low-risk': '✓ Low Risk',
-    'high-risk': '⚠ High Risk'
+    'clean': '✓ Clean', 'threat': '⚠ Threat', 'suspicious': '⚠ Suspicious',
+    'low-risk': '✓ Low Risk', 'high-risk': '⚠ High Risk'
   };
-  return map[scan.result] || scan.result;
+  return map[scan.result] || scan.result || '—';
 }
 
 function getResultDetail(scan) {
-  if (scan.scan_type === 'url' || scan.scan_type === 'file') {
-    if (scan.malicious > 0) return `${scan.malicious} malicious · ${scan.total_engines} engines`;
-    if (scan.suspicious > 0) return `${scan.suspicious} suspicious · ${scan.total_engines} engines`;
-    return `${scan.clean} clean · ${scan.total_engines} engines`;
-  }
-  if (scan.scan_type === 'phone' || scan.scan_type === 'email') {
-    if (scan.fraud_score !== null) return `Fraud score: ${scan.fraud_score}/100`;
-  }
+  try {
+    const d = typeof scan.details === 'string' ? JSON.parse(scan.details) : scan.details;
+    if (!d) return '';
+    if (scan.scan_type === 'url' || scan.scan_type === 'file') {
+      if (d.malicious > 0) return `${d.malicious} malicious · ${d.total_engines || ''} engines`;
+      if (d.suspicious > 0) return `${d.suspicious} suspicious`;
+      if (d.total_engines) return `${d.clean || 0} clean · ${d.total_engines} engines`;
+    }
+    if (scan.scan_type === 'phone' || scan.scan_type === 'email') {
+      if (d.fraud_score !== undefined && d.fraud_score !== null) return `Fraud score: ${d.fraud_score}/100`;
+    }
+  } catch(e) {}
   return '';
 }
 
